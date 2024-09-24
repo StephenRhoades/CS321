@@ -5,7 +5,7 @@
   "version": "0.1",
   "permissions": ["storage"],
   "action": {
-    "default_popup": "open_view.html",
-    "default_icon": "task_icon.png"
+    "default_popup": "html/open_view.html",
+    "default_icon": "images/task_icon.png"
   }
 }
