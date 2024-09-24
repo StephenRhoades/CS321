@@ -3,10 +3,7 @@
   "name": "Task Tracker",
   "description": "An extension that will help in tracking tasks through organization and reminders",
   "version": "0.1",
-  "content_scripts": [ {
-    "css": ["open_view_styles.css"],
-    "matches": ["open_view.html"]
-  } ],
+  "permissions": ["storage"],
   "action": {
     "default_popup": "open_view.html",
     "default_icon": "task_icon.png"
