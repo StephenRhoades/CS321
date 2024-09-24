@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "Task Tracker",
   "description": "An extension that will help in tracking tasks through organization and reminders",
-  "version": "1.0",
+  "version": "0.1",
+  "styles": ["open_view_styles.css"],
   "action": {
     "default_popup": "open_view.html",
     "default_icon": "task_icon.png"
