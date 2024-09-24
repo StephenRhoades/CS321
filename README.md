@@ -8,7 +8,7 @@ You can then go to your desired browser and traverse to the manage extensions pa
 You will then want to turn on developer mode if it is not alread on, and click the option to load unpacked and select your unzipped folder you downloaded.
 The extension should then be among your extensions, running locally.
 
-Authors:
+### Authors:
 Evan Bellino,
 Joseph Gery,
 Bin Jiang,
