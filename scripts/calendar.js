@@ -1,41 +1,41 @@
 /**
-  *Class declaration for a Calender Object. A Calender is initialized with an array of yearCalenders representing 
-  *the Calender Years in range interval (12 years before - present year - 12 years after).
+  *Class declaration for a Calendar Object. A Calendar is initialized with an array of yearCalendars representing 
+  *the Calendar Years in range interval (12 years before - present year - 12 years after).
   */
-class Calender{
-  yearCalender;
+class Calendar{
+  yearCalendar;
   constructor()
   {
-    this.yearCalender = new Array(25);
+    this.yearCalendar = new Array(25);
   }
 
-  get yearCalender()
+  get yearCalendar()
   {
-    return this.yearCalender;
+    return this.yearCalendar;
   }
 }
 
 /**
-  *Class declaration for a yearCalender Object. A Calender is initialized with an array of month calenders representing 
+  *Class declaration for a yearCalendar Object. A Calendar is initialized with an array of month Calendars representing 
   *the 12 months in a single year. 
   */
-class yearCalender extends Calender{
-  monthCalender;
+class yearCalendar extends Calendar{
+  monthCalendar;
   constructor()
   {
-    this.monthCalender = new Array(12);
+    this.monthCalendar = new Array(12);
   }
 
-  get monthCalender()
+  get monthCalendar()
   {
-    return this.monthCalender;
+    return this.monthCalendar;
   }
 }
 /**
-*Class declaration of month Calender Object. A  month Calender is initialized with an array representing the days within a month. 
+*Class declaration of month Calendar Object. A  month Calendar is initialized with an array representing the days within a month. 
 *days: The number of days (integer) within a particular month
 */
-class monthCalender extends yearCalender{
+class monthCalendar extends yearCalendar{
   days;
   constructor(days)
   {
