@@ -2,8 +2,9 @@ class Task{
 
   /**
   * The constructor for the Task class.
+  * @constructs
   */
-  constructor(taskName, description, taskCategory, date, complete, recurring)
+  constructor(taskName, description, taskCategory, date, complete, recurring, reminders)
   {
     this.taskName= taskName; //String
     this.description = description; //String
@@ -62,6 +63,14 @@ class Task{
   }
 
   /**
+  * Get method for the Task's reminders.
+  */
+  get reminders()
+  {
+    return this.recurring;
+  }
+
+  /**
   * function to change the name value of the Task.
   */
   function changeName (name) {
@@ -95,7 +104,19 @@ class Task{
   /**
   * function to change the recurring value of the Task.
   */
-  function changeRecurring (isRecurring) {
+  function changeRecurring(isRecurring) {
+  }
+
+  /**
+  * function to add a new reminder.
+  */
+  function addReminder(newReminder) {
+  }
+
+  /**
+  * function to remove a reminder.
+  */
+  function remReminder(reminder) {
   }
   
   /**
