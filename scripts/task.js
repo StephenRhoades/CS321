@@ -31,6 +31,8 @@ class Task{
 
   /**
   * Get method for the Task's name value.
+  *
+  * @return {String} The name of the task.
   */
   get taskName()
   {
@@ -39,6 +41,8 @@ class Task{
   
   /**
   * Get method for the Task's description.
+  *
+  * @return {String} The description of the task.
   */
   get description()
   {
@@ -47,6 +51,8 @@ class Task{
 
   /**
   * Get method for the Task's category.
+  *
+  * @return {String} The category of the task.
   */
   get taskCategory()
   {
@@ -55,6 +61,8 @@ class Task{
 
   /**
   * Get method for the Task's date.
+  *
+  * @return {Date} The date of the task.
   */
   get date()
   {
@@ -63,6 +71,8 @@ class Task{
 
   /**
   * Get method for the Task's completion status.
+  *
+  * @return {Boolean} The completion status of the task.
   */
   get complete()
   {
@@ -71,6 +81,8 @@ class Task{
 
   /**
   * Get method for whether the Task is recurring.
+  *
+  * @return {Boolean} Whether the task is recurring.
   */
   get recurring()
   {
@@ -79,6 +91,8 @@ class Task{
 
   /**
   * Get method for the Task's reminders.
+  *
+  * @return {Array} The list of current reminder times.
   */
   get reminders()
   {
@@ -87,24 +101,32 @@ class Task{
 
   /**
   * function to change the name value of the Task.
+  *
+  * @param {String} name The new name for the task.
   */
   function changeName (name) {
   }
   
   /**
   * function to change the description value of the Task.
+  *
+  * @param {String} description The new description for the task.
   */
   function changeDescription (description) {
   }
 
   /**
   * function to change the category value of the Task.
+  *
+  * @param {String} category The new category of the task.
   */
   function changeCategory (category) {
   }
   
   /**
   * function to change the date value of the Task.
+  *
+  * @param {Date} date The new date of the task.
   */
   function changeDueDate (date) {
   }
