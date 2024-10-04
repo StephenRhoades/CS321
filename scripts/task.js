@@ -2,9 +2,19 @@ class Task{
 
   /**
   * The constructor for the Task class.
-  * @constructs
+  *
+  * @since 0.2.0
+  *
+  * @constructs Task.Class
+  *
+  * @param {String}  taskName     The name of the task.
+  * @param {String}  description  The description of the task.
+  * @param {String}  taskCategory The category of the task.
+  * @param {Date}    date         The date of the task.
+  * @param {Boolean} complete     Whether the task is completed or not.
+  * @param {Boolean} recurring    Whether the task is recurring or not.
   */
-  constructor(taskName, description, taskCategory, date, complete, recurring, reminders)
+  constructor(taskName, description, taskCategory, date, complete, recurring)
   {
     this.taskName= taskName; //String
     this.description = description; //String
@@ -12,6 +22,7 @@ class Task{
     this.date = date; //Date Object
     this.complete = complete; //boolean
     this.recurring = recurring; //boolean
+    this.reminders = [] //array of reminders
   }
 
   /**
@@ -67,7 +78,7 @@ class Task{
   */
   get reminders()
   {
-    return this.recurring;
+    return this.reminders;
   }
 
   /**
