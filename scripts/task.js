@@ -3,6 +3,11 @@ class Task{
   /**
   * The constructor for the Task class.
   *
+  * This constructor will initialize with values recieved for name, description, category, date, 
+  * and if it's recurring and defaul complete to false and reminders to an empty array. Any of 
+  * the values can be left empty except for the date field. If no date is provided an error will
+  * be thrown.
+  *
   * @since 0.2.0
   *
   * @constructs Task.Class
@@ -11,16 +16,15 @@ class Task{
   * @param {String}  description  The description of the task.
   * @param {String}  taskCategory The category of the task.
   * @param {Date}    date         The date of the task.
-  * @param {Boolean} complete     Whether the task is completed or not.
   * @param {Boolean} recurring    Whether the task is recurring or not.
   */
-  constructor(taskName, description, taskCategory, date, complete, recurring)
+  constructor(taskName, description, taskCategory, date, recurring)
   {
     this.taskName= taskName; //String
     this.description = description; //String
     this.taskCategory = taskCategory; //String
     this.date = date; //Date Object
-    this.complete = complete; //boolean
+    this.complete = false; //boolean
     this.recurring = recurring; //boolean
     this.reminders = [] //array of reminders
   }
