@@ -5,44 +5,40 @@
   </head>
 	
   <body>
-    <h2>Welcome to the task tracker</h2>
-    <p>This is currently non-funcitonal, but look forward to what we will bring!</p>
 
-    <div class="buttons">
-      <button class="button">View the Calender</button> 
-      <button class="button">List View</button>
-      <button class="button">Add task</button>  
-      <button class="button">Settings</button> 
+    <div class="buttons-container">
+      <a href="pages/calendar_view.html"> <button class="button"> View Calendar</button></a>
+      <button class="button">Weekly View</button>
+      <button class="button">Add Task</button>
+      <button class="button">Settings</button>
     </div>
-
-    <div id="event-section">
+  
+    <div class="add-task-section">
       <h2>Add Task</h2>
-
-      <input type="date">
-
-      <input type="text"
-          placeholder="Task Name">
-
-      <input type="text"
-          placeholder="Description">
-
-      <form action="/action_page.php">
-        <label for="appt">Select a time:</label>
-        <input type="time" id="appt" name="appt">
+      <form>
+        <div class="form-group">
+          <label for="task-date">Date:</label>
+          <input type="date" id="task-date" name="task-date" required>
+        </div>
+        <div class="form-group">
+          <label for="task-time">Time:</label>
+          <input type="time" id="task-time" name="task-time" required>
+        </div>
+        <div class="form-group">
+          <label for="task-name">Task Name:</label>
+          <input type="text" id="task-name" name="task-name" placeholder="Enter task name" required>
+        </div>
+        <div class="form-group">
+          <label for="task-desc">Description:</label>
+          <textarea id="task-desc" name="task-desc" rows="4" placeholder="Enter task description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="task-desc">Repeat Every:</label>
+          <textarea id="task-desc" name="task-desc" rows="4" placeholder="Enter task description"></textarea>
+        </div>
+        <button type="submit" class="submit-button">Add Task</button>
       </form>
-
-      <input type="checkbox" id="isRecurring">
-      <label for="isRecurring">Recurring</label>
-
-      <button class="button" id="addEvent" onclick="addTask()">
-          Add Task
-      </button>
-
-  </div>
-
+    </div>
   
-  
-
-
-</body>
+  </body>
 </html>
