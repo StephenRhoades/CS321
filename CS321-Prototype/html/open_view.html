@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <title>The Task Tracker</title>
+    <link rel="stylesheet" type="text/css" href="../css/open_view_styles.css" />
+  </head>
+	
+  <body>
+    <h2>Welcome to the task tracker</h2>
+    <p>This is currently non-funcitonal, but look forward to what we will bring!</p>
+
+    <div class="buttons">
+      <button class="button">View the Calender</button> 
+      <button class="button">List View</button>
+      <button class="button">Add task</button>  
+      <button class="button">Settings</button> 
+    </div>
+
+    <div id="event-section">
+      <h2>Add Task</h2>
+
+      <input type="date">
+
+      <input type="text"
+          placeholder="Task Name">
+
+      <input type="text"
+          placeholder="Description">
+
+      <form action="/action_page.php">
+        <label for="appt">Select a time:</label>
+        <input type="time" id="appt" name="appt">
+      </form>
+
+      <input type="checkbox" id="isRecurring">
+      <label for="isRecurring">Recurring</label>
+
+      <button class="button" id="addEvent" onclick="addTask()">
+          Add Task
+      </button>
+
+  </div>
+
+  
+  
+
+
+</body>
+</html>
