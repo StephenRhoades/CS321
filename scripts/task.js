@@ -134,30 +134,40 @@ class Task{
   
   /**
   * function to change the complete value of the Task.
+  *
+  * @param {Boolean} complete Whether or not the task is complete.
   */
   function changeComplete(isComplete){
   }
 
   /**
   * function to change the recurring value of the Task.
+  *
+  * @param {Boolean} isRecurring Whether or not the task is recurring.
   */
   function changeRecurring(isRecurring) {
   }
 
   /**
   * function to add a new reminder.
+  *
+  * @param {Date} newReminder A new time to set a reminder for.
   */
   function addReminder(newReminder) {
   }
 
   /**
   * function to remove a reminder.
+  *
+  * @param {Date} reminder The reminder to remove.
   */
   function remReminder(reminder) {
   }
   
   /**
   * function to mark the Task as complete.
+  *
+  * Marks the current task as being completed.
   */
   function complete () {
   }
