@@ -4,11 +4,17 @@
   */
 class Calendar{
   yearCalendar;
+
+  /**
+   * Constructor for Calendar Object
+   */
   constructor()
   {
     this.yearCalendar = new Array(25);
   }
-
+  /**
+   * Get method to get yearCalendar contained within Calendar
+   */
   get yearCalendar()
   {
     return this.yearCalendar;
@@ -22,6 +28,10 @@ class Calendar{
 class YearCalendar extends Calendar{
   monthCalendar; // monthCalendar Object
   year; //integer
+
+  /**
+   * Constructor for YearCalendar Object
+   */
   constructor(year)
   {
     this.monthCalendar = new Array(12);
@@ -46,6 +56,10 @@ class YearCalendar extends Calendar{
 class MonthCalendar extends YearCalendar{
   days; //integer
   month; //string
+
+  /**
+   * Constructor for MonthCalendar Object
+   */
   constructor(days, month)
   {
     this.days = new Array(days);
