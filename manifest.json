@@ -5,7 +5,7 @@
   "version": "0.2",
   "permissions": ["storage", "alarms"],
   "background": {
-     "service_worker": "script/background.js"
+     "service_worker": "scripts/background.js"
   },
   "action": {
     "default_popup": "html/open_view.html",
