@@ -50,6 +50,18 @@ function createTask(taskName, taskDescription, taskCategory, date, complete, rec
     return {taskName: taskName, taskDescription: taskDescription, taskCategory: taskCategory, date: date, complete: complete, recurring: recurring}
 }
 
+function addTask() {
+    createTask(document.getElementById('task-name').value, 
+    document.getElementById('task-desc').value, 'None', document.getElementById('task-date').value, false, 
+    document.getElementById('task-recur').value);
+    console.log(task.taskName)
+    console.log(task.taskDescription)
+    console.log(task.taskCategory)
+    console.log(task.date)
+    console.log(task.complete)
+    console.log(task.recurring)
+}
+
 /**
  * Function that uses removes the element at given index. Also honestly may change how this works later. Prototype.
  * @param {*} index Index of array element that needs to be erased.
