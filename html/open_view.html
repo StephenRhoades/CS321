@@ -2,6 +2,7 @@
   <head>
     <title>The Task Tracker</title>
     <link rel="stylesheet" type="text/css" href="../css/open_view_styles.css" />
+    <script type = "text/javscript" src="script.js"></script>
   </head>
 	
   <body>
@@ -34,9 +35,11 @@
         </div>
         <div class="form-group">
           <label for="task-desc">Repeat Every:</label>
-          <textarea id="task-desc" name="task-desc" rows="4" placeholder="Enter task description"></textarea>
+          <textarea id="task-recur" name="task-recur" rows="4" placeholder="Enter task repetition"></textarea>
         </div>
-        <button type="submit" class="submit-button">Add Task</button>
+        <button type="submit" class="submit-button" onclick="createTask(document.getElementById('task-name').value, 
+        document.getElementById('task-desc').value, 'None', document.getElementById('task-date').value, false, 
+        document.getElementById('task-recur').value)">Add Task</button>
       </form>
     </div>
   
