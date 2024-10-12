@@ -5,7 +5,58 @@
   </head>
 	
   <body>
-    <h2>Welcome to the task tracker</h2>
-    <p>This is currently non-funcitonal, but look forward to what we will bring!</p>
+
+    <div class="buttons-container">
+      <a href="pages/calendar_view.html"><button class="button">View the Calendar</button></a>
+	  <a href="pages/list_view.html"><button class="button">List View</button></a>
+      <a href="pages/task_page.html"><button class="button">Add Task</button></a>
+	  <a href="pages/settings.html"><button class="button">Settings</button></a>
+    </div>
+  
+    <div class="add-task-section">
+      <h2>Add Task</h2>
+      <form>
+        <div class="form-group">
+          <label for="task-date">Date:</label>
+          <input type="date" id="task-date" name="task-date" required>
+        </div>
+        <div class="form-group">
+          <label for="task-time">Time:</label>
+          <input type="time" id="task-time" name="task-time" required>
+        </div>
+        <div class="form-group">
+          <label for="task-name">Task Name:</label>
+          <input type="text" id="task-name" name="task-name" placeholder="Enter task name" required>
+        </div>
+        <div class="form-group">
+          <label for="task-desc">Description:</label>
+          <textarea id="task-desc" name="task-desc" rows="4" placeholder="Enter task description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="task-desc">Repeat Every:</label>
+          <select>
+            <option value="Every Monday">Every Monday</option>
+            <option value="Every Tuesday">Every Tuesday</option>
+            <option value="Every Wednesday">Every Wednesday</option>
+            <option value="Every Thursday">Every Thursday</option>
+            <option value="Every Friday">Every Friday</option>
+            <option value="Every Saturday">Every Saturday</option>
+            <option value="Every Sunday">Every Sunday</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="task-desc">Remind Me:</label>
+          <select>
+            <option value="15m">15 minutes before</option>
+            <option value="30m">30 minutes before</option>
+            <option value="1h">1 hour before</option>
+            <option value="3h">3 hours before</option>
+            <option value="1d">1 day before</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-button">Add Task</button>
+      </form>
+    </div>
+  
   </body>
 </html>
