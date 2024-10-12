@@ -104,7 +104,8 @@ class Task{
   *
   * @param {String} name The new name for the task.
   */
-  function changeName (name) {
+  changeName (name) {
+    this.taskName = name;
   }
   
   /**
@@ -112,7 +113,8 @@ class Task{
   *
   * @param {String} description The new description for the task.
   */
-  function changeDescription (description) {
+  changeDescription (description) {
+    this.description = description;
   }
 
   /**
@@ -120,7 +122,8 @@ class Task{
   *
   * @param {String} category The new category of the task.
   */
-  function changeCategory (category) {
+  changeCategory (category) {
+    this.taskCategory = category;
   }
   
   /**
@@ -128,7 +131,8 @@ class Task{
   *
   * @param {Date} date The new date of the task.
   */
-  function changeDueDate (date) {
+  changeDueDate (date) {
+    this.date = date;
   }
 
   
@@ -137,7 +141,8 @@ class Task{
   *
   * @param {Boolean} complete Whether or not the task is complete.
   */
-  function changeComplete(isComplete){
+  changeComplete(isComplete){
+    this.complete = isComplete;
   }
 
   /**
@@ -145,7 +150,8 @@ class Task{
   *
   * @param {Boolean} isRecurring Whether or not the task is recurring.
   */
-  function changeRecurring(isRecurring) {
+  changeRecurring(isRecurring) {
+    this.recurring = isRecurring;
   }
 
   /**
@@ -153,7 +159,8 @@ class Task{
   *
   * @param {Date} newReminder A new time to set a reminder for.
   */
-  function addReminder(newReminder) {
+  addReminder(newReminder) {
+    this.reminders.add(newReminder);
   }
 
   /**
@@ -161,7 +168,13 @@ class Task{
   *
   * @param {Date} reminder The reminder to remove.
   */
-  function remReminder(reminder) {
+  remReminder(reminder) {
+    const index = this.reminders?.indeOf(reminder);
+    if (index == null) {
+      console.log("This reminder does not exist!");
+      return;
+    }
+    this.reminders.splice(index, index);
   }
   
   /**
@@ -169,7 +182,8 @@ class Task{
   *
   * Marks the current task as being completed.
   */
-  function complete () {
+  complete () {
+    this.complete = true;
   }
 
 }
