@@ -4,9 +4,11 @@
 
 let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't work in VS code, only in browser!
 
+console.log("script!")
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form'); 
-
+    console.log("query set up")
     form.addEventListener('submit', function(event) {
         addTask(event);
 
