@@ -34,7 +34,25 @@
         </div>
         <div class="form-group">
           <label for="task-desc">Repeat Every:</label>
-          <textarea id="task-desc" name="task-desc" rows="4" placeholder="Enter task description"></textarea>
+          <select>
+            <option value="Every Monday">Every Monday</option>
+            <option value="Every Tuesday">Every Tuesday</option>
+            <option value="Every Wednesday">Every Wednesday</option>
+            <option value="Every Thursday">Every Thursday</option>
+            <option value="Every Friday">Every Friday</option>
+            <option value="Every Saturday">Every Saturday</option>
+            <option value="Every Sunday">Every Sunday</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="task-desc">Remind Me:</label>
+          <select>
+            <option value="15m">15 minutes before</option>
+            <option value="30m">30 minutes before</option>
+            <option value="1h">1 hour before</option>
+            <option value="3h">3 hours before</option>
+            <option value="1d">1 day before</option>
+          </select>
         </div>
         <button type="submit" class="submit-button">Add Task</button>
       </form>
