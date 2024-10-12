@@ -4,34 +4,10 @@
 
 let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't work in VS code, only in browser!
 
-console.log("script!")
-
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form'); 
-    console.log("query set up")
-    form.addEventListener('submit', function(event) {
-        addTask(event);
-
-    });
+    const button = document.getElementById('submit-task-button');
+    button.addEventListener('click', addTask);
 });
-
-function addTask(event) {
-    const form = event.target; 
-
-    const taskName = form.querySelector('#task-name').value;
-    const taskDesc = form.querySelector('#task-desc').value;
-    const taskDate = form.querySelector('#task-date').value;
-    const taskRecur = form.querySelector('#task-recur').value;
-
-    const task = createTask(taskName, taskDesc, 'None', taskDate, false, taskRecur);
-
-    console.log(task.taskName);
-    console.log(task.taskDescription);
-    console.log(task.taskCategory);
-    console.log(task.date);
-    console.log(task.complete);
-    console.log(task.recurring);
-}
 
 //let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
 
@@ -77,6 +53,27 @@ function loadTaskInLocalStorage()
  */
 function createTask(taskName, taskDescription, taskCategory, date, complete, recurring) {
     return {taskName: taskName, taskDescription: taskDescription, taskCategory: taskCategory, date: date, complete: complete, recurring: recurring}
+}
+
+function addTask() {
+
+    console.log("got here");
+
+    createTask(
+        document.getElementById('task-name').value, 
+        document.getElementById('task-desc').value, 
+        'None', 
+        document.getElementById('task-date').value, 
+        false, 
+        document.getElementById('task-recur').value
+    );
+
+    console.log(task.taskName);
+    console.log(task.taskDescription);
+    console.log(task.taskCategory);
+    console.log(task.date);
+    console.log(task.complete);
+    console.log(task.recurring);
 }
 
 /**
