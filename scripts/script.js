@@ -1,4 +1,8 @@
 //TO-DO: Get DOM elements. Also figure out how that works.
+let userInputDate = document.getElementById("task-date");
+let userInputTime = document.getElementById("task-time");
+let userInputTaskName = document.getElementById("task-name");
+let userInputTaskDescription = document.getElementById("task-desc");
 //TO-DO: Implement Event Listener Functions. Should detect when "add" button confirmation is clicked, and add task in response.
 //TO-DO: Implement renderTask function. This can be split into several functions. This should display a calendar view of tasks, and a list view.
 
