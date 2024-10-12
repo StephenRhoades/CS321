@@ -4,10 +4,6 @@
 
 let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't work in VS code, only in browser!
 
-chrome.runtime.sendMessage({ type: 'contentLog', message: 'Content script executed' }, (response) => {
-    console.log('Background response:', response);
-  });
-
 console.log("script!")
 
 document.addEventListener('DOMContentLoaded', function() {
