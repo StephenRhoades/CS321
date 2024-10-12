@@ -5,8 +5,13 @@
 let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't work in VS code, only in browser!
 
 document.addEventListener('DOMContentLoaded', function() {
-    const button = document.getElementById('submit-task-button');
-    button.addEventListener('click', addTask);
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        addTask();
+        form.submit();
+    });
 });
 
 //let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
@@ -57,9 +62,16 @@ function createTask(taskName, taskDescription, taskCategory, date, complete, rec
 
 function addTask() {
     console.log("got here");
-    createTask(document.getElementById('task-name').value, 
-    document.getElementById('task-desc').value, 'None', document.getElementById('task-date').value, false, 
-    document.getElementById('task-recur').value);
+
+    createTask(
+        document.getElementById('task-name').value, 
+        document.getElementById('task-desc').value, 
+        'None', 
+        document.getElementById('task-date').value, 
+        false, 
+        document.getElementById('task-recur').value
+    );
+
     console.log(task.taskName);
     console.log(task.taskDescription);
     console.log(task.taskCategory);
