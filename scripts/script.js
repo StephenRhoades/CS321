@@ -16,10 +16,18 @@ function addTask(event) {
     event.preventDefault();
     const form = document.getElementById('myForm');
 
-    const taskName = document.getElementById('task-name').value;
-    const taskDesc = document.getElementById('task-desc').value;
-    const taskDate = document.getElementById('task-date').value;
-    const taskRecur = document.getElementById('task-recur').value;
+    const formData = new FormData(form);
+  
+    // Access individual form values
+    const taskName = formData.get('task-name');
+    const taskDesc = formData.get('task-desc'); 
+    const taskDate = formData.get('task-date');
+    const taskRecur = formData.get('task-recur'); 
+
+    // const taskName = document.getElementById('task-name').value;
+    // const taskDesc = document.getElementById('task-desc').value;
+    // const taskDate = document.getElementById('task-date').value;
+    // const taskRecur = document.getElementById('task-recur').value;
 
     const task = createTask(taskName, taskDesc, 'None', taskDate, false, taskRecur);
 
@@ -30,8 +38,7 @@ function addTask(event) {
     console.log(task.complete);
     console.log(task.recurring);
     
-    //const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
-    form.dispatchEvent(event);
+    form.submit();
 }
 
 //let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
