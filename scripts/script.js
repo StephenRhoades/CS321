@@ -7,8 +7,18 @@
 console.log("script!");
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('submit-task-button').addEventListener('click', function(event) {
+    document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
         addTask(event);
+    });
+
+    document.getElementById('show-tasks')?.addEventListener('click', function(event) {
+        event.preventDefault();
+        generateTasks(6)
+    });
+
+    document.getElementById('clear-tasks')?.addEventListener('click', function(event) {
+        event.preventDefault();
+        generateTasks(0)
     });
 });
 
@@ -114,3 +124,32 @@ console.log(task.recurring)
 //console.log(date1)
 //console.log(poly1.name);
 //console.log(`Task Object: ${date1.getDate}`);
+
+function generateTasks(taskNumber) {
+    const taskContainer = document.getElementById('taskContainer');
+
+    // clear previous tasks
+    taskContainer.innerHTML = '';
+
+    for (let i = 1; i <= taskNumber; i++) {
+        const taskDiv = document.createElement('div');
+        taskDiv.className = 'task';
+
+        const taskLabel = document.createElement('label');
+        taskLabel.textContent = `Example Task ${i}: `;
+        taskLabel.className = 'taskLabel';
+
+        const deadline = document.createElement('label');
+        deadline.textContent = 'Deadline: ';
+        deadline.className = 'taskLabel';
+        
+
+
+        taskDiv.appendChild(taskLabel);
+        taskDiv.appendChild(deadline);
+
+        taskContainer.appendChild(taskDiv);
+
+    }
+    console.log("Tasks succesfully shown.");
+}
