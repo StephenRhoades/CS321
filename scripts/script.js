@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('show-tasks')?.addEventListener('click', function(event) {
         event.preventDefault();
-        generateTasks(dynamicTaskArray.length);
+        generateTasks(6);
     });
 
     document.getElementById('clear-tasks')?.addEventListener('click', function(event) {
@@ -42,6 +42,7 @@ function addTask(event) {
     console.log(task.date);
     console.log(task.complete);
     console.log(task.recurring);
+    saveTasksToLocalStorage();
     
     form.submit();
 }
