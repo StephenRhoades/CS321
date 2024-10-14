@@ -3,9 +3,9 @@
 //TO-DO: Implement Event Listener Functions. Should detect when "add" button confirmation is clicked, and add task in response.
 //TO-DO: Implement renderTask function. This can be split into several functions. This should display a calendar view of tasks, and a list view.
 
-// let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't work in VS code, only in browser!
+let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't work in VS code, only in browser!
 console.log("script?");
-let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
+// let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
 console.log("script!");
 
 document.addEventListener('DOMContentLoaded', function() {
