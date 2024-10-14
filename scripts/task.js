@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('show-tasks')?.addEventListener('click', function(event) {
         event.preventDefault();
-        generateTasks(loadTaskInLocalStorage().length)
+        generateTasks(script.loadTaskInLocalStorage().length)
     });
     
     document.getElementById('clear-tasks')?.addEventListener('click', function(event) {
