@@ -4,26 +4,13 @@
 //TO-DO: Implement renderTask function. This can be split into several functions. This should display a calendar view of tasks, and a list view.
 
 let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't work in VS code, only in browser!
-console.log("script?");
-// let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
-console.log("script!");
+
+console.log("script!")
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("script!");
-
-    document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
+    document.getElementById('submit-task-button').addEventListener('click', function(event) {
         addTask(event);
     });
-
-    // document.getElementById('show-tasks')?.addEventListener('click', function(event) {
-    //     event.preventDefault();
-    //     generateTasks(dynamicTaskArray.length);
-    // });
-
-    // document.getElementById('clear-tasks')?.addEventListener('click', function(event) {
-    //     event.preventDefault();
-    //     generateTasks(0);
-    // });
 });
 
 function addTask(event) {
@@ -38,6 +25,11 @@ function addTask(event) {
     const taskDate = formData.get('task-date');
     const taskRecur = formData.get('task-recur'); 
 
+    // const taskName = document.getElementById('task-name').value;
+    // const taskDesc = document.getElementById('task-desc').value;
+    // const taskDate = document.getElementById('task-date').value;
+    // const taskRecur = document.getElementById('task-recur').value;
+
     const task = createTask(taskName, taskDesc, 'None', taskDate, false, taskRecur);
 
     console.log(task.taskName);
@@ -50,37 +42,7 @@ function addTask(event) {
     form.submit();
 }
 
-// Generates taskNumber # of tasks 
-// progress bar
-// category color
-function generateTasks(taskNumber) {
-    const taskContainer = document.getElementById('taskContainer');
-
-    // clear previous tasks
-    taskContainer.innerHTML = '';
-
-    for (let i = 1; i <= taskNumber; i++) {
-        const taskDiv = document.createElement('div');
-        taskDiv.className = 'task';
-
-        const taskLabel = document.createElement('label');
-        taskLabel.textContent = `Example Task ${i}: `;
-        taskLabel.className = 'taskLabel';
-
-        const deadline = document.createElement('label');
-        deadline.textContent = 'Deadline: ';
-        deadline.className = 'taskLabel';
-        
-
-
-        taskDiv.appendChild(taskLabel);
-        taskDiv.appendChild(deadline);
-
-        taskContainer.appendChild(taskDiv);
-
-    }
-    console.log("Tasks succesfully shown.");
-}
+//let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
 
 /**
  * Function that saves the current list of tasks (implemented as dynamic array) to local storage.
@@ -142,19 +104,19 @@ localStorage.setItem('my-array', JSON.stringify(dynamicTaskArray));
 const myArray = JSON.parse(localStorage.getItem('my-array'));
 console.log(myArray);
 
-// console.log(dynamicTaskArray);
+//console.log(dynamicTaskArray);
     
 //const poly1 = new Polygon();
 
 const date1 = new Date(2024, 11, 24, 10);
 const task = new createTask("Task1", "First task of list", "None", date1, false, false);
 
-console.log(task.taskName);
-console.log(task.taskDescription);
-console.log(task.taskCategory);
-console.log(task.date);
-console.log(task.complete);
-console.log(task.recurring);
-//console.log(date1);
+console.log(task.taskName)
+console.log(task.taskDescription)
+console.log(task.taskCategory)
+console.log(task.date)
+console.log(task.complete)
+console.log(task.recurring)
+//console.log(date1)
 //console.log(poly1.name);
 //console.log(`Task Object: ${date1.getDate}`);
