@@ -12,11 +12,13 @@ document.addEventListener('DOMContentLoaded', function() {
         addTask(event);
     });
 
-    document.getElementById('show-tasks').addEventListener('click', function() {
+    document.getElementById('show-tasks').addEventListener('click', function(event) {
+        event.preventDefault();
         generateTasks(dynamicTaskArray.length);
     });
 
-    document.getElementById('clear-tasks').addEventListener('click', function() {
+    document.getElementById('clear-tasks').addEventListener('click', function(event) {
+        event.preventDefault();
         generateTasks(0);
     });
 });
