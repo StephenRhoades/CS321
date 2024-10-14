@@ -4,8 +4,9 @@
 //TO-DO: Implement renderTask function. This can be split into several functions. This should display a calendar view of tasks, and a list view.
 
 // let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't work in VS code, only in browser!
+console.log("script?");
 let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
-console.log("script!")
+console.log("script!");
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('submit-task-button').addEventListener('click', function(event) {
@@ -62,11 +63,11 @@ function generateTasks(taskNumber) {
 
         const taskLabel = document.createElement('label');
         taskLabel.textContent = `Example Task ${i}: `;
-        taskLabel.className = 'taskLabel'
+        taskLabel.className = 'taskLabel';
 
         const deadline = document.createElement('label');
         deadline.textContent = 'Deadline: ';
-        deadline.className = 'taskLabel'
+        deadline.className = 'taskLabel';
         
 
 
@@ -76,7 +77,7 @@ function generateTasks(taskNumber) {
         taskContainer.appendChild(taskDiv);
 
     }
-    console.log("Tasks succesfully shown.")
+    console.log("Tasks succesfully shown.");
 }
 
 /**
@@ -146,12 +147,12 @@ console.log(dynamicTaskArray);
 const date1 = new Date(2024, 11, 24, 10);
 const task = new createTask("Task1", "First task of list", "None", date1, false, false);
 
-console.log(task.taskName)
-console.log(task.taskDescription)
-console.log(task.taskCategory)
-console.log(task.date)
-console.log(task.complete)
-console.log(task.recurring)
-//console.log(date1)
+console.log(task.taskName);
+console.log(task.taskDescription);
+console.log(task.taskCategory);
+console.log(task.date);
+console.log(task.complete);
+console.log(task.recurring);
+//console.log(date1);
 //console.log(poly1.name);
 //console.log(`Task Object: ${date1.getDate}`);
