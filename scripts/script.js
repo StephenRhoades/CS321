@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function addTask(event) {
     event.preventDefault();
-    const form = event.target; 
+    const form = document.getElementById('myForm');
 
     const taskName = document.getElementById('task-name').value;
     const taskDesc = document.getElementById('task-desc').value;
@@ -29,7 +29,9 @@ function addTask(event) {
     console.log(task.date);
     console.log(task.complete);
     console.log(task.recurring);
-    form.submit();
+    
+    const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+    form.dispatchEvent(submitEvent);
 }
 
 //let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
