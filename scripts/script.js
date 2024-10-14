@@ -9,6 +9,8 @@ console.log("script?");
 console.log("script!");
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("script!");
+
     document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
         addTask(event);
     });
@@ -140,7 +142,7 @@ localStorage.setItem('my-array', JSON.stringify(dynamicTaskArray));
 const myArray = JSON.parse(localStorage.getItem('my-array'));
 console.log(myArray);
 
-console.log(dynamicTaskArray);
+// console.log(dynamicTaskArray);
     
 //const poly1 = new Polygon();
 
