@@ -16,10 +16,10 @@ function addTask(event) {
     event.preventDefault();
     const form = event.target; 
 
-    const taskName = form.querySelector('#task-name').value;
-    const taskDesc = form.querySelector('#task-desc').value;
-    const taskDate = form.querySelector('#task-date').value;
-    const taskRecur = form.querySelector('#task-recur').value;
+    const taskName = document.getElementById('task-name').value;
+    const taskDesc = document.getElementById('task-desc').value;
+    const taskDate = document.getElementById('task-date').value;
+    const taskRecur = document.getElementById('task-recur').value;
 
     const task = createTask(taskName, taskDesc, 'None', taskDate, false, taskRecur);
 
