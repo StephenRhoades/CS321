@@ -1,4 +1,3 @@
-
 //TO-DO: Get DOM elements. Also figure out how that works.
 //TO-DO: Implement Event Listener Functions. Should detect when "add" button confirmation is clicked, and add task in response.
 //TO-DO: Implement renderTask function. This can be split into several functions. This should display a calendar view of tasks, and a list view.
