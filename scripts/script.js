@@ -8,7 +8,7 @@ console.log("script!")
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form'); 
-    console.log("query set up")
+    console.log("query set up");
     form.addEventListener('submit', function(event) {
         addTask(event);
 
@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function addTask(event) {
+    event.preventDefault();
     const form = event.target; 
 
     const taskName = form.querySelector('#task-name').value;
