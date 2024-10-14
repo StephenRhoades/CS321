@@ -13,12 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('show-tasks')?.addEventListener('click', function(event) {
         event.preventDefault();
-        generateTasks(loadTaskInLocalStorage().length)
+        generateTasks(dynamicTaskArray.length);
     });
 
     document.getElementById('clear-tasks')?.addEventListener('click', function(event) {
         event.preventDefault();
-        generateTasks(0)
+        generateTasks(0);
     });
 });
 
