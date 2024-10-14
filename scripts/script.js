@@ -32,6 +32,7 @@ function addTask(event) {
     console.log(task.date);
     console.log(task.complete);
     console.log(task.recurring);
+    form.submit();
 }
 
 //let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
