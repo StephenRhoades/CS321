@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Task Tracker",
   "description": "An extension that will help in tracking tasks through organization and reminders",
-  "version": "0.2",
+  "version": "0.5.0",
   "permissions": ["storage", "alarms"],
   "background": {
      "service_worker": "scripts/background.js"
