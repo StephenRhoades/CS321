@@ -1,3 +1,16 @@
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('show-tasks')?.addEventListener('click', function(event) {
+        event.preventDefault();
+        generateTasks(6)
+    });
+    
+    document.getElementById('clear-tasks')?.addEventListener('click', function(event) {
+        event.preventDefault();
+        generateTasks(0)
+    });
+
+});
+
 // Generates taskNumber # of tasks 
 
 // progress bar
