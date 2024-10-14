@@ -24,7 +24,7 @@ function addTask(event) {
     const taskDate = formData.get('task-date');
     // const taskRecur = formData.get('task-recur'); 
 
-    const task = createTask(taskName, taskDesc, 'None', taskDate, false, taskRecur);
+    const task = createTask(taskName, taskDesc, 'None', taskDate, false, false);
 
     console.log(task.taskName);
     console.log(task.taskDescription);
