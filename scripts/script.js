@@ -2,41 +2,41 @@
 //TO-DO: Implement Event Listener Functions. Should detect when "add" button confirmation is clicked, and add task in response.
 //TO-DO: Implement renderTask function. This can be split into several functions. This should display a calendar view of tasks, and a list view.
 
-let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't work in VS code, only in browser!
+// let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't work in VS code, only in browser!
 
 console.log("script!")
 
-// document.addEventListener('DOMContentLoaded', function() {
-//     document.getElementById('submit-task-button').addEventListener('click', function(event) {
-//         addTask(event);
-//     });
-// });
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('submit-task-button').addEventListener('click', function(event) {
+        addTask(event);
+    });
+});
 
-// function addTask(event) {
-//     event.preventDefault();
-//     const form = document.getElementById('myForm');
+function addTask(event) {
+    event.preventDefault();
+    const form = document.getElementById('myForm');
 
-//     const formData = new FormData(form);
+    const formData = new FormData(form);
   
-//     // Access individual form values
-//     const taskName = formData.get('task-name');
-//     const taskDesc = formData.get('task-desc'); 
-//     const taskDate = formData.get('task-date');
-//     // const taskRecur = formData.get('task-recur'); 
+    // Access individual form values
+    const taskName = formData.get('task-name');
+    const taskDesc = formData.get('task-desc'); 
+    const taskDate = formData.get('task-date');
+    // const taskRecur = formData.get('task-recur'); 
 
-//     const task = createTask(taskName, taskDesc, 'None', taskDate, false, false);
+    const task = createTask(taskName, taskDesc, 'None', taskDate, false, false);
 
-//     console.log(task.taskName);
-//     console.log(task.taskDescription);
-//     console.log(task.taskCategory);
-//     console.log(task.date);
-//     console.log(task.complete);
-//     console.log(task.recurring);
+    console.log(task.taskName);
+    console.log(task.taskDescription);
+    console.log(task.taskCategory);
+    console.log(task.date);
+    console.log(task.complete);
+    console.log(task.recurring);
     
-//     form.submit();
-// }
+    form.submit();
+}
 
-//let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
+let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
 
 /**
  * Function that saves the current list of tasks (implemented as dynamic array) to local storage.
