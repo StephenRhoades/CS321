@@ -55,7 +55,7 @@ let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
 function saveTasksToLocalStorage()
 {
     let saveTasks = JSON.stringify(dynamicTaskArray);
-    localStorage.setItem("tasks", updateTasks);
+    localStorage.setItem("tasks", saveTasks);
 }
 
 /**
