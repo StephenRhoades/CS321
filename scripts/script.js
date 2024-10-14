@@ -32,7 +32,7 @@ function addTask(event) {
     const taskName = formData.get('task-name');
     const taskDesc = formData.get('task-desc'); 
     const taskDate = formData.get('task-date');
-    // const taskRecur = formData.get('task-recur'); 
+    const taskRecur = formData.get('task-recur'); 
 
     const task = createTask(taskName, taskDesc, 'None', taskDate, false, false);
 
