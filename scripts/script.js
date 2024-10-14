@@ -7,11 +7,8 @@ let dynamicTaskArray = new Array; //REMOVE AFTER TESTING. localStorage doesn't w
 console.log("script!")
 
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form'); 
-    console.log("query set up");
-    form.addEventListener('submit', function(event) {
+    document.getElemntById('submit-task-button').addEventListener('click', function(event) {
         addTask(event);
-
     });
 });
 
