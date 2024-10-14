@@ -30,8 +30,8 @@ function addTask(event) {
     console.log(task.complete);
     console.log(task.recurring);
     
-    const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
-    form.dispatchEvent(submitEvent);
+    //const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+    form.dispatchEvent(event);
 }
 
 //let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
