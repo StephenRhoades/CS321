@@ -126,31 +126,55 @@ console.log(task.recurring)
 //console.log(poly1.name);
 //console.log(`Task Object: ${date1.getDate}`);
 
-function generateTasks(taskNumber) {
+function generateTasks() {
     const taskContainer = document.getElementById('taskContainer');
 
-    // clear previous tasks
+    // Clear previous tasks
     taskContainer.innerHTML = '';
 
-    for (let i = 1; i <= taskNumber; i++) {
+    // Check if dynamicTaskArray is not empty
+    if (dynamicTaskArray.length === 0) {
+        const noTasksMessage = document.createElement('p');
+        noTasksMessage.textContent = 'No tasks available.';
+        taskContainer.appendChild(noTasksMessage);
+        return;
+    }
+
+    // Loop through dynamicTaskArray and render each task
+    dynamicTaskArray.forEach((task, index) => {
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task';
 
+        // Create elements to display task details
         const taskLabel = document.createElement('label');
-        taskLabel.textContent = `Example Task ${i}: `;
+        taskLabel.textContent = `Task ${index + 1}: ${task.taskName}`;
         taskLabel.className = 'taskLabel';
 
-        const deadline = document.createElement('label');
-        deadline.textContent = 'Deadline: ';
-        deadline.className = 'taskLabel';
-        
+        const taskDesc = document.createElement('p');
+        taskDesc.textContent = `Description: ${task.taskDescription}`;
+        taskDesc.className = 'taskDescription';
 
+        const taskDate = document.createElement('p');
+        taskDate.textContent = `Due Date: ${task.date}`;
+        taskDate.className = 'taskDate';
 
+        const taskStatus = document.createElement('p');
+        taskStatus.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
+        taskStatus.className = 'taskStatus';
+
+        // Append all task details to the taskDiv
         taskDiv.appendChild(taskLabel);
-        taskDiv.appendChild(deadline);
+        taskDiv.appendChild(taskDesc);
+        taskDiv.appendChild(taskDate);
+        taskDiv.appendChild(taskStatus);
 
+        // Optionally: Add a delete button for each task
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete Task';
+        deleteButton.addEventListener('click', () => deleteTask(index));
+        taskDiv.appendChild(deleteButton);
+
+        // Add the taskDiv to the taskContainer
         taskContainer.appendChild(taskDiv);
-
-    }
-    console.log("Tasks succesfully shown.");
+    });
 }
