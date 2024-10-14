@@ -9,19 +9,19 @@ console.log("script?");
 console.log("script!");
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('submit-task-button').addEventListener('click', function(event) {
+    document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
         addTask(event);
     });
 
-    document.getElementById('show-tasks').addEventListener('click', function(event) {
-        event.preventDefault();
-        generateTasks(dynamicTaskArray.length);
-    });
+    // document.getElementById('show-tasks')?.addEventListener('click', function(event) {
+    //     event.preventDefault();
+    //     generateTasks(dynamicTaskArray.length);
+    // });
 
-    document.getElementById('clear-tasks').addEventListener('click', function(event) {
-        event.preventDefault();
-        generateTasks(0);
-    });
+    // document.getElementById('clear-tasks')?.addEventListener('click', function(event) {
+    //     event.preventDefault();
+    //     generateTasks(0);
+    // });
 });
 
 function addTask(event) {
