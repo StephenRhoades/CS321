@@ -65,7 +65,7 @@ class Calendar {
 
     // Utility method to check if a task exists on a given date
     hasTaskOnDate(dateString) {
-        return this.tasks.some(task => task.deadline === dateString);
+        return this.tasks.some(task => task.date === dateString);
     }
 
     // Utility method to format the date as YYYY-MM-DD (used for task matching)
@@ -78,7 +78,7 @@ class Calendar {
 const calendar = new Calendar();
 
 // Example tasks for demonstration purposes
-let exampleTasks = loadTaskInLocalStorage();
+const exampleTasks = loadTaskInLocalStorage();
 
 // Load tasks into the calendar
 calendar.loadTasks(exampleTasks);
