@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
+let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
+
 function addTask(event) {
     event.preventDefault();
     const form = document.getElementById('myForm');
@@ -36,47 +39,28 @@ function addTask(event) {
 
     const task = createTask(taskName, taskDesc, 'None', taskDate, false, false);
 
-    console.log(task.taskName);
-    console.log(task.taskDescription);
-    console.log(task.taskCategory);
-    console.log(task.date);
-    console.log(task.complete);
-    console.log(task.recurring);
+    // Add the new task to dynamicTaskArray
+    dynamicTaskArray.push(task);
     saveTasksToLocalStorage();
     
-    form.submit();
+    form.reset();  // Clear the form after submission
+    generateTasks();  // Regenerate the task list after adding the task
 }
 
-let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
-
-/**
- * Function that saves the current list of tasks (implemented as dynamic array) to local storage.
- */
-function saveTasksToLocalStorage()
-{
+function saveTasksToLocalStorage() {
     let saveTasks = JSON.stringify(dynamicTaskArray);
-    localStorage.setItem("tasks", saveTasks);
+    localStorage.setItem('tasks', saveTasks);
 }
 
-/**
- * Function that loads the last saved list of tasks (implemented as dynamic array) from local storage.
- * @returns Dynamic Array containing tasks
- */
-function loadTaskInLocalStorage()
-{
-    let loadTask = localStorage.getItem("tasks"); //"tasks" can be changed. Just keep consistency with saveTasksInLocalStorage().
-
-    if (loadTask==null)
-    {
-        console.log("Figure out what to do with null task list");
-        return new Array; //Not sure if syntax is correct. Test later
-    }
-    else
-    {
-        console.log("task list exists");
+function loadTaskInLocalStorage() {
+    let loadTask = localStorage.getItem('tasks');
+    if (loadTask === null) {
+        return [];
+    } else {
         return JSON.parse(loadTask);
     }
 }
+
 
 
 /**
@@ -90,8 +74,16 @@ function loadTaskInLocalStorage()
  * @returns 
  */
 function createTask(taskName, taskDescription, taskCategory, date, complete, recurring) {
-    return {taskName: taskName, taskDescription: taskDescription, taskCategory: taskCategory, date: date, complete: complete, recurring: recurring}
+    return {
+        taskName: taskName,
+        taskDescription: taskDescription,
+        taskCategory: taskCategory,
+        date: new Date(date).toISOString(), // Make sure date is stored in ISO format
+        complete: complete,
+        recurring: recurring
+    };
 }
+
 
 /**
  * Function that uses removes the element at given index. Also honestly may change how this works later. Prototype.
@@ -145,17 +137,17 @@ function generateTasks() {
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task';
 
-        // Create elements to display task details
+        // Ensure task fields are defined before displaying them
         const taskLabel = document.createElement('label');
-        taskLabel.textContent = `Task ${index + 1}: ${task.taskName}`;
+        taskLabel.textContent = `Task ${index + 1}: ${task.taskName || 'Unnamed Task'}`;
         taskLabel.className = 'taskLabel';
 
         const taskDesc = document.createElement('p');
-        taskDesc.textContent = `Description: ${task.taskDescription}`;
+        taskDesc.textContent = `Description: ${task.taskDescription || 'No Description'}`;
         taskDesc.className = 'taskDescription';
 
         const taskDate = document.createElement('p');
-        taskDate.textContent = `Due Date: ${task.date}`;
+        taskDate.textContent = `Due Date: ${task.date ? new Date(task.date).toLocaleDateString() : 'No Due Date'}`;
         taskDate.className = 'taskDate';
 
         const taskStatus = document.createElement('p');
@@ -168,10 +160,13 @@ function generateTasks() {
         taskDiv.appendChild(taskDate);
         taskDiv.appendChild(taskStatus);
 
-        // Optionally: Add a delete button for each task
+        // Add a delete button for each task
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete Task';
-        deleteButton.addEventListener('click', () => deleteTask(index));
+        deleteButton.addEventListener('click', () => {
+            deleteTask(index);
+            generateTasks(); // Refresh task list after deletion
+        });
         taskDiv.appendChild(deleteButton);
 
         // Add the taskDiv to the taskContainer
