@@ -2,21 +2,20 @@
   <head>
     <title>Link View</title>
     <link rel="stylesheet" type="text/css" href="../../css/pages/list_view.css" />
-    <script type="text/javascript" src="../../scripts/script.js"></script>
   </head>
   <body>
-  <h2>Link View</h2>
-	<a href="../open_view.html"><button class="button">Home Page</button></a>
-  <div class="container">
-    <h1>Tasks! :D</h1>
-    <button id="show-tasks">Show me my tasks</button>
-    <button> Sort by Deadline</button>
-    <button> Sort Alphabetically</button>
-    <button id="clear-tasks"> Clear</button>
-    <div id="taskContainer"></div>
-</div>
+    <h2>Link View</h2>
+    <a href="../open_view.html"><button class="button">Home Page</button></a>
+    <div class="container">
+      <h1>Tasks! :D</h1>
+      <button id="show-tasks">Show me my tasks</button>
+      <button>Sort by Deadline</button>
+      <button>Sort Alphabetically</button>
+      <button id="clear-tasks">Clear</button>
+      <div id="taskContainer"></div> <!-- Ensure taskContainer exists -->
+    </div>
 
-<script src="../../scripts/task.js"></script>
-  
-</body>
+    <!-- Move script to the bottom of body -->
+    <script src="../../scripts/task.js"></script>
+  </body>
 </html>

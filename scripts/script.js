@@ -7,13 +7,24 @@
 console.log("script!");
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed");
+    
+    // Log the taskContainer element
+    const taskContainer = document.getElementById('taskContainer');
+    if (taskContainer) {
+        console.log("taskContainer found:", taskContainer);
+    } else {
+        console.error("taskContainer element not found.");
+    }
+
+    // Attach event listeners
     document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
         addTask(event);
     });
 
     document.getElementById('show-tasks')?.addEventListener('click', function(event) {
         event.preventDefault();
-        generateTasks(dynamicTaskArray.length);
+        generateTasks();
     });
 
     document.getElementById('clear-tasks')?.addEventListener('click', function(event) {
@@ -21,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         generateTasks(0);
     });
 });
+
 
 
 let dynamicTaskArray = loadTaskInLocalStorage(); //UNCOMMENT AFTER TESTING
@@ -61,8 +73,6 @@ function loadTaskInLocalStorage() {
     }
 }
 
-
-
 /**
  * Creates Task Object.
  * @param {*} taskName 
@@ -95,28 +105,13 @@ function deleteTask(index)
     saveTasksToLocalStorage();
 }
 
-//IGNORE: TESTING CODE BELOW
-dynamicTaskArray.push(6);
-localStorage.setItem('my-array', JSON.stringify(dynamicTaskArray));
-const myArray = JSON.parse(localStorage.getItem('my-array'));
-console.log(myArray);
+// //IGNORE: TESTING CODE BELOW
+// dynamicTaskArray.push(6);
+// localStorage.setItem('my-array', JSON.stringify(dynamicTaskArray));
+// const myArray = JSON.parse(localStorage.getItem('my-array'));
+// console.log(myArray);
 
-//console.log(dynamicTaskArray);
-    
-//const poly1 = new Polygon();
-
-const date1 = new Date(2024, 11, 24, 10);
-const task = new createTask("Task1", "First task of list", "None", date1, false, false);
-
-console.log(task.taskName)
-console.log(task.taskDescription)
-console.log(task.taskCategory)
-console.log(task.date)
-console.log(task.complete)
-console.log(task.recurring)
-//console.log(date1)
-//console.log(poly1.name);
-//console.log(`Task Object: ${date1.getDate}`);
+console.log(dynamicTaskArray);
 
 function generateTasks() {
     const taskContainer = document.getElementById('taskContainer');
