@@ -1,33 +1,67 @@
-// // Generates taskNumber # of tasks 
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed");
 
-// // progress bar
-// // category color
-// function generateTasks(taskNumber) {
-//     const taskContainer = document.getElementById('taskContainer');
+    // Check if taskContainer exists (only on list view page)
+    const taskContainer = document.getElementById('taskContainer');
+    if (taskContainer) {
+        console.log("taskContainer found");
 
-//     // clear previous tasks
-//     taskContainer.innerHTML = '';
+        // Attach event listener to show tasks
+        document.getElementById('show-tasks')?.addEventListener('click', function(event) {
+            event.preventDefault();
+            generateTasks();  // Call generateTasks to show stored tasks
+        });
 
-//     for (let i = 1; i <= taskNumber; i++) {
-//         const taskDiv = document.createElement('div');
-//         taskDiv.className = 'task';
+        document.getElementById('clear-tasks')?.addEventListener('click', function(event) {
+            event.preventDefault();
+            clearTasks();
+        });
+    }
+});
 
-//         const taskLabel = document.createElement('label');
-//         taskLabel.textContent = `Example Task ${i}: `;
-//         taskLabel.className = 'taskLabel'
+function generateTasks() {
+    const taskContainer = document.getElementById('taskContainer');
+    taskContainer.innerHTML = '';  // Clear previous tasks
 
-//         const deadline = document.createElement('label');
-//         deadline.textContent = 'Deadline: ';
-//         deadline.className = 'taskLabel'
-        
+    // Load tasks from localStorage
+    let tasks = loadTaskInLocalStorage();
+    
+    if (tasks.length === 0) {
+        taskContainer.innerHTML = '<p>No tasks available</p>';
+        return;
+    }
 
+    tasks.forEach((task, index) => {
+        const taskDiv = document.createElement('div');
+        taskDiv.className = 'task';
 
-//         taskDiv.appendChild(taskLabel);
-//         taskDiv.appendChild(deadline);
+        const taskLabel = document.createElement('label');
+        taskLabel.textContent = `Task ${index + 1}: ${task.taskName}`;
 
-//         taskContainer.appendChild(taskDiv);
+        const taskDescription = document.createElement('p');
+        taskDescription.textContent = `Description: ${task.taskDescription}`;
 
-//     }
-//     console.log("Tasks succesfully shown.")
-// }
+        const taskDate = document.createElement('p');
+        taskDate.textContent = `Due Date: ${task.date}`;
 
+        const taskComplete = document.createElement('p');
+        taskComplete.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
+
+        taskDiv.appendChild(taskLabel);
+        taskDiv.appendChild(taskDescription);
+        taskDiv.appendChild(taskDate);
+        taskDiv.appendChild(taskComplete);
+
+        taskContainer.appendChild(taskDiv);
+    });
+}
+
+function loadTaskInLocalStorage() {
+    let loadTask = localStorage.getItem("tasks");
+    return loadTask ? JSON.parse(loadTask) : [];
+}
+
+function clearTasks() {
+    const taskContainer = document.getElementById('taskContainer');
+    taskContainer.innerHTML = '';
+}
