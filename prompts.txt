@@ -180,3 +180,38 @@ function generateTasks(taskNumber) {
     console.log("Tasks succesfully shown.");
 }
 Could you rewrite the generateTasks to take the stored array values and display them?
+
+
+2:
+this is the current output on the list view: 
+"Task 1: undefined
+Description: undefined
+
+Due Date: undefined
+
+Completed: No"
+Could you provide code that would fix this?
+
+
+3:
+This is the error that I got after reinstalling the extension and trying to add a new task.
+script.js:125 Uncaught TypeError: Cannot set properties of null (setting 'innerHTML')
+    at generateTasks (script.js:125:29)
+    at addTask (script.js:47:5)
+    at HTMLButtonElement.<anonymous> (script.js:11:9)
+
+
+4:
+with the changes made, this is the current error message:
+"taskContainer element not found.
+generateTasks	@	script.js:126
+addTask	@	script.js:47
+(anonymous)	@	script.js:11"
+
+
+5:
+This was the console output after doing all of your changes: 
+"DOM fully loaded and parsed
+script.js:17 taskContainer element not found."
+It seems that there is an issue with trying to access the taskContainer element from the opening page when that html is in a separate linked page from where the tasks are inputted. It seems that this issue might be fixed if tasks aren't regenerated upon creating a new task.
+
