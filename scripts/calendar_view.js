@@ -1,5 +1,3 @@
-import {loadTaskInLocalStorage} from './task.js';
-
 class Calendar {
     constructor() {
         this.date = new Date();       // Current date (used for determining the month and year)

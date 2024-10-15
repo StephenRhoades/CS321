@@ -56,10 +56,10 @@ function generateTasks() {
     });
 }
 
-function loadTaskInLocalStorage() {
-    let loadTask = localStorage.getItem("tasks");
-    return loadTask ? JSON.parse(loadTask) : [];
-}
+// function loadTaskInLocalStorage() {
+//     let loadTask = localStorage.getItem("tasks");
+//     return loadTask ? JSON.parse(loadTask) : [];
+// }
 
 function clearTasks() {
     const taskContainer = document.getElementById('taskContainer');
