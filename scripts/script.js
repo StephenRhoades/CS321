@@ -121,6 +121,12 @@ console.log(task.recurring)
 function generateTasks() {
     const taskContainer = document.getElementById('taskContainer');
 
+    // Check if taskContainer exists
+    if (!taskContainer) {
+        console.error("taskContainer element not found.");
+        return;
+    }
+
     // Clear previous tasks
     taskContainer.innerHTML = '';
 
@@ -137,7 +143,6 @@ function generateTasks() {
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task';
 
-        // Ensure task fields are defined before displaying them
         const taskLabel = document.createElement('label');
         taskLabel.textContent = `Task ${index + 1}: ${task.taskName || 'Unnamed Task'}`;
         taskLabel.className = 'taskLabel';
@@ -154,22 +159,20 @@ function generateTasks() {
         taskStatus.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
         taskStatus.className = 'taskStatus';
 
-        // Append all task details to the taskDiv
         taskDiv.appendChild(taskLabel);
         taskDiv.appendChild(taskDesc);
         taskDiv.appendChild(taskDate);
         taskDiv.appendChild(taskStatus);
 
-        // Add a delete button for each task
+        // Add a delete button
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete Task';
         deleteButton.addEventListener('click', () => {
             deleteTask(index);
-            generateTasks(); // Refresh task list after deletion
+            generateTasks();  // Refresh task list after deletion
         });
         taskDiv.appendChild(deleteButton);
 
-        // Add the taskDiv to the taskContainer
         taskContainer.appendChild(taskDiv);
     });
 }
