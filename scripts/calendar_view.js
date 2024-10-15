@@ -78,7 +78,7 @@ class Calendar {
 const calendar = new Calendar();
 
 // Example tasks for demonstration purposes
-const exampleTasks = loadTaskInLocalStorage();
+let exampleTasks = loadTaskInLocalStorage();
 
 // Load tasks into the calendar
 calendar.loadTasks(exampleTasks);
