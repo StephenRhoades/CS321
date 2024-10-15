@@ -65,3 +65,5 @@ function clearTasks() {
     const taskContainer = document.getElementById('taskContainer');
     taskContainer.innerHTML = '';
 }
+
+export {loadTaskInLocalStorage};

@@ -1,3 +1,5 @@
+import {loadTaskInLocalStorage} from './task.js';
+
 class Calendar {
     constructor() {
         this.date = new Date();       // Current date (used for determining the month and year)
@@ -78,10 +80,7 @@ class Calendar {
 const calendar = new Calendar();
 
 // Example tasks for demonstration purposes
-const exampleTasks = [
-    { id: 1, title: "Submit assignment", deadline: "2024-10-15", priority: 1, isComplete: false },
-    { id: 2, title: "Project meeting", deadline: "2024-10-20", priority: 2, isComplete: false },
-];
+const exampleTasks = loadTaskInLocalStorage();
 
 // Load tasks into the calendar
 calendar.loadTasks(exampleTasks);
