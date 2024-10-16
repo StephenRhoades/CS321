@@ -1,3 +1,10 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Run tests after DOM is loaded
+    testAddAndDisplayTask();
+    testClearTasks();
+    testLoadTasksFromLocalStorage();
+});
+
 function testAddAndDisplayTask() {
     // Clear local storage before running the test
     localStorage.clear();
@@ -21,9 +28,6 @@ function testAddAndDisplayTask() {
     console.log("Test Add and Display Task: Passed");
 }
 
-// Run the test
-testAddAndDisplayTask();
-
 function testClearTasks() {
     // Manually add a few tasks to the dynamicTaskArray
     dynamicTaskArray = [
@@ -44,9 +48,6 @@ function testClearTasks() {
 
     console.log("Test Clear Tasks: Passed");
 }
-
-// Run the test
-testClearTasks();
 
 function testLoadTasksFromLocalStorage() {
     // Clear localStorage before the test
@@ -72,6 +73,3 @@ function testLoadTasksFromLocalStorage() {
 
     console.log("Test Load Tasks from Local Storage: Passed");
 }
-
-// Run the test
-testLoadTasksFromLocalStorage();
