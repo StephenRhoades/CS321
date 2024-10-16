@@ -34,16 +34,33 @@ function testAddAndDisplayTask() {
         console.assert(taskLabel.textContent.includes("Test Task"), "Task name not displayed correctly.");
     }
 
+    // Verify the description label
+    const descLabel = firstTask.querySelectorAll('label')[1]; // Assuming the second label is the description
+    console.assert(descLabel !== null, "Task description label element not found.");
+
+    if (descLabel) {
+        console.assert(descLabel.textContent.includes("This is a test task"), "Task description not displayed correctly.");
+    }
+
     // Verify the date label
-    const dateLabel = firstTask.querySelectorAll('label')[1]; // Assuming the second label is the date
+    const dateLabel = firstTask.querySelectorAll('label')[2]; // Assuming the third label is the date
     console.assert(dateLabel !== null, "Task date label element not found.");
 
     if (dateLabel) {
         console.assert(dateLabel.textContent.includes("2024-11-15"), "Task date not displayed correctly.");
     }
 
+    // Verify the completion label
+    const completeLabel = firstTask.querySelectorAll('label')[3]; // Assuming the fourth label is completion status
+    console.assert(completeLabel !== null, "Task completion label element not found.");
+
+    if (completeLabel) {
+        console.assert(completeLabel.textContent.includes("Completed: No"), "Task completion status not displayed correctly.");
+    }
+
     console.log("Test Add and Display Task: Passed");
 }
+
 
 
 function testClearTasks() {

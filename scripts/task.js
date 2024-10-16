@@ -21,40 +21,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function generateTasks() {
     const taskContainer = document.getElementById('taskContainer');
-    taskContainer.innerHTML = '';  // Clear previous tasks
 
-    // Load tasks from localStorage
-    let tasks = loadTaskInLocalStorage();
-    
-    if (tasks.length === 0) {
-        taskContainer.innerHTML = '<p>No tasks available</p>';
-        return;
-    }
+    // Clear previous tasks
+    taskContainer.innerHTML = '';
 
-    tasks.forEach((task, index) => {
+    // Loop through dynamicTaskArray to create task elements
+    dynamicTaskArray.forEach(task => {
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task';
 
+        // Create a label for the task name
         const taskLabel = document.createElement('label');
-        taskLabel.textContent = `Task ${index + 1}: ${task.taskName}`;
+        taskLabel.textContent = `Task: ${task.taskName}`;
+        taskLabel.className = 'taskLabel'; // Ensure this class is set
 
-        const taskDescription = document.createElement('p');
-        taskDescription.textContent = `Description: ${task.taskDescription}`;
+        // Create a label for the task description
+        const descLabel = document.createElement('label');
+        descLabel.textContent = `Description: ${task.taskDescription}`;
+        
+        // Create a label for the task due date
+        const dateLabel = document.createElement('label');
+        dateLabel.textContent = `Due Date: ${task.date}`;
 
-        const taskDate = document.createElement('p');
-        taskDate.textContent = `Due Date: ${task.date}`;
+        // Create a label for the completion status
+        const completeLabel = document.createElement('label');
+        completeLabel.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
 
-        const taskComplete = document.createElement('p');
-        taskComplete.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
-
+        // Append labels to the taskDiv
         taskDiv.appendChild(taskLabel);
-        taskDiv.appendChild(taskDescription);
-        taskDiv.appendChild(taskDate);
-        taskDiv.appendChild(taskComplete);
+        taskDiv.appendChild(descLabel);
+        taskDiv.appendChild(dateLabel);
+        taskDiv.appendChild(completeLabel);
 
+        // Append the taskDiv to the taskContainer
         taskContainer.appendChild(taskDiv);
     });
+
+    console.log("Tasks successfully shown.");
 }
+
 
 function loadTaskInLocalStorage() {
     let loadTask = localStorage.getItem("tasks");
