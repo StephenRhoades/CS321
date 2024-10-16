@@ -22,11 +22,29 @@ function testAddAndDisplayTask() {
     const firstTask = taskContainer.firstChild;
 
     console.assert(firstTask !== null, "No task found in task container.");
-    console.assert(firstTask.querySelector('.taskLabel').textContent.includes("Test Task"), "Task name not displayed correctly.");
-    console.assert(firstTask.querySelectorAll('label')[1].textContent.includes("2024-11-15"), "Task date not displayed correctly.");
+
+    // Add this to check if the structure is being created correctly
+    console.log(firstTask);
+
+    // Verify if the task has the class `.taskLabel`
+    const taskLabel = firstTask.querySelector('.taskLabel');
+    console.assert(taskLabel !== null, "Task label element not found.");
+    
+    if (taskLabel) {
+        console.assert(taskLabel.textContent.includes("Test Task"), "Task name not displayed correctly.");
+    }
+
+    // Verify the date label
+    const dateLabel = firstTask.querySelectorAll('label')[1]; // Assuming the second label is the date
+    console.assert(dateLabel !== null, "Task date label element not found.");
+
+    if (dateLabel) {
+        console.assert(dateLabel.textContent.includes("2024-11-15"), "Task date not displayed correctly.");
+    }
 
     console.log("Test Add and Display Task: Passed");
 }
+
 
 function testClearTasks() {
     // Manually add a few tasks to the dynamicTaskArray
