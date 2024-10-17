@@ -26,18 +26,24 @@ function testAddAndDisplayTask() {
     // Use a timeout to allow the DOM to update
     setTimeout(() => {
         const taskContainer = document.getElementById('taskContainer');
-        const firstTask = taskContainer.firstChild;
+        const firstTask = taskContainer.querySelector('.task');  // Find the first task div
 
+        // Ensure that the task exists
         assert(firstTask !== null, "No task found in task container.");
-        assert(firstTask.querySelector('.taskLabel').textContent.includes("Test Task"), "Task name not displayed correctly.");
-        assert(firstTask.querySelectorAll('label')[1].textContent.includes("2024-11-15"), "Task date not displayed correctly.");
-        
+
+        const taskLabel = firstTask.querySelector('.taskLabel');
+        assert(taskLabel !== null, "Task label element not found.");
+        assert(taskLabel.textContent.includes("Test Task"), "Task name not displayed correctly.");
+
+        const descLabel = firstTask.querySelectorAll('label')[1];  // Assuming second label is the description
+        assert(descLabel.textContent.includes("This is a test task"), "Task description not displayed correctly.");
+
+        const dateLabel = firstTask.querySelectorAll('label')[2];  // Assuming third label is the due date
+        assert(dateLabel.textContent.includes("2024-11-15"), "Task date not displayed correctly.");
+
         console.log("Test Add and Display Task: Passed");
-    }, 100); // Adjust the delay as needed
+    }, 100);  // Adjust delay if necessary
 }
-
-
-
 
 function testClearTasks() {
     // Manually add a few tasks to the dynamicTaskArray
@@ -51,13 +57,15 @@ function testClearTasks() {
     generateTasks();
 
     // Now simulate clearing tasks
-    generateTasks(0);
+    clearTasks();  // Correct function to clear the task container
 
-    // Check if the task container is empty
-    const taskContainer = document.getElementById('taskContainer');
-    assert(taskContainer.innerHTML === '', "Task container should be empty after clearing tasks.");
+    // Use a timeout to allow the DOM to update
+    setTimeout(() => {
+        const taskContainer = document.getElementById('taskContainer');
+        assert(taskContainer.innerHTML === '', "Task container should be empty after clearing tasks.");
 
-    console.log("Test Clear Tasks: Passed");
+        console.log("Test Clear Tasks: Passed");
+    }, 100); // Adjust delay if necessary
 }
 
 function testLoadTasksFromLocalStorage() {
