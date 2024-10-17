@@ -1,3 +1,4 @@
+New Feature-
 1:
 this is the list_view.html:
 <html>
@@ -215,3 +216,173 @@ This was the console output after doing all of your changes:
 script.js:17 taskContainer element not found."
 It seems that there is an issue with trying to access the taskContainer element from the opening page when that html is in a separate linked page from where the tasks are inputted. It seems that this issue might be fixed if tasks aren't regenerated upon creating a new task.
 
+Testing-
+1. I want to return to the work on the task list view. Could you write a couple test cases to run for the code you provided?
+
+2. I added these three functions and calls into a test.js like so:
+"function testAddAndDisplayTask() {
+    // Clear local storage before running the test
+    localStorage.clear();
+
+    // Manually add a task to the array and localStorage
+    let testTask = createTask("Test Task", "This is a test task", "General", "2024-11-15", false, false);
+    dynamicTaskArray.push(testTask);
+    saveTasksToLocalStorage();
+
+    // Simulate the task generation in the task view
+    generateTasks();
+
+    // Check if the taskContainer has the correct content
+    const taskContainer = document.getElementById('taskContainer');
+    const firstTask = taskContainer.firstChild;
+
+    console.assert(firstTask !== null, "No task found in task container.");
+    console.assert(firstTask.querySelector('.taskLabel').textContent.includes("Test Task"), "Task name not displayed correctly.");
+    console.assert(firstTask.querySelectorAll('label')[1].textContent.includes("2024-11-15"), "Task date not displayed correctly.");
+
+    console.log("Test Add and Display Task: Passed");
+}
+
+// Run the test
+testAddAndDisplayTask();
+
+function testClearTasks() {
+    // Manually add a few tasks to the dynamicTaskArray
+    dynamicTaskArray = [
+        createTask("Task 1", "Description 1", "None", "2024-12-12", false, false),
+        createTask("Task 2", "Description 2", "None", "2024-12-13", false, false)
+    ];
+    saveTasksToLocalStorage();
+
+    // Simulate displaying tasks
+    generateTasks();
+
+    // Now simulate clearing tasks
+    generateTasks(0);
+
+    // Check if the task container is empty
+    const taskContainer = document.getElementById('taskContainer');
+    console.assert(taskContainer.innerHTML === '', "Task container should be empty after clearing tasks.");
+
+    console.log("Test Clear Tasks: Passed");
+}
+
+// Run the test
+testClearTasks();
+
+function testLoadTasksFromLocalStorage() {
+    // Clear localStorage before the test
+    localStorage.clear();
+
+    // Add a task directly into localStorage
+    let taskList = [
+        createTask("Loaded Task 1", "Loaded description 1", "None", "2024-10-30", false, false)
+    ];
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+
+    // Simulate loading tasks from localStorage and displaying them
+    dynamicTaskArray = loadTaskInLocalStorage();
+    generateTasks();
+
+    // Check if the task was loaded correctly
+    const taskContainer = document.getElementById('taskContainer');
+    const firstTask = taskContainer.firstChild;
+
+    console.assert(firstTask !== null, "No task found after loading from localStorage.");
+    console.assert(firstTask.querySelector('.taskLabel').textContent.includes("Loaded Task 1"), "Loaded task name not displayed correctly.");
+    console.assert(firstTask.querySelectorAll('label')[1].textContent.includes("2024-10-30"), "Loaded task date not displayed correctly.");
+
+    console.log("Test Load Tasks from Local Storage: Passed");
+}
+
+// Run the test
+testLoadTasksFromLocalStorage(); "
+
+and added two extra src references in list_view.html like so:
+"<html>
+  <head>
+    <title>Link View</title>
+    <link rel="stylesheet" type="text/css" href="../../css/pages/list_view.css" />
+  </head>
+  <body>
+    <h2>Link View</h2>
+    <a href="../open_view.html"><button class="button">Home Page</button></a>
+    <div class="container">
+      <h1>Tasks! :D</h1>
+      <button id="show-tasks">Show me my tasks</button>
+      <button>Sort by Deadline</button>
+      <button>Sort Alphabetically</button>
+      <button id="clear-tasks">Clear</button>
+      <div id="taskContainer"></div> <!-- Ensure taskContainer exists -->
+    </div>
+
+    <!-- Move script to the bottom of body -->
+    <script src="../../scripts/task.js"></script>
+    <script src="../../scripts/script.js"></script>
+    <script src="../../scripts/tests.js"></script>
+  </body>
+</html> "
+
+When I now navigate to the list_view page I get this error on the console:
+"tests.js:18 Uncaught TypeError: Cannot read properties of null (reading 'textContent')
+    at testAddAndDisplayTask (tests.js:18:57)
+    at tests.js:25:1"
+
+Am I not setting up the testing code to run correctly? what might be done to fix this error?
+
+3. I implemented the changes you provided, but got the same error message. It seem that the line 
+console.assert(firstTask.querySelector('.taskLabel').textContent.includes("Test Task"), "Task name not displayed correctly.");
+is causing the error. Can you fix this?
+
+4. this is the full console readout upon traversing to the list_view.html page:
+DOM fully loaded and parsed
+task.js:7 taskContainer found
+script.js:2 DOM fully loaded and parsed
+tests.js:27 <div class=​"task">​…​</div>​
+tests.js:31 Assertion failed: Task label element not found.
+testAddAndDisplayTask @ tests.js:31
+(anonymous) @ tests.js:3
+tests.js:45 Test Add and Display Task: Passed
+tests.js:65 Assertion failed: Task container should be empty after clearing tasks.
+testClearTasks @ tests.js:65
+(anonymous) @ tests.js:4
+tests.js:67 Test Clear Tasks: Passed
+tests.js:89 Uncaught TypeError: Cannot read properties of null (reading 'textContent')
+    at testLoadTasksFromLocalStorage (tests.js:89:57)
+    at HTMLDocument.<anonymous> (tests.js:5:5)
+can you figure out a solution?
+
+5. with all of those changes made, this is the current console readout upon clicking over to the list_view page:
+"DOM fully loaded and parsed
+task.js:7 taskContainer found
+script.js:2 DOM fully loaded and parsed
+task.js:60 Tasks successfully shown.
+tests.js:27 <div class=​"task">​…​</div>​
+tests.js:34 Assertion failed: Task name not displayed correctly.
+testAddAndDisplayTask @ tests.js:34
+(anonymous) @ tests.js:3
+tests.js:42 Assertion failed: Task description not displayed correctly.
+testAddAndDisplayTask @ tests.js:42
+(anonymous) @ tests.js:3
+tests.js:50 Assertion failed: Task date not displayed correctly.
+testAddAndDisplayTask @ tests.js:50
+(anonymous) @ tests.js:3
+tests.js:61 Test Add and Display Task: Passed
+task.js:60 Tasks successfully shown.
+task.js:60 Tasks successfully shown.
+tests.js:82 Assertion failed: Task container should be empty after clearing tasks.
+testClearTasks @ tests.js:82
+(anonymous) @ tests.js:4
+tests.js:84 Test Clear Tasks: Passed
+task.js:60 Tasks successfully shown.
+tests.js:107 Assertion failed: Loaded task date not displayed correctly.
+testLoadTasksFromLocalStorage @ tests.js:107
+(anonymous) @ tests.js:5
+tests.js:109 Test Load Tasks from Local Storage: Passed"
+How should the code be changed to fix this?
+
+6. The code you wrote is identical to what I already have, also it seems that the test code will 
+indicate that the test passes at the end of the test whether or not it actually passes. Is it possible, 
+that the problem might be due to the tests running one after another or is the formatting incorrect for 
+the asserts? the list view does appear to look correct visually, so I would guess that the tests are not 
+either running correctly, or that the formatting is off.
