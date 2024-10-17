@@ -386,3 +386,134 @@ indicate that the test passes at the end of the test whether or not it actually 
 that the problem might be due to the tests running one after another or is the formatting incorrect for 
 the asserts? the list view does appear to look correct visually, so I would guess that the tests are not 
 either running correctly, or that the formatting is off.
+
+7. This is the current output of the console with those changes:
+"DOM fully loaded and parsed
+task.js:7 taskContainer found
+script.js:2 DOM fully loaded and parsed
+task.js:60 Tasks successfully shown.
+task.js:60 Tasks successfully shown.
+task.js:60 Tasks successfully shown.
+tests.js:10 Uncaught Error: Task container should be empty after clearing tasks.
+    at assert (tests.js:10:15)
+    at testClearTasks (tests.js:58:5)
+    at HTMLDocument.<anonymous> (tests.js:4:5)
+assert @ tests.js:10
+testClearTasks @ tests.js:58
+(anonymous) @ tests.js:4
+tests.js:10 Uncaught Error: Task name not displayed correctly.
+    at assert (tests.js:10:15)
+    at tests.js:32:9
+assert @ tests.js:10
+(anonymous) @ tests.js:32
+setTimeout
+testAddAndDisplayTask @ tests.js:27
+(anonymous) @ tests.js:3"
+It appears to fail due to incorrectly calling generateTasks(0); instead of clearTasks();.
+here is the task.js code that is being called on:
+Javascript
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed");
+
+    // Check if taskContainer exists (only on list view page)
+    const taskContainer = document.getElementById('taskContainer');
+    if (taskContainer) {
+        console.log("taskContainer found");
+
+        // Attach event listener to show tasks
+        document.getElementById('show-tasks')?.addEventListener('click', function(event) {
+            event.preventDefault();
+            generateTasks();  // Call generateTasks to show stored tasks
+        });
+
+        document.getElementById('clear-tasks')?.addEventListener('click', function(event) {
+            event.preventDefault();
+            clearTasks();
+        });
+    }
+});
+
+function generateTasks() {
+    const taskContainer = document.getElementById('taskContainer');
+
+    // Clear previous tasks
+    taskContainer.innerHTML = '';
+
+    // Loop through dynamicTaskArray to create task elements
+    dynamicTaskArray.forEach(task => {
+        const taskDiv = document.createElement('div');
+        taskDiv.className = 'task';
+
+        // Create a label for the task name
+        const taskLabel = document.createElement('label');
+        taskLabel.textContent = `Task: ${task.taskName}`;
+        taskLabel.className = 'taskLabel'; // Ensure this class is set
+
+        // Create a label for the task description
+        const descLabel = document.createElement('label');
+        descLabel.textContent = `Description: ${task.taskDescription}`;
+        
+        // Create a label for the task due date
+        const dateLabel = document.createElement('label');
+        dateLabel.textContent = `Due Date: ${task.date}`;
+
+        // Create a label for the completion status
+        const completeLabel = document.createElement('label');
+        completeLabel.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
+
+        // Append labels to the taskDiv
+        taskDiv.appendChild(taskLabel);
+        taskDiv.appendChild(descLabel);
+        taskDiv.appendChild(dateLabel);
+        taskDiv.appendChild(completeLabel);
+
+        // Append the taskDiv to the taskContainer
+        taskContainer.appendChild(taskDiv);
+    });
+
+    console.log("Tasks successfully shown.");
+}
+
+
+function loadTaskInLocalStorage() {
+    let loadTask = localStorage.getItem("tasks");
+    return loadTask ? JSON.parse(loadTask) : [];
+}
+
+function clearTasks() {
+    const taskContainer = document.getElementById('taskContainer');
+    taskContainer.innerHTML = '';
+}
+
+8. After implementing your changes, this was the readout of the console:
+"DOM fully loaded and parsed
+task.js:7 taskContainer found
+script.js:2 DOM fully loaded and parsed
+task.js:60 Tasks successfully shown.
+task.js:60 Tasks successfully shown.
+task.js:60 Tasks successfully shown.
+tests.js:10 Uncaught Error: Loaded task date not displayed correctly.
+    at assert (tests.js:10:15)
+    at testLoadTasksFromLocalStorage (tests.js:91:5)
+    at HTMLDocument.<anonymous> (tests.js:5:5)
+assert @ tests.js:10
+testLoadTasksFromLocalStorage @ tests.js:91
+(anonymous) @ tests.js:5
+tests.js:10 Uncaught Error: Task name not displayed correctly.
+    at assert (tests.js:10:15)
+    at tests.js:36:9
+assert @ tests.js:10
+(anonymous) @ tests.js:36
+setTimeout
+testAddAndDisplayTask @ tests.js:27
+(anonymous) @ tests.js:3
+tests.js:10 Uncaught Error: Task container should be empty after clearing tasks.
+    at assert (tests.js:10:15)
+    at tests.js:65:9
+assert @ tests.js:10
+(anonymous) @ tests.js:65
+setTimeout
+testClearTasks @ tests.js:63
+(anonymous) @ tests.js:4"
+
+9. 
