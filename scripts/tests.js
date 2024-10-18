@@ -14,6 +14,7 @@ function assert(condition, message) {
 function testAddAndDisplayTask() {
     // Clear local storage before running the test
     localStorage.clear();
+    console.log("Hello");
 
     // Manually add a task to the array and localStorage
     let testTask = createTask("Test Task", "This is a test task", "General", "2024-11-15", false, false);
@@ -24,6 +25,30 @@ function testAddAndDisplayTask() {
     generateTasks();
 
     // Use a timeout to allow the DOM to update
+    
+    const taskContainer = document.getElementById('taskContainer');
+    const firstTask = taskContainer.querySelector('.task');
+
+    assert(firstTask !== null, "No task found in task container.");
+
+    const taskLabel = firstTask.querySelector('.taskLabel');
+    assert(taskLabel !== null, "Task name element not found.");
+    //assert(firstTask.textContent.includes("Test Task"), firstTask.textContent)
+    //assert(taskLabel.textContent.includes("Test Task"), taskLabel.textContent);
+    assert(taskLabel.textContent.includes("Test Task"), "Task name not displayed correctly. Line 36");
+        
+
+    const descLabel = firstTask.querySelectorAll('label')[1];
+    //assert(descLabel.textContent.includes("This is a test task"), dynamicTaskArray);
+    assert(descLabel.textContent.includes("This is a test task"), "Task description not displayed correctly.");
+
+    const dateLabel = firstTask.querySelectorAll('label')[2];
+    assert(dateLabel.textContent.includes("2024-11-15"), "Task date not displayed correctly.");
+
+    console.log("Test Add and Display Task: Passed");
+    
+    
+    /*
     setTimeout(() => {
         const taskContainer = document.getElementById('taskContainer');
         const firstTask = taskContainer.querySelector('.task');
@@ -32,7 +57,10 @@ function testAddAndDisplayTask() {
 
         const taskLabel = firstTask.querySelector('.taskLabel');
         assert(taskLabel !== null, "Task name element not found.");
-        assert(taskLabel.textContent.includes("Test Task"), "Task name not displayed correctly.");
+        //assert(firstTask.textContent.includes("Test Task"), firstTask.textContent)
+        //assert(taskLabel.textContent.includes("Test Task"), taskLabel.textContent);
+        assert(taskLabel.textContent.includes("Test Task"), "Task name not displayed correctly. Line 36");
+        
 
         const descLabel = firstTask.querySelectorAll('label')[1];
         assert(descLabel.textContent.includes("This is a test task"), "Task description not displayed correctly.");
@@ -42,6 +70,8 @@ function testAddAndDisplayTask() {
 
         console.log("Test Add and Display Task: Passed");
     }, 100);
+    */
+    
 }
 
 function testClearTasks() {
@@ -59,12 +89,23 @@ function testClearTasks() {
     clearTasks();  // Correct function to clear the task container
 
     // Use a timeout to allow the DOM to update
+
+    
+    const taskContainer = document.getElementById('taskContainer');
+    assert(taskContainer.innerHTML.trim() === '', "Task container should be empty after clearing tasks. Line 88");
+
+    console.log("Test Clear Tasks: Passed");
+    
+
+    /*
     setTimeout(() => {
         const taskContainer = document.getElementById('taskContainer');
-        assert(taskContainer.innerHTML.trim() === '', "Task container should be empty after clearing tasks.");
+        assert(taskContainer.innerHTML.trim() === '', "Task container should be empty after clearing tasks. Line 88");
 
         console.log("Test Clear Tasks: Passed");
     }, 100);  // Adjust delay if necessary
+    */
+    
 }
 
 function testLoadTasksFromLocalStorage() {
@@ -90,7 +131,7 @@ function testLoadTasksFromLocalStorage() {
 
         const taskLabel = firstTask.querySelector('.taskLabel');
         assert(taskLabel !== null, "Task name element not found.");
-        assert(taskLabel.textContent.includes("Loaded Task 1"), "Loaded task name not displayed correctly.");
+        assert(taskLabel.textContent.includes("Loaded Task 1"), "Loaded task name not displayed correctly. Line 96");
 
         const dateLabel = firstTask.querySelectorAll('label')[2];  // Assuming third label is the due date
         assert(dateLabel.textContent.includes("2024-10-30"), "Loaded task date not displayed correctly.");

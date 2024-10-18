@@ -23,7 +23,10 @@ function generateTasks() {
     const taskContainer = document.getElementById('taskContainer');
 
     // Clear previous tasks
-    taskContainer.innerHTML = '';
+    /*taskContainer.innerHTML = '';*/
+    clearTasks();
+    localStorage.clear();
+    //saveTasksToLocalStorage();
 
     // Loop through dynamicTaskArray to create task elements
     dynamicTaskArray.forEach(task => {

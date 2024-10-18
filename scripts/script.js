@@ -1,3 +1,5 @@
+let dynamicTaskArray = loadTaskInLocalStorage();
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed");
     
@@ -29,7 +31,7 @@ function addTask(event) {
     form.reset();  // This will clear the form after submitting
 }
 
-let dynamicTaskArray = loadTaskInLocalStorage();
+//let dynamicTaskArray = loadTaskInLocalStorage();
 
 function saveTasksToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(dynamicTaskArray));
