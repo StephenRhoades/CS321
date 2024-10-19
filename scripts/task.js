@@ -2,6 +2,7 @@
 *     - Adding a task
 *     - Removing a task
 *     - Modifying a task
+*     - Sorting tasks (deadline, alphabetical, etc)
 */
 
 
