@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed");
-    
+    // test
     document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
         addTask(event);
     });
