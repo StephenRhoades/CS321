@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed: listViewTest");
     // Run tests after DOM is loaded
     testAddAndDisplayTask();
     testClearTasks();
