@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  console.log("DOM fully loaded and parsed: openView");
-
-  var checkList = document.getElementById('list1');
+  var checkList = document.getElementById('task-recur');
   checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
     if (checkList.classList.contains('visible'))
       checkList.classList.remove('visible');

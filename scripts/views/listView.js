@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function generateTasks() {
     const taskContainer = document.getElementById('taskContainer');
     taskContainer.innerHTML = '';  // Clear previous tasks
-    localStorage.clear();
+    // localStorage.clear();
 
     // Load tasks from localStorage
     let tasks = loadTaskInLocalStorage();
