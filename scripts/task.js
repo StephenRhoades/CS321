@@ -1,3 +1,10 @@
+/* All task modifying related functions:
+*     - Adding a task
+*     - Removing a task
+*     - Modifying a task
+*/
+
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed: task");
 
