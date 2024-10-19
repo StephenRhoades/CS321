@@ -1,7 +1,7 @@
 # CS321
 CS 321 group 2 class project: Task Tracker Chrom Extension.
 
-## This is non-functional currently, but should be how this will be accomplished
+## This is only partially functional currently.
 To run this extension, click the green button on the right half with the text "<> code" and then select download zip from the resultant dropdown. 
 You will then want to unzip the folder and ensure that the manifest.json is in the base folder. 
 You can then go to your desired browser and traverse to the manage extensions page by inputing the url "chrome://extensions" into the header. If you are in a browser aside from chrome, this should still work but you can manually replace chrome with the name of your browser if that doesn't happen automatically.
