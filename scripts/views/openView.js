@@ -1,3 +1,6 @@
+/* Event Listener for the recurring tasks dropdown.
+* Just makes the dropdown visible or not visible.
+*/
 document.addEventListener('DOMContentLoaded', function() {
   var checkList = document.getElementById('task-recur');
   checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
