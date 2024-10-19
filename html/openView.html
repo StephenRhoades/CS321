@@ -32,18 +32,20 @@
           <label for="task-desc">Description:</label>
           <textarea id="task-desc" name="task-desc" rows="4" placeholder="Enter task description"></textarea>
         </div>
-        <div class="form-group">
-          <label for="task-recur">Repeat Every:</label>
-          <select id="task-recur" name="task-recur">
-            <option value="Every Monday">Every Monday</option>
-            <option value="Every Tuesday">Every Tuesday</option>
-            <option value="Every Wednesday">Every Wednesday</option>
-            <option value="Every Thursday">Every Thursday</option>
-            <option value="Every Friday">Every Friday</option>
-            <option value="Every Saturday">Every Saturday</option>
-            <option value="Every Sunday">Every Sunday</option>
-          </select>
-        </div>
+
+          <div id="list1" class="dropdown-check-list" tabindex="100">
+            <span class="anchor">Repeat Every</span>
+            <ul class="items">
+              <li><input type="checkbox" />Monday </li>
+              <li><input type="checkbox" />Tuesday</li>
+              <li><input type="checkbox" />Wednesday </li>
+              <li><input type="checkbox" />Thursday </li>
+              <li><input type="checkbox" />Friday</li>
+              <li><input type="checkbox" />Saturday </li>
+              <li><input type="checkbox" />Sunday</li>
+            </ul>
+          </div>
+	      
         <div class="form-group">
           <label for="task-rem">Remind Me:</label>
           <select id="task-rem" name="task-rem">
