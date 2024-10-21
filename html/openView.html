@@ -1,16 +1,18 @@
 <html>
   <head>
     <title>The Task Tracker</title>
-    <link rel="stylesheet" type="text/css" href="../css/open_view_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/openViewStyles.css" />
+    <script type="text/javascript" src="../scripts/task.js"></script>
+    <script type="text/javascript" src="../scripts/views/openView.js"></script>
+    <!-- <script type="text/javascript" src="../scripts/tests/openViewTest.js"></script> -->
   </head>
 	
   <body>
 
     <div class="buttons-container">
-      <a href="pages/calendar_view.html"><button class="button">View the Calendar</button></a>
-	  <a href="pages/list_view.html"><button class="button">List View</button></a>
-      <a href="pages/task_page.html"><button class="button">Add Task</button></a>
-	  <a href="pages/settings.html"><button class="button">Settings</button></a>
+      <a href="pages/calendarView.html"><button class="button">View the Calendar</button></a>
+	    <a href="pages/listView.html"><button class="button">List View</button></a>
+	    <a href="pages/settings.html"><button class="button">Settings</button></a>
     </div>
   
     <div class="add-task-section">
@@ -32,21 +34,23 @@
           <label for="task-desc">Description:</label>
           <textarea id="task-desc" name="task-desc" rows="4" placeholder="Enter task description"></textarea>
         </div>
-        <div class="form-group">
-          <label for="task-recur">Repeat Every:</label>
-          <select>
-            <option value="Every Monday">Every Monday</option>
-            <option value="Every Tuesday">Every Tuesday</option>
-            <option value="Every Wednesday">Every Wednesday</option>
-            <option value="Every Thursday">Every Thursday</option>
-            <option value="Every Friday">Every Friday</option>
-            <option value="Every Saturday">Every Saturday</option>
-            <option value="Every Sunday">Every Sunday</option>
-          </select>
-        </div>
+
+          <div id="task-recur" class="form-group dropdown-check-list" tabindex="100">
+            <span class="anchor">Repeat Every</span>
+            <ul class="items">
+              <li><input type="checkbox" />Monday </li>
+              <li><input type="checkbox" />Tuesday</li>
+              <li><input type="checkbox" />Wednesday </li>
+              <li><input type="checkbox" />Thursday </li>
+              <li><input type="checkbox" />Friday</li>
+              <li><input type="checkbox" />Saturday </li>
+              <li><input type="checkbox" />Sunday</li>
+            </ul>
+          </div>
+	      
         <div class="form-group">
           <label for="task-rem">Remind Me:</label>
-          <select>
+          <select id="task-rem" name="task-rem">
             <option value="15m">15 minutes before</option>
             <option value="30m">30 minutes before</option>
             <option value="1h">1 hour before</option>
@@ -57,6 +61,6 @@
         <button id="submit-task-button" class="submit-button">Add Task</button>
       </form>
     </div>
-  
+	  
   </body>
 </html>
