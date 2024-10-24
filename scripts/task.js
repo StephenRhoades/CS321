@@ -35,26 +35,29 @@ async function addTask(event) {
     const taskDesc = formData.get('task-desc'); 
     const taskDate = formData.get('task-date');
     const taskTime = formData.get('task-time');
-    // const taskRecur = formData.get('task-recur'); 
+    const taskRecur = formData.get('task-recur'); 
+    const taskReminder = Number(formData.get('task-rem'));
+    console.log(typeof taskReminder + ' ' + taskReminder);
 
     const date = taskDate + ' ' + taskTime;
-    console.log(date);
+    const reminder = taskReminder * 60 * 1000;
+    
     const taskId = await generateTaskId();
-    const task = createTask(taskId, taskName, taskDesc, 'None', date, false, false);
+    const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
 
     console.log("Saving task:", task);
 
-    // Add the new task to the task array and save it to localStorage
     dynamicTaskArray.push(task);
-    setAlarm(task);
     saveTasksToLocalStorage();
 
-    // Form submission or reset
-    form.reset();  // This will clear the form after submitting
+    setAlarm(task);
+
+    form.reset(); 
 }
 
 function setAlarm(task){
-    chrome.runtime.sendMessage("alarm," + Number(task.id) + "," + Date.parse(task.date) + "," + (1000 * 60)); //1 minute
+    chrome.runtime.sendMessage("alarm," + Number(task.id) + "," + task.taskName + "," + Date.parse(task.date) + 
+    "," + task.reminder); 
 }
 
 let dynamicTaskArray = loadTaskInLocalStorage();
@@ -74,6 +77,6 @@ function loadTaskInLocalStorage() {
     }
 }
 
-function createTask(id, taskName, taskDescription, taskCategory, date, complete, recurring) {
-    return {id, taskName, taskDescription, taskCategory, date, complete, recurring};
+function createTask(id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring) {
+    return {id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring};
 }

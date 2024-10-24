@@ -3,7 +3,7 @@ const STORAGE_KEY = "user-preference-alarm-enabled";
 /**
  * 
  */
-async function onInstall() {
+function onInstall() {
   chrome.runtime.onInstalled.addListener(() => {
     console.log('Task Tracker extension installed.');
   
@@ -15,13 +15,19 @@ async function onInstall() {
  */
 async function notify() {
   chrome.alarms.onAlarm.addListener((alarm) => {
-    if (alarm.name.startsWith('taskReminder_')) {
+    if (alarm.name.startsWith('taskReminder')) {
       console.log(alarm.name + " alarm!");
+
+      let name = alarm.name.substring(alarm.name.indexOf('_') + 1, alarm.name.lastIndexOf('_'));
+      let timeBefore = Number(alarm.name.substring(alarm.name.lastIndexOf('_') + 1));
+
+      const time = parseTimeBefore(timeBefore);
+      
       chrome.notifications.create({
         type: 'basic',
         iconUrl: '../images/taskIcon.png',
         title: 'Task Reminder',
-        message: 'Task ' + alarm.name.substring(12) + ' is due soon!'
+        message: 'Task ' + name + ' is due ' + time + '!'
       });
     }
   });
@@ -29,18 +35,54 @@ async function notify() {
 
 /**
  * 
+ * @param {Number} timeBefore 
+ * @returns A string formated to list the days, hours, and minutes left till the item is due.
  */
-async function addMessageListener(){
+function parseTimeBefore(timeBefore){
+  console.log(timeBefore);
+  const days = Math.floor(timeBefore / (24*60*60*1000));
+  const hours = Math.floor((timeBefore % (24*60*60*1000)) / (60*60*1000));
+  const minutes = Math.floor((timeBefore % (60*60*1000)) / (60*1000));
+  
+  let time = "in";
+
+  if (days > 0) {
+    time += " " +  days + " day";
+    if (days > 1) {
+      time += "s";
+    }
+  }
+  if (hours > 0) {
+    time += " " + hours + " hour";
+    if (hours > 1) {
+      time += "s";
+    }
+  }
+  if (minutes > 0) {
+    time += " " + minutes + " minute";
+    if (minutes > 1) {
+      time += "s";
+    }
+  }
+  if (time === "in")
+    time = "now";
+  return time;
+}
+
+/**
+ * Listens for any messages from other js files and handles them in specific ways depending on the 
+ * first reference listed. All messages should split any data from the command by commas with no 
+ * spaces. (ie. "alarm,id,name,date,reminder")
+ * Current commands:
+ * "alarm"
+ */
+function addMessageListener(){
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log('Background received:', message);
     values = message.split(',');
+    console.log(values);
     if (values[0] === "alarm") {
-      console.log("task is " + values[1]);
-      console.log(values[1]);
-      console.log("task date " + values[2]);
-      console.log("reminder time" + values[3]);
-      console.log(getReminderTime(values[2], values[3]));
-      createTaskAlarm(values[1], getReminderTime(values[2], values[3]));
+      createTaskAlarm(values[1], getReminderTime(values[3], values[4]), values[4], values[2]);
     }
     sendResponse({ status: 'received' });
   });
@@ -56,32 +98,33 @@ async function addMessageListener(){
  * @returns the date to set the reminder
  */
 function getReminderTime(dueDate, reminderPeriod) {
-
   return new Date(dueDate - reminderPeriod);
 }
 
 /**
  * 
  * @param {int} taskId 
- * @param {Date} reminderTime 
+ * @param {Date} reminderDate 
+ * @param {int} timeBefore 
+ * @param {String} name
  */
-function createTaskAlarm(taskId, reminderTime) {
+function createTaskAlarm(taskId, reminderDate, timeBefore, name) {
   try {
-    if (!(reminderTime instanceof Date)) {
-      console.error('Invalid reminderTime: not a Date object');
-      return;
+    if (!(reminderDate instanceof Date)) {
+      console.error('Invalid reminderDate: not a Date object');
+      exit(1);
     }
 
-    const timestamp = reminderTime.getTime();
+    const timestamp = reminderDate.getTime();
 
     if (isNaN(timestamp)) {
-      console.error('Invalid Date: reminderTime results in NaN');
-      return;
+      console.error('Invalid Date: reminderDate results in NaN');
+      exit(1);
     }
 
     console.log('Reminder time in ms:', timestamp);
 
-    chrome.alarms.create(`taskReminder_${taskId}`, {
+    chrome.alarms.create(`taskReminder${taskId}_${name}_${timeBefore}`, {
         when: timestamp
     });
   } catch (error) {
