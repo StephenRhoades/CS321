@@ -34,7 +34,8 @@ async function notify() {
 }
 
 /**
- * 
+ * This will parse the Number value of the timeBefore to be in the format:
+ * "# days, # hours, # minutes" or "now" if less than a minute.
  * @param {Number} timeBefore 
  * @returns A string formated to list the days, hours, and minutes left till the item is due.
  */
@@ -130,6 +131,14 @@ function createTaskAlarm(taskId, reminderDate, timeBefore, name) {
   } catch (error) {
     console.error('Error creating task alarm:', error);
   }
+}
+
+/**
+ * Delete a created alarm by ID
+ * @param {int} taskId 
+ */
+function deleteTaskAlarm(taskId) {
+  
 }
 
 onInstall();

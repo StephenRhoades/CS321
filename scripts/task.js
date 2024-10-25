@@ -37,7 +37,6 @@ async function addTask(event) {
     const taskTime = formData.get('task-time');
     const taskRecur = formData.get('task-recur'); 
     const taskReminder = Number(formData.get('task-rem'));
-    console.log(typeof taskReminder + ' ' + taskReminder);
 
     const date = taskDate + ' ' + taskTime;
     const reminder = taskReminder * 60 * 1000;

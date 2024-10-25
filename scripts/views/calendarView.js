@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Utility method to check if a task exists on a given date
         hasTaskOnDate(dateString) {
-            return this.tasks.some(task => task.date === dateString);
+            return this.tasks.some(task => task.date.split(' ')[0] === dateString);
         }
 
         // Utility method to format the date as YYYY-MM-DD (used for task matching)
