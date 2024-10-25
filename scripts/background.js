@@ -1,7 +1,7 @@
 const STORAGE_KEY = "user-preference-alarm-enabled";
 
 /**
- * 
+ * Basic logging run on installation of the Task Tracker.
  */
 function onInstall() {
   chrome.runtime.onInstalled.addListener(() => {
@@ -11,7 +11,7 @@ function onInstall() {
 }
 
 /**
- * 
+ * This will create a listener that generates a notification upon an alarm going off.
  */
 async function notify() {
   chrome.alarms.onAlarm.addListener((alarm) => {
@@ -103,11 +103,13 @@ function getReminderTime(dueDate, reminderPeriod) {
 }
 
 /**
+ * Generates an alarm based on the task id, name, reminder date, and alert time
+ * that will run in the background until going off.
  * 
- * @param {int} taskId 
+ * @param {int} taskId the id of the task to set the alarm for.
  * @param {Date} reminderDate 
  * @param {int} timeBefore 
- * @param {String} name
+ * @param {String} name the name of the task to set the alarm for.
  */
 function createTaskAlarm(taskId, reminderDate, timeBefore, name) {
   try {
@@ -134,11 +136,11 @@ function createTaskAlarm(taskId, reminderDate, timeBefore, name) {
 }
 
 /**
- * Delete a created alarm by ID
- * @param {int} taskId 
+ * Delete a created alarm by id
+ * @param {int} taskId the id of the task to delete.
  */
 function deleteTaskAlarm(taskId) {
-  
+
 }
 
 onInstall();
