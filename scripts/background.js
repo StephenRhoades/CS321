@@ -1,5 +1,9 @@
 const STORAGE_KEY = "user-preference-alarm-enabled";
 
+onInstall();
+notify();
+addMessageListener();
+
 /**
  * Basic logging run on installation of the Task Tracker.
  */
@@ -142,7 +146,3 @@ function createTaskAlarm(taskId, reminderDate, timeBefore, name) {
 function deleteTaskAlarm(taskId) {
 
 }
-
-onInstall();
-notify();
-addMessageListener();

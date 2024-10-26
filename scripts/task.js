@@ -1,17 +1,16 @@
-/* All task modifying related functions:
-*     - Adding a task
-*     - Removing a task
-*     - Modifying a task
-*     - Sorting tasks (deadline, alphabetical, etc)
-*/
+let dynamicTaskArray = loadTaskInLocalStorage();
 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded and parsed: task");
+submitTask();
 
-    document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
-        addTask(event);
+function submitTask() {
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("DOM fully loaded and parsed: task");
+
+        document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
+            addTask(event);
+        });
     });
-});
+}
 
 async function generateTaskId() {
     return new Promise((resolve, reject) => {
@@ -58,8 +57,6 @@ function setAlarm(task){
     chrome.runtime.sendMessage("alarm," + Number(task.id) + "," + task.taskName + "," + Date.parse(task.date) + 
     "," + task.reminder); 
 }
-
-let dynamicTaskArray = loadTaskInLocalStorage();
 
 function saveTasksToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(dynamicTaskArray));
