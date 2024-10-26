@@ -145,6 +145,6 @@ function createTaskAlarm(taskId, reminderDate, timeBefore, name) {
  * @param {int} alarmTime the timeBefore of the alarm to delete.
  * @return 1 if successful, -1 if failed.
  */
-function deleteTaskAlarm(taskId) {
-
+function deleteTaskAlarm(alarmId, alarmTime) {
+  
 }
