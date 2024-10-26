@@ -36,7 +36,7 @@ async function notify() {
 /**
  * This will parse the Number value of the timeBefore to be in the format:
  * "# days, # hours, # minutes" or "now" if less than a minute.
- * @param {Number} timeBefore 
+ * @param {Number} timeBefore the number of miliseconds befor the task is scheduled.
  * @returns A string formated to list the days, hours, and minutes left till the item is due.
  */
 function parseTimeBefore(timeBefore){
@@ -94,8 +94,8 @@ function addMessageListener(){
  * the due date and the time before due that the user wants to be 
  * reminded.
  * 
- * @param {Number} reminderPeriod 
- * @param {Number} dueDate 
+ * @param {Number} reminderPeriod The time before the task to be reminded.
+ * @param {Number} dueDate the time that the task is scheduled for.
  * @returns the date to set the reminder
  */
 function getReminderTime(dueDate, reminderPeriod) {
@@ -107,8 +107,8 @@ function getReminderTime(dueDate, reminderPeriod) {
  * that will run in the background until going off.
  * 
  * @param {int} taskId the id of the task to set the alarm for.
- * @param {Date} reminderDate 
- * @param {int} timeBefore 
+ * @param {Date} reminderDate the exact time of reminder alarm.
+ * @param {int} timeBefore the time before the task date of the alarm.
  * @param {String} name the name of the task to set the alarm for.
  */
 function createTaskAlarm(taskId, reminderDate, timeBefore, name) {
@@ -146,4 +146,3 @@ function deleteTaskAlarm(taskId) {
 onInstall();
 notify();
 addMessageListener();
-
