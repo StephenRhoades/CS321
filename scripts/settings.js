@@ -14,27 +14,64 @@ function setTheme(theme){
 }
 
 /**
+ * Changes default window background color.
+ * 
+ * @param {String} color Specifies background color to be set.
+ */
+function setBackgroundColor(color){
+
+}
+
+/**
  * Changes default font size/scaling.
  * 
  * @param {String} size Specifies font size to be set.
  */
-function setFont(size){
+function setFontSize(size){
+
+}
+
+/**
+ * Changes default font color.
+ * 
+ * @param {String} color Specifies font size to be set.
+ */
+function setFontColor(color){
 
 }
 
 /**
  * Changes default window size/scaling.
  * 
- * @param {String} size Specifies window size to be set.
+ * @param {Number} height Specifies window height to be set.
+ * @param {Number} width  Specifies window width to be set.
  */
-function setWindow(size){
+function setWindow(height, width){
+
+}
+
+/**
+ * Changes default window height size/scaling.
+ * 
+ * @param {Number} height Specifies window height to be set.
+ */
+function setWindowHeight(height){
+
+}
+
+/**
+ * Changes default window width size/scaling.
+ * 
+ * @param {Number} width Specifies window size to be set.
+ */
+function setWindowWidth(width){
 
 }
 
 /**
  * Toggles default task input form between comprehensive and quick input schemes.
  */
-function toggleTaskDefault(){
+function toggleQuickAdd(){
 
 }
 
@@ -60,6 +97,17 @@ function removeDatePreset(){
 
 }
 
+
+
+/************************************************************
+ *                                                          *
+ * Below are some QOL additions but not necessary me thinks.*
+ * Or i'm not sure how hard they'd be to implement.         *
+ *                                                          *
+ ***********************************************************/
+
+
+
 /**
  * Sets a default time to autofill a new tasks time field.
  * 
@@ -77,20 +125,6 @@ function setTimePreset(hour, minute, tod){
 function removeTimePreset(){
 
 }
-
-
-
-
-
-
-
-/*
- *
- * Below are some QOL additions but not necessary me thinks.
- * Or i'm not sure how hard they'd be to implement.
- * 
- */
-
 
 /**
  * Adds a new custome option for a task to be repeated.
