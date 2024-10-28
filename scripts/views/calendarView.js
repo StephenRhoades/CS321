@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 		
 		/**
-		*    Method to highlight the days in the calendar if there are tasks associated with the date.
-		*    Should highlight color based on priority
+		*   Method to highlight the days in the calendar if there are tasks associated with the date.
+		*   Should highlight color based on priority
   		*	@param {String} dateString which is the selected day.
 		*/
 		highlightDay(dateString){
@@ -84,7 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 
 		/**
-		*    Method to show the selected day's tasks, if any
+		*   Method to show the selected day's tasks, if any
+  		*	Will link with html to get a task view to select a specific task on the day
+		*	The selected task should be able to be modified, removed, or just viewed in more detail
   		*	@param {String} dateString which is the selected day
 		*/
 		expandDay(dateString){
@@ -92,43 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			{
 
 			}
-		}
-		
-		/**
-		*    Method to quick add from the calendar view
-  		* 	@param {int} taskId which is the id of the new task
-		*	@param {String} title which is the name of the task
-  		*	@param {String} deadline which is the date of the deadline in string format
-		*	@param {String} category which is the category of the task to combine all of the same category of tasks
-		* 	@param {int} priority which is the order of priority the task has, lower number = higher priority
-  		*	@return true if the task was added successfully, false otherwise
-		*/
-		quickAdd(taskId, title, category, deadline, priority){
-			return false;
-		}
-
-		/**
-		*    Method to change task from calendar using their title
-  		* 	@param {int} taskId which is the id of the task to find
-		*	@param {String} newTitle which is the new name of the task, if blank/null, don't change
-  		*	@param {String} newDeadline which is the new date of the deadline in string format, if blank/null, don't change
-		*	@param {String} newCategory which is the new category of the task, if blank/null, don't change
-		* 	@param {int} newPriority which is the new order of priority the task has, lower number = higher priority, if blank/null, don't change
-  		*	@param {boolean} newRecurring which decides if the task will be recurring, true to recur, false to not recur
-		*	@return true if the task was successfully changed, false otherwise
-		*/
-		modifyTask(taskId, newTitle, newCategory, newDeadline, newPriority, newRecurring){
-			return false;
-		}
-
-		/**
-		*    Method to remove task from calendar
-		*    Returns the removed task
-  		*	@param {int} taskId which is the id of the task to remove
-		*	@return the name of the task
-		*/
-		removeTask(taskId){
-			return null;
 		}
     }
 
