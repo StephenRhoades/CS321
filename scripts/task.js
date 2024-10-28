@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
 function addTask(event) {
     event.preventDefault();
 
@@ -43,6 +44,7 @@ function saveTasksToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(dynamicTaskArray));
 }
 
+
 function loadTaskInLocalStorage() {
     let loadTask = localStorage.getItem("tasks");
 
@@ -54,6 +56,16 @@ function loadTaskInLocalStorage() {
     }
 }
 
+
 function createTask(taskName, taskDescription, taskCategory, date, complete, recurring) {
     return {taskName, taskDescription, taskCategory, date, complete, recurring};
+}
+
+function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring){
+    taskObject.taskName=taskName;
+    taskObject.taskDescription=taskDescription;
+    taskObject.taskCategory=taskCategory;
+    taskObject.date=date;
+    taskObject.complete=complete;
+    taskObject.recurring=recurring;
 }
