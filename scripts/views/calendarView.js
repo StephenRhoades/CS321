@@ -74,27 +74,27 @@ document.addEventListener('DOMContentLoaded', function() {
             return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         }
 		
-		/**
-		*   Method to highlight the days in the calendar if there are tasks associated with the date.
-		*   Should highlight color based on priority
-  		*	@param {String} dateString which is the selected day.
-		*/
-		highlightDay(dateString){
-			currentTasks = [];
-		}
+	/**
+	*   Method to highlight the days in the calendar if there are tasks associated with the date.
+	*   Should highlight color based on priority
+  	*	@param {String} dateString which is the selected day.
+	*/
+	highlightDay(dateString){
+		currentTasks = [];
+	}
 
-		/**
-		*   Method to show the selected day's tasks, if any
-  		*	Will link with html to get a task view to select a specific task on the day
-		*	The selected task should be able to be modified, removed, or just viewed in more detail
-  		*	@param {String} dateString which is the selected day
-		*/
-		expandDay(dateString){
-			if(hasTaskOnDate(dateString))
-			{
+	/**
+	*   Method to show the selected day's tasks, if any
+  	*	Will link with html to get a task view to select a specific task on the day
+	*	The selected task should be able to be modified, removed, or just viewed in more detail
+ 	*	@param {String} dateString which is the selected day
+	*/
+	expandDay(dateString){
+		if(hasTaskOnDate(dateString))
+		{
 
-			}
 		}
+	}
     }
 
     // Initialize the calendar
