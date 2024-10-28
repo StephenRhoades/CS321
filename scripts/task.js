@@ -73,6 +73,11 @@ function loadTaskInLocalStorage() {
     }
 }
 
+function clearStorage() {
+    localStorage.clear();
+    dynamicTaskArray = loadTaskInLocalStorage();
+}
+
 function createTask(id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring) {
     return {id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring};
 }

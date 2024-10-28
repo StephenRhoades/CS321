@@ -37,15 +37,19 @@ function generateTasks() {
         taskDiv.className = 'task';
 
         const taskLabel = document.createElement('label');
+        taskLabel.className = 'name';
         taskLabel.textContent = `Task ${index + 1}: ${task.taskName}`;
 
         const taskDescription = document.createElement('p');
+        taskDescription.className = 'description';
         taskDescription.textContent = `Description: ${task.taskDescription}`;
 
         const taskDate = document.createElement('p');
+        taskDate.className = 'date';
         taskDate.textContent = `Due Date: ${task.date}`;
 
         const taskComplete = document.createElement('p');
+        taskComplete.className = 'complete';
         taskComplete.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
 
         taskDiv.appendChild(taskLabel);

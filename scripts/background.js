@@ -79,7 +79,7 @@ function parseTimeBefore(timeBefore){
  * first reference listed. All messages should split any data from the command by commas with no 
  * spaces. (ie. "alarm,id,name,date,reminder")
  * Current commands:
- * "alarm"
+ * "alarm" "delete"
  */
 function addMessageListener(){
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -88,6 +88,9 @@ function addMessageListener(){
     console.log(values);
     if (values[0] === "alarm") {
       createTaskAlarm(values[1], getReminderTime(values[3], values[4]), values[4], values[2]);
+    }
+    else if (values[0] === "delete") {
+      deleteTaskAlarm(values[1], values[2]);
     }
     sendResponse({ status: 'received' });
   });
