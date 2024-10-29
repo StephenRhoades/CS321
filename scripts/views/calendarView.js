@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
+
+
     class Calendar {
         constructor() {
             this.date = new Date();       // Current date (used for determining the month and year)
@@ -75,6 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Export the Calendar class if in a Node.js environment
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = Calendar;
+    }
+    document.addEventListener('DOMContentLoaded', function() {
     // Initialize the calendar
     const calendar = new Calendar();
 
@@ -91,3 +97,4 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('prevMonth').addEventListener('click', () => calendar.prevMonth());
     document.getElementById('nextMonth').addEventListener('click', () => calendar.nextMonth());
 });
+
