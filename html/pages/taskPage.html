@@ -1,14 +1,219 @@
-<html>
-  <head>
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="../../css/openViewStyles.css" />
-    <script type="text/javascript" src="../../scripts/taskPage.js"></script>
-    <!-- <script type="text/javascript" src="../../scripts/tests/taskPageTest.js"></script> -->
-  </head>
-  <body>
-	<h2>Task Page</h2>
-	<a href="../openView.html"><button class="button">Home Page</button></a>
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .button-container .show-tasks {
+            background-color: #0275d8;
+            color: white;
+        }
+        .button-container .home-page {
+            background-color: #5cb85c;
+            color: white;
+        }
+        .button-container button:hover {
+            opacity: 0.8;
+        }
+        .task-list {
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .task {
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+        .task:hover {
+            background-color: #f0f0f0;
+        }
+        .task:last-child {
+            border-bottom: none;
+        }
+        .task-actions {
+            display: none;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .task:hover .task-actions {
+            display: inline-block;
+        }
+        .task-actions button {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 8px;
+            transition: color 0.2s;
+        }
+        .task-actions button:hover {
+            color: #d9534f; /* Red color for delete */
+        }
+        .task-actions button.edit:hover {
+            color: #0275d8; /* Blue color for edit */
+        }
+        .task-details {
+            display: none;
+            margin-top: 10px;
+            padding-left: 10px;
+            font-size: 14px;
+            color: #333;
+            border-left: 2px solid #ddd;
+        }
+        .expand-btn {
+            background: none;
+            border: none;
+            color: #0275d8;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: color 0.2s;
+        }
+        .expand-btn:hover {
+            color: #025aa5;
+        }
+        .edit-input {
+            margin: 5px 0;
+            width: calc(100% - 20px);
+            padding: 5px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .save-btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            color: white;
+            background-color: #5cb85c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        .save-btn:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button class="show-tasks">Show All Tasks</button>
+        <button class="home-page">Home Page</button>
+    </div>
 
+    <div class="task-list">
+        <div class="task">
+            Task 1
+            <div class="task-actions">
+                <button class="edit" onclick="editTask(this)">Edit</button>
+                <button class="delete">Delete</button>
+            </div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Expand</button>
+            <div class="task-details">
+                <p><strong>Date:</strong> October 28, 2024</p>
+                <p><strong>Time:</strong> time</p>
+                <p><strong>Description:</strong> This is a detailed description of Task 1.</p>
+            </div>
+        </div>
+        <!-- Repeat similar structure for Task 2 and Task 3 -->
+    </div>
+
+    <script>
+        function toggleDetails(button) {
+            const details = button.nextElementSibling;
+            if (details.style.display === "block") {
+                details.style.display = "none";
+                button.textContent = "Expand";
+            } else {
+                details.style.display = "block";
+                button.textContent = "Collapse";
+            }
+        }
+
+        function editTask(button) {
+            const task = button.closest('.task');
+            const details = task.querySelector('.task-details');
+
+            // Create input fields for editing date and description
+            const nameInput = document.createElement("input");
+            nameInput.type = "date";
+            nameInput.value = details.querySelector('p:nth-child(1)').innerText.split(": ")[1];
+            nameInput.className = "edit-input";
+
+
+            const dateInput = document.createElement("input");
+            dateInput.type = "date";
+            dateInput.value = details.querySelector('p:nth-child(1)').innerText.split(": ")[1];
+            dateInput.className = "edit-input";
+
+            const timeInput = document.createElement("input");
+            timeInput.type = "time";
+            timeInput.value = details.querySelector('p:nth-child(2)').innerText.split(": ")[1];
+            timeInput.className = "edit-input";
+
+            const descInput = document.createElement("textarea");
+            descInput.className = "edit-input";
+            descInput.value = details.querySelector('p:nth-child(3)').innerText.split(": ")[1];
+
+            // Clear details and add input fields with a Save button
+            details.innerHTML = '';
+            details.appendChild(dateInput);
+            details.appendChild(timeInput);
+            details.appendChild(descInput);
+
+            const saveButton = document.createElement("button");
+            saveButton.textContent = "Save";
+            saveButton.className = "save-btn";
+            saveButton.onclick = function () {
+                saveTask(details, dateInput.value, timeInput.value, descInput.value, button);
+            };
+
+            details.appendChild(saveButton);
+            details.style.display = "block";
+        }
+
+        function saveTask(details, date, time, description, button) {
+            // Replace input fields with the updated text
+            details.innerHTML = `
+                <p><strong>Date:</strong> ${date}</p>
+                <p><strong>Time:</strong> ${time}</p>
+                <p><strong>Description:</strong> ${description}</p>
+            `;
+            button.textContent = "Edit";
+        }
+    </script>
 </body>
 </html>
