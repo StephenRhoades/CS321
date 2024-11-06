@@ -16,11 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-/**
- * Adds and saves a task object based off the information filled out in the "add task" webpage form.
- * The function actives whenever the "submit" button on the "add task" webpage is clicked. 
- * @param {*} event A browser event. Mostly likely a click on a "submit" button.
- */
+
 function addTask(event) {
     event.preventDefault();
 
@@ -57,9 +53,7 @@ function saveTasksToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(dynamicTaskArray));
 }
 
-/**
- * Function that loads the dynamic array of tasks saved in local storage.
- */
+
 function loadTaskInLocalStorage() {
     
     let loadTask = localStorage.getItem("tasks");
@@ -72,17 +66,6 @@ function loadTaskInLocalStorage() {
     }
 }
 
-/**
- * Function to create a task Object. This will also be used during modify, with any 
- * non-essential parameters being left blank or NULL.
- * @param {*} taskName Name of title of the task (Essential).
- * @param {*} taskDescription Description of the task.
- * @param {*} taskCategory The category or activity label the task falls under.
- * @param {*} date Date Object indicating the deadline the user has to finish the task (Essential).
- * @param {*} complete Whether boolean telling if the task has been completed or not (Essential).
- * @param {*} recurring Boolean indicating if the task is to be repeated added.
- * @returns Task object
- */
 function createTask(taskName, taskDescription, taskCategory, date, complete, recurring) {
     return {taskName, taskDescription, taskCategory, date, complete, recurring};
 }
