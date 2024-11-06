@@ -5,7 +5,9 @@
 *     - Sorting tasks (deadline, alphabetical, etc)
 */
 
-
+/**
+ * Event Listener that loads DOM elements of extension webpage for use.
+ */
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed: task");
 
@@ -38,14 +40,22 @@ function addTask(event) {
     form.reset();  // This will clear the form after submitting
 }
 
+/**
+ * Declares dynamicTaskArray field. It is created from tasks that have been
+ * saved in local storage already.
+ */
 let dynamicTaskArray = loadTaskInLocalStorage();
 
+/**
+ * Function that saves the current dynamic array of tasks into local storage.
+ */
 function saveTasksToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(dynamicTaskArray));
 }
 
 
 function loadTaskInLocalStorage() {
+    
     let loadTask = localStorage.getItem("tasks");
 
     if (loadTask == null) {
@@ -55,7 +65,6 @@ function loadTaskInLocalStorage() {
         return JSON.parse(loadTask);
     }
 }
-
 
 function createTask(taskName, taskDescription, taskCategory, date, complete, recurring) {
     return {taskName, taskDescription, taskCategory, date, complete, recurring};
