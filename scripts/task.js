@@ -86,3 +86,12 @@ function loadTaskInLocalStorage() {
 function createTask(taskName, taskDescription, taskCategory, date, complete, recurring) {
     return {taskName, taskDescription, taskCategory, date, complete, recurring};
 }
+
+function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring){
+    taskObject.taskName=taskName;
+    taskObject.taskDescription=taskDescription;
+    taskObject.taskCategory=taskCategory;
+    taskObject.date=date;
+    taskObject.complete=complete;
+    taskObject.recurring=recurring;
+}
