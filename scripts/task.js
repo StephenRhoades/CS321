@@ -42,28 +42,28 @@ function addTask(event) {
     if(taskRem==="15m"){
         //const offset = getMilliseconds("minutes", 15);
         const offset = getMilliseconds("minutes", 1);
-        const reminderMinutes15 = new Date(taskDate.getTime-offset);
-        addReminder(reminderMinutes15);
+        const reminderTime = new Date(taskDate.getTime-offset);
+        addReminder(reminderTime, taskName);
     }
     if(taskRem==="30m"){
         const offset = getMilliseconds("minutes", 30);
-        const reminderMinutes15 = new Date(taskDate.getTime-offset);
-        addReminder(reminderMinutes15);
+        const reminderTime = new Date(taskDate.getTime-offset);
+        addReminder(reminderTime);
     }
     if(taskRem==="1h"){
         const offset = getMilliseconds("hours", 1);
-        const reminderMinutes15 = new Date(taskDate.getTime-offset);
-        addReminder(reminderMinutes15);
+        const reminderTime = new Date(taskDate.getTime-offset);
+        addReminder(reminderTime);
     }
     if(taskRem==="3h"){
         const offset = getMilliseconds("hours", 3);
-        const reminderMinutes15 = new Date(taskDate.getTime-offset);
-        addReminder(reminderMinutes15);
+        const reminderTime = new Date(taskDate.getTime-offset);
+        addReminder(reminderTime);
     }
     if(taskRem==="1d"){
         const offset = getMilliseconds("days", 1);
-        const reminderMinutes15 = new Date(taskDate.getTime-offset);
-        addReminder(reminderMinutes15);
+        const reminderTime = new Date(taskDate.getTime-offset);
+        addReminder(reminderTime);
     }
 
     // Form submission or reset
@@ -133,13 +133,13 @@ function getMilliseconds(unit, quantity) {
 
 //REMINDER FUNCTIONS BELOW
 
-function addReminder(dateObject) {
+function addReminder(dateObject, taskName) {
     // This function should handle setting alarms and notifications based on the reminderData provided
     chrome.alarms.create('taskAlarm', {
       when: dateObject.time,
     });
 
-    //chrome.storage.local.set({ 'reminderText': reminderData.text });
+    chrome.storage.local.set({ 'reminderText': taskName.text });
 
     chrome.runtime.sendMessage({ type: 'playAudio' });
 }
