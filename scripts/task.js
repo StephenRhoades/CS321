@@ -26,15 +26,45 @@ function addTask(event) {
     const taskName = formData.get('task-name');
     const taskDesc = formData.get('task-desc'); 
     const taskDate = formData.get('task-date');
-    // const taskRecur = formData.get('task-recur'); 
+    const taskRecur = formData.get('task-recur');
+    //REMINDER VALUES
+    const taskRem = formData.get('task-rem');
 
-    const task = createTask(taskName, taskDesc, 'None', taskDate, false, false);
+    const task = createTask(taskName, taskDesc, 'None', taskDate, false, taskRecur);
 
     console.log("Saving task:", task);
 
     // Add the new task to the task array and save it to localStorage
     dynamicTaskArray.push(task);
     saveTasksToLocalStorage();
+
+    //Creates reminders below
+    if(taskRem==="15m"){
+        //const offset = getMilliseconds("minutes", 15);
+        const offset = getMilliseconds("minutes", 1);
+        const reminderMinutes15 = new Date(taskDate.getTime-offset);
+        addReminder(reminderMinutes15);
+    }
+    if(taskRem==="30m"){
+        const offset = getMilliseconds("minutes", 30);
+        const reminderMinutes15 = new Date(taskDate.getTime-offset);
+        addReminder(reminderMinutes15);
+    }
+    if(taskRem==="1h"){
+        const offset = getMilliseconds("hours", 1);
+        const reminderMinutes15 = new Date(taskDate.getTime-offset);
+        addReminder(reminderMinutes15);
+    }
+    if(taskRem==="3h"){
+        const offset = getMilliseconds("hours", 3);
+        const reminderMinutes15 = new Date(taskDate.getTime-offset);
+        addReminder(reminderMinutes15);
+    }
+    if(taskRem==="1d"){
+        const offset = getMilliseconds("days", 1);
+        const reminderMinutes15 = new Date(taskDate.getTime-offset);
+        addReminder(reminderMinutes15);
+    }
 
     // Form submission or reset
     form.reset();  // This will clear the form after submitting

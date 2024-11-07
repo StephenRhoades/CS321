@@ -29,8 +29,7 @@ function submitModifyTask(event, taskObject) { //UNCOMMENT code once category, c
 
     console.log("Saving task:", task);
 
-    // Add the new task to the task array and save it to localStorage
-    //dynamicTaskArray.push(task);
+
     saveTasksToLocalStorage();
 
     // Form submission or reset
@@ -140,14 +139,45 @@ function removeTaskIndex(index) {
 }
 
 
-function addReminder(taskObject) {
-    await chrome.alarms.create(taskObject.taskName, {
-        when: taskObject.taskDate - 900000 //Creates reminder 15 minutes before task due date
+//REMINDER FUNCTIONS BELOW
+
+
+
+function addReminder(dateObject) {
+    // This function should handle setting alarms and notifications based on the reminderData provided
+    chrome.alarms.create('taskAlarm', {
+      when: dateObject.time,
     });
+
+    //chrome.storage.local.set({ 'reminderText': reminderData.text });
+
+    chrome.runtime.sendMessage({ type: 'playAudio' });
 }
 
 function changeReminder() {}
 
 function removeReminder() {}
 
-//function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring)
+
+function getMilliseconds(unit, quantity) {
+    switch (unit) {
+      case 'second':
+      case 'seconds':
+        return quantity * 1000;
+      case 'minute':
+      case 'minutes':
+        return quantity * 60 * 1000;
+      case 'hour':
+      case 'hours':
+        return quantity * 60 * 60 * 1000;
+      case 'day':
+      case 'days':
+        return quantity * 24 * 60 * 60 * 1000;
+      case 'year':
+      case 'years':
+        return quantity * 365 * 24 * 60 * 60 * 1000;
+      default:
+        return 0;
+    }
+}
+
