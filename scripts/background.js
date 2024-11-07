@@ -12,18 +12,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   sendResponse({ status: 'received' });
 });
 
+
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'taskAlarm') {
     chrome.storage.local.get('reminderText', (data) => {
       const reminderText = data.reminderText || 'Default Reminder Message';
 
-      // Create a custom notification with the snooze button
+      // Create a custom notification
       chrome.notifications.create('myReminderNotification', {
         type: 'basic',
-        iconUrl: 'images/icon48.png',
+        //iconUrl: 'images/icon48.png',
         title: 'Reminder',
         message: reminderText,
-        buttons: [{ title: 'Snooze for 10 Minutes' }],
       });
 
       // Send a message to the popup script to trigger audio playback
