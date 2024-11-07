@@ -130,3 +130,20 @@ function getMilliseconds(unit, quantity) {
         return 0;
     }
 }
+
+//REMINDER FUNCTIONS BELOW
+
+function addReminder(dateObject) {
+    // This function should handle setting alarms and notifications based on the reminderData provided
+    chrome.alarms.create('taskAlarm', {
+      when: dateObject.time,
+    });
+
+    //chrome.storage.local.set({ 'reminderText': reminderData.text });
+
+    chrome.runtime.sendMessage({ type: 'playAudio' });
+}
+
+function changeReminder() {}
+
+function removeReminder() {}
