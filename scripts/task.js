@@ -108,3 +108,25 @@ function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, c
     taskObject.complete=complete;
     taskObject.recurring=recurring;
 }
+
+function getMilliseconds(unit, quantity) {
+    switch (unit) {
+      case 'second':
+      case 'seconds':
+        return quantity * 1000;
+      case 'minute':
+      case 'minutes':
+        return quantity * 60 * 1000;
+      case 'hour':
+      case 'hours':
+        return quantity * 60 * 60 * 1000;
+      case 'day':
+      case 'days':
+        return quantity * 24 * 60 * 60 * 1000;
+      case 'year':
+      case 'years':
+        return quantity * 365 * 24 * 60 * 60 * 1000;
+      default:
+        return 0;
+    }
+}
