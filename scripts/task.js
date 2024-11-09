@@ -27,7 +27,7 @@ function addTask(event) {
     const taskDesc = formData.get('task-desc'); 
     const taskDay = formData.get('task-date');
     const taskTime = formData.get('task-time');
-    const taskDate = taskDay.getTime+taskTime.getTime;
+    const taskDate = new Date(taskDay.getTime+taskTime.getTime);
     const taskRecur = formData.get('task-recur');
     //REMINDER VALUES
     const taskRem = formData.get('task-rem');
