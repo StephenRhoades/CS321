@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.date = new Date();       // Current date (used for determining the month and year)
             this.tasks = [];              // Array to store task objects
             this.activeModal = null;      // Track the currently active modal
+            this.viewMode = 'monthly';    // Default view mode
         }
 
         /**
@@ -73,22 +74,85 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        /**
-        *   Method to navigate to the previous month
-        */
-        prevMonth() {
-            this.date.setMonth(this.date.getMonth() - 1);
-            this.clearExistingModal();
-            this.renderCalendar();
+        renderWeeklyView() {
+            const calendarDaysElement = document.getElementById('calendarDays');
+            calendarDaysElement.innerHTML = '';
+        
+            const startOfWeek = this.getStartOfWeek(new Date(this.date));
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+        
+            const weekDates = Array.from({ length: 7 }, (_, i) => {
+                const date = new Date(startOfWeek);
+                date.setDate(startOfWeek.getDate() + i);
+                return date;
+            });
+        
+            const weekNameElement = document.getElementById('monthName');
+            weekNameElement.innerText = `${startOfWeek.toLocaleDateString('default', { month: 'short', day: 'numeric' })} - ${endOfWeek.toLocaleDateString('default', { month: 'short', day: 'numeric' })}`;
+        
+            weekDates.forEach(date => {
+                const fullDate = this.formatDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+                const tasksForDay = this.getTasksOnDate(fullDate);
+                let classes = "day weekly-view-day";
+                const today = new Date();
+        
+                // Highlight current day
+                if (date.getFullYear() === today.getFullYear() &&
+                    date.getMonth() === today.getMonth() &&
+                    date.getDate() === today.getDate()) {
+                    classes += " current-day";
+                }
+        
+                if (tasksForDay.length > 0) {
+                    classes += " task-day";
+                }
+        
+                calendarDaysElement.innerHTML += `
+                    <div class="${classes}" data-date="${fullDate}">
+                        ${date.getDate()}
+                        ${tasksForDay.length > 1 ? `<div class="task-indicator">${tasksForDay.length}</div>` : ''}
+                    </div>`;
+            });
+        
+            document.querySelectorAll('.weekly-view-day').forEach(dayElement => {
+                dayElement.addEventListener('click', () => {
+                    const dateString = dayElement.getAttribute('data-date');
+                    if (dateString) {
+                        this.clearExistingModal();
+                        this.expandDay(dateString);
+                    }
+                });
+            });
         }
 
-        /**
-        *   Method to navigate to the next month
-        */
-        nextMonth() {
-            this.date.setMonth(this.date.getMonth() + 1);
+        getStartOfWeek(date) {
+            const dayIndex = date.getDay();
+            const start = new Date(date);
+            start.setDate(start.getDate() - dayIndex);
+            return start;
+        }
+
+        prevMonthOrWeek() {
+            if (this.viewMode === 'monthly') {
+                this.date.setMonth(this.date.getMonth() - 1);
+                this.renderCalendar();
+            } else {
+                this.date.setDate(this.date.getDate() - 7);
+                this.renderWeeklyView();
+            }
             this.clearExistingModal();
-            this.renderCalendar();
+        }
+
+        nextMonthOrWeek() {
+            if (this.viewMode === 'monthly') {
+                this.date.setMonth(this.date.getMonth() + 1);
+                this.renderCalendar();
+            } else {
+                this.date.setDate(this.date.getDate() + 7);
+                this.renderWeeklyView();
+            }
+            this.clearExistingModal();
         }
 
         /** 
@@ -146,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         *   @param {String} taskList - The list of tasks in HTML format
         */
         showTaskModal(date, taskList) {
-            this.clearExistingModal(); // Ensure previous modal is removed
+            this.clearExistingModal();
             const modalContent = `
                 <div class="modal">
                     <div class="modal-header">
@@ -159,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>`;
             document.body.insertAdjacentHTML('beforeend', modalContent);
             this.activeModal = document.querySelector('.modal');
-        
+
             document.getElementById('closeModal').addEventListener('click', () => {
                 this.clearExistingModal();
             });
@@ -198,6 +262,23 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.renderCalendar();
 
     // Set up navigation buttons
-    document.getElementById('prevMonth').addEventListener('click', () => calendar.prevMonth());
-    document.getElementById('nextMonth').addEventListener('click', () => calendar.nextMonth());
+    document.getElementById('prevMonth').addEventListener('click', () => calendar.prevMonthOrWeek());
+    document.getElementById('nextMonth').addEventListener('click', () => calendar.nextMonthOrWeek());
+
+    const monthlyViewButton = document.getElementById('monthlyViewButton');
+    const weeklyViewButton = document.getElementById('weeklyViewButton');
+
+    monthlyViewButton.addEventListener('click', () => {
+        calendar.viewMode = 'monthly';
+        calendar.renderCalendar();
+        monthlyViewButton.classList.add('active');
+        weeklyViewButton.classList.remove('active');
+    });
+
+    weeklyViewButton.addEventListener('click', () => {
+        calendar.viewMode = 'weekly';
+        calendar.renderWeeklyView();
+        weeklyViewButton.classList.add('active');
+        monthlyViewButton.classList.remove('active');
+    });
 });

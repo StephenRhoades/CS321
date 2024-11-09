@@ -7,6 +7,52 @@ body {
   padding: 0;
 }
 
+.view-toggle-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  border-bottom: 2px solid #ddd; /* Adds a line to separate the tab from the content */
+}
+
+.view-tab {
+  background-color: #f0f0f0;
+  color: #555;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px 10px 0 0; /* Rounded corners for top */
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+}
+
+.view-tab:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.view-tab.active {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border-bottom: 2px solid white; /* Makes the active tab appear connected to the content */
+}
+
+.home-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  margin: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.home-button:hover {
+  background-color: #0056b3;
+}
+
 /* Calendar container */
 .calendar-container {
   width: 100%;
@@ -17,28 +63,26 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  overflow: hidden; /* Avoid overflow causing clipping */
-  box-sizing: border-box; /* Ensures padding is included in width */
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Calendar header */
 .calendar-header {
   display: flex;
-  justify-content: space-between;  /* Space between buttons */
+  justify-content: space-between;
   align-items: center;
-  padding: 5px;
-  box-sizing: border-box; /* Ensures the padding is considered inside the width */
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-/* Month name */
 #monthName {
   margin: 0;
-  font-size: 1.2rem;
-  flex-grow: 1; /* Allows the month name to grow in the available space */
+  font-size: 1.8rem;
+  flex-grow: 1;
   text-align: center;
 }
 
-/* Button styles */
 .calendar-header button {
   background-color: #555;
   color: white;
@@ -46,8 +90,10 @@ body {
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 0.9rem;
-  min-width: 60px; /* Ensures the button is always wide enough */
+  font-size: 1.0rem;
+  font-weight: bold;
+  min-width: 80px; /* Ensures the button is wide enough */
+  transition: background-color 0.3s;
 }
 
 .calendar-header button:hover {
@@ -60,7 +106,7 @@ body {
   background-color: #555;
   color: white;
   padding: 10px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   box-sizing: border-box;
 }
 
@@ -76,15 +122,17 @@ body {
 
 .day {
   background-color: #eee;
-  padding: 10px;
+  padding: 15px;
   text-align: center;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .day:hover {
   background-color: #ddd;
+  transform: translateY(-2px);
 }
 
 .task-day {
@@ -97,43 +145,23 @@ body {
 }
 
 .day {
-  position: relative; /* Ensure the day cell is positioned to allow positioning within it */
+  position: relative;
 }
 
 .task-indicator {
   position: absolute;
   top: 0;
   right: 0;
-  background-color: blue; /* Updated color for better visibility */
+  background-color: blue;
   color: white;
-  border-radius: 0; /* Changed to a square shape */
-  width: 15px; /* Reduced size */
-  height: 15px; /* Reduced size */
+  border-radius: 0;
+  width: 15px;
+  height: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 10px;
   font-weight: bold;
-}
-
-
-.buttons-container {
-  margin-bottom: 20px;
-}
-
-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  margin-right: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #0056b3;
 }
 
 /* Modal styling */
@@ -147,7 +175,7 @@ button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 80%;
   max-width: 600px;
-  max-height: 80vh; /* Limit height to viewport */
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
   z-index: 1000;
@@ -160,9 +188,6 @@ button:hover {
   padding: 15px;
   border-bottom: 1px solid #ddd;
   background-color: #f1f1f1;
-  position: sticky;
-  top: 0;
-  z-index: 10;
 }
 
 .modal-header h3 {
@@ -179,10 +204,15 @@ button:hover {
   color: #666;
 }
 
+.close-button:hover {
+  color: #ff0000; /* Change the color to red when hovering */
+  transform: scale(1.1); /* Make the button slightly larger when hovered */
+}
+
 .modal-body {
   padding: 15px;
-  overflow-y: auto; /* Enable scrolling */
-  flex-grow: 1; /* Allows the body to grow and scroll */
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
 .task-list {
