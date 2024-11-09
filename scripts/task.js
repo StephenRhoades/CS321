@@ -1,7 +1,14 @@
+/**
+ * Declares dynamicTaskArray field. It is created from tasks that have been
+ * saved in local storage already.
+ */
 let dynamicTaskArray = loadTaskInLocalStorage();
 
 submitTask();
 
+/**
+ * Event Listener that loads DOM elements of extension webpage for use.
+ */
 function submitTask() {
     document.addEventListener('DOMContentLoaded', function() {
         console.log("DOM fully loaded and parsed: task");
@@ -25,6 +32,7 @@ async function generateTaskId() {
 }
 
 async function addTask(event) {
+
     event.preventDefault();
 
     // Collect form data
@@ -58,11 +66,16 @@ function setAlarm(task){
     "," + task.reminder); 
 }
 
+/**
+ * Function that saves the current dynamic array of tasks into local storage.
+ */
 function saveTasksToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(dynamicTaskArray));
 }
 
+
 function loadTaskInLocalStorage() {
+    
     let loadTask = localStorage.getItem("tasks");
 
     if (loadTask == null) {
@@ -81,3 +94,13 @@ function clearStorage() {
 function createTask(id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring) {
     return {id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring};
 }
+
+function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring){
+    taskObject.taskName=taskName;
+    taskObject.taskDescription=taskDescription;
+    taskObject.taskCategory=taskCategory;
+    taskObject.date=date;
+    taskObject.complete=complete;
+    taskObject.recurring=recurring;
+}
+

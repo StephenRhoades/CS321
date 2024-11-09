@@ -1,12 +1,26 @@
-/* Event Listener for the recurring tasks dropdown.
-* Just makes the dropdown visible or not visible.
-*/
-document.addEventListener('DOMContentLoaded', function() {
-  var checkList = document.getElementById('task-recur');
-  checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
-    if (checkList.classList.contains('visible'))
-      checkList.classList.remove('visible');
-    else
-      checkList.classList.add('visible');
-  }
-});
+document.addEventListener('DOMContentLoaded', initializeOpenView);
+
+function initializeOpenView() {
+    setupRecurrenceDropdown();
+    clearForm();  // Optional: Clears the form fields on page load
+}
+
+/**
+ * Toggles the visibility of the recurrence dropdown for selecting repeat days.
+ */
+function setupRecurrenceDropdown() {
+    const checkList = document.getElementById('task-recur');
+    const anchor = checkList.getElementsByClassName('anchor')[0];
+
+    anchor.onclick = function() {
+        checkList.classList.toggle('visible');
+    };
+}
+
+/**
+ * Clears the task form fields on page load to provide a blank state.
+ * (Optional: Use if you want the form to reset each time the page loads)
+ */
+function clearForm() {
+    document.getElementById('myForm').reset();
+}
