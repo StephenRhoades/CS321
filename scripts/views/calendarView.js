@@ -146,15 +146,20 @@ document.addEventListener('DOMContentLoaded', function() {
         *   @param {String} taskList - The list of tasks in HTML format
         */
         showTaskModal(date, taskList) {
+            this.clearExistingModal(); // Ensure previous modal is removed
             const modalContent = `
                 <div class="modal">
-                    <h3>Tasks for ${date}</h3>
-                    <ul>${taskList}</ul>
-                    <button id="closeModal">Close</button>
+                    <div class="modal-header">
+                        <h3>Tasks for ${date}</h3>
+                        <button id="closeModal" class="close-button">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="task-list">${taskList}</ul>
+                    </div>
                 </div>`;
             document.body.insertAdjacentHTML('beforeend', modalContent);
             this.activeModal = document.querySelector('.modal');
-
+        
             document.getElementById('closeModal').addEventListener('click', () => {
                 this.clearExistingModal();
             });
