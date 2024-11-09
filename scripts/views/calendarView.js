@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
  	*	@return true if there is a task on the given date, false otherwise
   	*/	
         hasTaskOnDate(dateString) {
-            return this.tasks.some(task => task.date === dateString);
+            return this.tasks.some(task => task.date.split(' ')[0] === dateString);
         }
 
         /**
