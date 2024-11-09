@@ -20,10 +20,10 @@ body {
   color: #555;
   padding: 10px 20px;
   border: none;
-  border-radius: 10px 10px 0 0; /* Rounded corners for top */
+  border-radius: 10px 10px 0 0;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .view-tab:hover {
@@ -35,7 +35,7 @@ body {
   background-color: #007bff;
   color: white;
   font-weight: bold;
-  border-bottom: 2px solid white; /* Makes the active tab appear connected to the content */
+  border-bottom: 2px solid white;
 }
 
 .home-button {
@@ -92,7 +92,7 @@ body {
   border-radius: 5px;
   font-size: 1.0rem;
   font-weight: bold;
-  min-width: 80px; /* Ensures the button is wide enough */
+  min-width: 80px;
   transition: background-color 0.3s;
 }
 
@@ -205,8 +205,8 @@ body {
 }
 
 .close-button:hover {
-  color: #ff0000; /* Change the color to red when hovering */
-  transform: scale(1.1); /* Make the button slightly larger when hovered */
+  color: #ff0000;
+  transform: scale(1.1);
 }
 
 .modal-body {
