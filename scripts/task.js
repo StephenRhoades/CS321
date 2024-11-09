@@ -26,12 +26,27 @@ function addTask(event) {
     const taskName = formData.get('task-name');
     const taskDesc = formData.get('task-desc'); 
     const taskDay = formData.get('task-date');
-    const taskTime = formData.get('task-time');
-    const taskDate = new Date(taskDay.getTime+taskTime.getTime);
+    const taskHour = formData.get('task-time');
     const taskRecur = formData.get('task-recur');
     //REMINDER VALUES
     const taskRem = formData.get('task-rem');
-
+	//console.log(JSON.stringify(taskDate));
+	
+	//Parse Time info
+	const ms = Date.parse(taskDay +" " + taskHour);
+	const taskDate = new Date(ms);	
+	
+	
+	
+	//DEBUG MESSAGES
+	//console.log("Inputted Time (hours) is" + taskHour);
+	//console.log("dateDay is" + dateDay.toString());
+	//console.log("dateHour is" + dateHour.toString());
+	//console.log(taskDay + " " + taskHour);
+	//console.log("taskDate is" + taskDate.toString());
+	//console.log(taskRem);
+	
+	
     const task = createTask(taskName, taskDesc, 'None', taskDate, false, taskRecur);
 
     console.log("Saving task:", task);
@@ -40,20 +55,14 @@ function addTask(event) {
     dynamicTaskArray.push(task);
     saveTasksToLocalStorage();
 
-    //TESTING NOTIFICATIONS
-    chrome.notifications.create('test', {
-        type: 'basic',
-        iconUrl: 'images/1.png',
-        title: 'Testing Notifications',
-        message: 'Working Great!',
-        priority: 2
-    });
 
     //Creates reminders below
     if(taskRem==="15m"){
         //const offset = getMilliseconds("minutes", 15);
+        console.log("Reminder 15 catching");
         const offset = getMilliseconds("minutes", 1);
-        const reminderTime = new Date(taskDate.getTime-offset);
+        //const reminderTime = new Date(taskDate.getTime-offset);
+        const reminderTime = new Date(Date.now()+offset);
         addReminder(reminderTime, taskName);
     }
     if(taskRem==="30m"){
@@ -146,12 +155,22 @@ function getMilliseconds(unit, quantity) {
 
 function addReminder(dateObject, taskName) {
     // This function should handle setting alarms and notifications based on the reminderData provided
+    
+    //console.log("Add Reminder Reached");
     chrome.alarms.create('taskAlarm', {
-      when: dateObject.time,
+      when: dateObject.getTime(),
     });
-    //chrome.storage.local.set({ 'reminderText': taskName.text });
-
-    //chrome.runtime.sendMessage({ type: 'playAudio' });
+    
+    /*
+    chrome.notifications.create('test', {
+        type: 'basic',
+        iconUrl: '../images/taskIcon.png',
+        title: 'Reminder Test',
+        message: 'Reminder notification works',
+        //priority: 2
+    });
+    console.log("Create notification called");
+	*/
 }
 
 function changeReminder() {}
