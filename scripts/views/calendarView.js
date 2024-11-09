@@ -128,9 +128,10 @@ document.addEventListener('DOMContentLoaded', function() {
         */
         expandDay(dateString) {
             if (this.hasTaskOnDate(dateString)) {
-                const tasksForDay = this.getTasksOnDate(dateString);
+                const tasksForDay = this.getTasksOnDate(dateString).sort((a, b) => new Date(a.date) - new Date(b.date));
                 const taskList = tasksForDay.map(task => {
-                    const timeDisplay = task.time ? task.time : '';
+                    const taskDateTime = new Date(task.date);
+                    const timeDisplay = taskDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     return `<li><strong>${timeDisplay ? timeDisplay + ' - ' : ''}${task.taskName}</strong><br>${task.taskDescription}</li>`;
                 }).join('');
                 this.showTaskModal(dateString, taskList);
@@ -175,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         * @return {Array} - List of tasks on that date
         */
         getTasksOnDate(dateString) {
-            return this.tasks.filter(task => task.date === dateString);
+            return this.tasks.filter(task => task.date.split(' ')[0] === dateString);
         }
     }
 
