@@ -12,8 +12,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   sendResponse({ status: 'received' });
 });
 
-
+/*
 chrome.alarms.onAlarm.addListener((alarm) => {
+  console.log("Got an alarm!", alarm);
   if (alarm.name === 'taskAlarm') {
     chrome.storage.local.get('reminderText', (data) => {
       const reminderText = data.reminderText || 'Default Reminder Message';
@@ -31,6 +32,20 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
       // Clear the alarm to ensure it only triggers once
       chrome.alarms.clear('myReminderAlarm');
+    });
+  }
+});
+*/
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name === "taskAlarm") {
+      //our alarm is running, send notification
+      chrome.notifications.create('test', {
+        type: 'basic',
+        iconUrl: 'images/1.png',
+        title: 'Test Message',
+        message: 'You are awesome!',
+        priority: 2
     });
   }
 });

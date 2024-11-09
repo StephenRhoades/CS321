@@ -40,6 +40,15 @@ function addTask(event) {
     dynamicTaskArray.push(task);
     saveTasksToLocalStorage();
 
+    //TESTING NOTIFICATIONS
+    chrome.notifications.create('test', {
+        type: 'basic',
+        iconUrl: 'images/1.png',
+        title: 'Testing Notifications',
+        message: 'Working Great!',
+        priority: 2
+    });
+
     //Creates reminders below
     if(taskRem==="15m"){
         //const offset = getMilliseconds("minutes", 15);
@@ -140,10 +149,9 @@ function addReminder(dateObject, taskName) {
     chrome.alarms.create('taskAlarm', {
       when: dateObject.time,
     });
+    //chrome.storage.local.set({ 'reminderText': taskName.text });
 
-    chrome.storage.local.set({ 'reminderText': taskName.text });
-
-    chrome.runtime.sendMessage({ type: 'playAudio' });
+    //chrome.runtime.sendMessage({ type: 'playAudio' });
 }
 
 function changeReminder() {}
