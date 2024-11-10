@@ -31,6 +31,7 @@ function addTask(event) {
     //REMINDER VALUES
     const taskRem = formData.get('task-rem');
 	//console.log(JSON.stringify(taskDate));
+	console.log("Task name is "+taskName);
 	
 	//Parse Time info
 	const ms = Date.parse(taskDay +" " + taskHour);
@@ -62,7 +63,8 @@ function addTask(event) {
         console.log("Reminder 15 catching");
         const offset = getMilliseconds("minutes", 1);
         //const reminderTime = new Date(taskDate.getTime-offset);
-        const reminderTime = new Date(Date.now()+offset);
+        //const reminderTime = new Date(Date.now()+offset);
+        const reminderTime = new Date(Date.now()+4000);
         addReminder(reminderTime, taskName);
     }
     if(taskRem==="30m"){
@@ -156,10 +158,11 @@ function getMilliseconds(unit, quantity) {
 function addReminder(dateObject, taskName) {
     // This function should handle setting alarms and notifications based on the reminderData provided
     
-    //console.log("Add Reminder Reached");
-    chrome.alarms.create('taskAlarm', {
+    //console.log("Add Reminder Reached: Task name is "+taskName);
+    chrome.alarms.create(taskName, {
       when: dateObject.getTime(),
     });
+    console.log("Alarm created");
     
     /*
     chrome.notifications.create('test', {
@@ -173,6 +176,11 @@ function addReminder(dateObject, taskName) {
 	*/
 }
 
-function changeReminder() {}
+function changeReminder(dateObject, taskName) {
+	chrome.alarms.clear(taskName);
+	addReminder(dateObject, taskName);
+}
 
-function removeReminder() {}
+function removeReminder(taskName) {
+	chrome.alarms.clear(taskName);
+}
