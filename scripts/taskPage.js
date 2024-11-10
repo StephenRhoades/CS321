@@ -125,6 +125,19 @@ function removeTask(taskObject) {
     }
 }
 
+
+function removeTask(uniqueID) {
+    loadTaskInLocalStorage();
+    for (let task in dynamicTaskArray) {
+        if(uniqueID==task.uniqueID)
+        {
+            dynamicTaskArray.splice(index, 1);
+            saveTasksToLocalStorage();
+            break;
+        }
+    }
+}
+
 /**
  * Removes the taskObject at the given index. The resulting dynamicArray is saved to local storage.
  * @param {*} index Index of a taskObject in the dynamicArray.
@@ -137,6 +150,7 @@ function removeTaskIndex(index) {
         saveTasksToLocalStorage();
     }
 }
+
 
 
 

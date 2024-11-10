@@ -18,46 +18,64 @@
     <div class="add-task-section">
       <h2>Add Task</h2>
       <form id="myForm">
+
         <div class="form-group">
           <label for="task-date">Date:</label>
           <input type="date" id="task-date" name="task-date" required>
         </div>
+
         <div class="form-group">
           <label for="task-time">Time:</label>
           <input type="time" id="task-time" name="task-time" required>
         </div>
+
         <div class="form-group">
           <label for="task-name">Task Name:</label>
           <input type="text" id="task-name" name="task-name" placeholder="Enter task name" required>
         </div>
+
+        <div class="form-group">
+          <label for="task-cat">Category:</label>
+          <textarea id="task-cat" name="task-cat" rows ="1" placeholder="Enter Category"></textarea>
+        </div>
+
         <div class="form-group">
           <label for="task-desc">Description:</label>
           <textarea id="task-desc" name="task-desc" rows="4" placeholder="Enter task description"></textarea>
         </div>
 
-          <div id="task-recur" class="form-group dropdown-check-list" tabindex="100">
-            <span class="anchor">Repeat Every</span>
+        <div class="form-group">
+          <div id="task-rem" class="dropdown-check-list" tabindex="1">
+            <span class="anchor">Remind Me:</span>
             <ul class="items">
-              <li><input type="checkbox" />Monday </li>
-              <li><input type="checkbox" />Tuesday</li>
-              <li><input type="checkbox" />Wednesday </li>
-              <li><input type="checkbox" />Thursday </li>
-              <li><input type="checkbox" />Friday</li>
-              <li><input type="checkbox" />Saturday </li>
-              <li><input type="checkbox" />Sunday</li>
+              <li><input type="checkbox" id="15m" name="15m" value="15m" />15 minutes before </li>
+              <li><input type="checkbox" id="30m" name="30m" value="30m" />30 minutes before</li>
+              <li><input type="checkbox" id="1h" name="1h" value="1h" />1 hour before </li>
+              <li><input type="checkbox" id="3h" name="3h" value="3h"/>3 hours before </li>
+              <li><input type="checkbox" id="1d" name="1d" value="1d" />1 day before </li>
+              <li><input type="checkbox" id="3d" name="3d" value="3d" />3 days before </li>
+              <li><input type="checkbox" id="1w" name="1w" value="1w" />1 week before</li>
             </ul>
           </div>
-	      
-        <div class="form-group">
-          <label for="task-rem">Remind Me:</label>
-          <select id="task-rem" name="task-rem">
-            <option value="15m">15 minutes before</option>
-            <option value="30m">30 minutes before</option>
-            <option value="1h">1 hour before</option>
-            <option value="3h">3 hours before</option>
-            <option value="1d">1 day before</option>
-          </select>
         </div>
+
+        <div class="form-group">
+          <div id="task-recur" class="dropdown-check-list" tabindex="2">
+            <span class="anchor">Repeat Every:</span>
+            <ul class="items">
+              <li><input type="checkbox" id="Monday" name="Monday" value="Monday" />Monday </li>
+              <li><input type="checkbox" id="Tuesday" name="Tuesday" value="Tuesday" />Tuesday</li>
+              <li><input type="checkbox" id="Wednesday" name="Wednesday" value="Wednesday" />Wednesday </li>
+              <li><input type="checkbox" id="Thursday" name="Thursday" value="Thursday"/>Thursday </li>
+              <li><input type="checkbox" id="Friday" name="Friday" value="Friday" />Friday </li>
+              <li><input type="checkbox" id="Saturday" name="Saturday" value="Saturday" />Saturday </li>
+              <li><input type="checkbox" id="Sunday" name="Sunday" value="Sunday" />Sunday</li>
+            </ul>
+          </div>
+        </div>
+        
+      
+
         <button id="submit-task-button" class="submit-button">Add Task</button>
       </form>
     </div>

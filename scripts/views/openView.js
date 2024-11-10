@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', initializeOpenView);
 
 function initializeOpenView() {
     setupRecurrenceDropdown();
+    setupReminderDropdown();
     clearForm();  // Optional: Clears the form fields on page load
 }
 
@@ -10,6 +11,15 @@ function initializeOpenView() {
  */
 function setupRecurrenceDropdown() {
     const checkList = document.getElementById('task-recur');
+    const anchor = checkList.getElementsByClassName('anchor')[0];
+
+    anchor.onclick = function() {
+        checkList.classList.toggle('visible');
+    };
+}
+
+function setupReminderDropdown() {
+    const checkList = document.getElementById('task-rem');
     const anchor = checkList.getElementsByClassName('anchor')[0];
 
     anchor.onclick = function() {

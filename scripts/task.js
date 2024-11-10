@@ -5,6 +5,14 @@
 *     - Sorting tasks (deadline, alphabetical, etc)
 */
 
+
+/**
+ * Declares dynamicTaskArray field. It is created from tasks that have been
+ * saved in local storage already.
+ */
+let dynamicTaskArray = loadTaskInLocalStorage();
+
+//EVENT LISTENERS FUNCTIONS
 /**
  * Event Listener that loads DOM elements of extension webpage for use.
  */
@@ -17,38 +25,52 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+
+//TASK FUNCTIONS
 function addTask(event) {
     event.preventDefault();
 
-    // Collect form data
+    // Collect form data - MUST ADD category and completed to HTML front-end
     const form = document.getElementById('myForm');
     const formData = new FormData(form);
     const taskName = formData.get('task-name');
     const taskDesc = formData.get('task-desc'); 
     const taskDay = formData.get('task-date');
     const taskHour = formData.get('task-time');
-    const taskRecur = formData.get('task-recur');
-    //REMINDER VALUES
-    const taskRem = formData.get('task-rem');
-	//console.log(JSON.stringify(taskDate));
-	console.log("Task name is "+taskName);
-	
-	//Parse Time info
+    const uniqueID = createID();
+
+	//PARSE RECURRENCE DAYS
+    const checkboxes = document.querySelectorAll('#task-recur input[type="checkbox"]');
+    const checkedDays = [];
+  
+    checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      checkedDays.push(checkbox.value);
+    }
+    });
+    console.log(checkedDays);
+
+    //PARSE REMINDER TIMES
+    const checkboxes2 = document.querySelectorAll('#task-rem input[type="checkbox"]');
+    const checkedReminders = [];
+    
+    checkboxes2.forEach((checkbox) => {
+      if (checkbox.checked) {
+        checkedReminders.push(checkbox.value);
+      }
+    });
+    console.log(checkedReminders);
+
+	//PARSE TIME INFO
 	const ms = Date.parse(taskDay +" " + taskHour);
 	const taskDate = new Date(ms);	
-	
-	
+
 	
 	//DEBUG MESSAGES
-	//console.log("Inputted Time (hours) is" + taskHour);
-	//console.log("dateDay is" + dateDay.toString());
-	//console.log("dateHour is" + dateHour.toString());
-	//console.log(taskDay + " " + taskHour);
-	//console.log("taskDate is" + taskDate.toString());
-	//console.log(taskRem);
+	//console.log(taskRecur);
 	
 	
-    const task = createTask(taskName, taskDesc, 'None', taskDate, false, taskRecur);
+    const task = createTask(uniqueID, taskName, taskDesc, 'None', taskDate, false, false);
 
     console.log("Saving task:", task);
 
@@ -57,71 +79,19 @@ function addTask(event) {
     saveTasksToLocalStorage();
 
 
-    //Creates reminders below
-    if(taskRem==="15m"){
-        //const offset = getMilliseconds("minutes", 15);
-        console.log("Reminder 15 catching");
-        const offset = getMilliseconds("minutes", 1);
-        //const reminderTime = new Date(taskDate.getTime-offset);
-        //const reminderTime = new Date(Date.now()+offset);
-        const reminderTime = new Date(Date.now()+4000);
-        addReminder(reminderTime, taskName);
-    }
-    if(taskRem==="30m"){
-        const offset = getMilliseconds("minutes", 30);
-        const reminderTime = new Date(taskDate.getTime-offset);
-        addReminder(reminderTime);
-    }
-    if(taskRem==="1h"){
-        const offset = getMilliseconds("hours", 1);
-        const reminderTime = new Date(taskDate.getTime-offset);
-        addReminder(reminderTime);
-    }
-    if(taskRem==="3h"){
-        const offset = getMilliseconds("hours", 3);
-        const reminderTime = new Date(taskDate.getTime-offset);
-        addReminder(reminderTime);
-    }
-    if(taskRem==="1d"){
-        const offset = getMilliseconds("days", 1);
-        const reminderTime = new Date(taskDate.getTime-offset);
-        addReminder(reminderTime);
-    }
+    //CREATE REMINDERS
+    checkReminder(task, checkedReminders);
 
     // Form submission or reset
     form.reset();  // This will clear the form after submitting
 }
 
-/**
- * Declares dynamicTaskArray field. It is created from tasks that have been
- * saved in local storage already.
- */
-let dynamicTaskArray = loadTaskInLocalStorage();
 
-/**
- * Function that saves the current dynamic array of tasks into local storage.
- */
-function saveTasksToLocalStorage() {
-    localStorage.setItem("tasks", JSON.stringify(dynamicTaskArray));
+function createTask(uniqueID, taskName, taskDescription, taskCategory, date, complete, recurring) {
+    return {uniqueID, taskName, taskDescription, taskCategory, date, complete, recurring};
 }
 
-
-function loadTaskInLocalStorage() {
-    
-    let loadTask = localStorage.getItem("tasks");
-
-    if (loadTask == null) {
-        console.log("No tasks found in local storage.");
-        return [];
-    } else {
-        return JSON.parse(loadTask);
-    }
-}
-
-function createTask(taskName, taskDescription, taskCategory, date, complete, recurring) {
-    return {taskName, taskDescription, taskCategory, date, complete, recurring};
-}
-
+//WE DON'T CHANGE UNIQUE ID
 function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring){
     taskObject.taskName=taskName;
     taskObject.taskDescription=taskDescription;
@@ -130,6 +100,73 @@ function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, c
     taskObject.complete=complete;
     taskObject.recurring=recurring;
 }
+
+
+//REMINDER FUNCTIONS BELOW
+
+function checkReminder(taskObject, checkedReminders) {
+    // This function should handle setting alarms and notifications based on the reminderData provide
+    //Create Reminders Below
+
+    if(checkedReminders.includes("15m")){
+        //const offset = getMilliseconds("minutes", 15);
+        console.log("Reminder 15 catching");
+        const offset = getMilliseconds("minutes", 15);
+        //const reminderTime = new Date(taskDate.getTime-offset);
+        //const reminderTime = new Date(Date.now()+offset);
+        const reminderTime = new Date(Date.now()+offset);
+        createReminder(reminderTime, taskObject.taskName);
+    }
+    if(checkedReminders.includes("30m")){
+        const offset = getMilliseconds("minutes", 30);
+        const reminderTime = new Date(taskDate.getTime+offset);
+        createReminder(reminderTime, taskObject.taskName);
+    }
+    if(checkedReminders.includes("1h")){
+        const offset = getMilliseconds("hours", 1);
+        const reminderTime = new Date(taskDate.getTime+offset);
+        createReminder(reminderTime, taskObject.taskName);
+    }
+    if(checkedReminders.includes("3h")){
+        const offset = getMilliseconds("hours", 3);
+        const reminderTime = new Date(taskDate.getTime+offset);
+        createReminder(reminderTime, taskObject.taskName);
+    }
+    if(checkedReminders.includes("1d")){
+        const offset = getMilliseconds("days", 1);
+        const reminderTime = new Date(taskDate.getTime+offset);
+        createReminder(reminderTime, taskObject.taskName);
+    }
+    if(checkedReminders.includes("3d")){
+        const offset = getMilliseconds("days", 3);
+        const reminderTime = new Date(taskDate.getTime+offset);
+        createReminder(reminderTime, taskObject.taskName);
+    }
+    if(checkedReminders.includes("1w")){
+        const offset = getMilliseconds("days", 7);
+        const reminderTime = new Date(taskDate.getTime+offset);
+        createReminder(reminderTime, taskObject.taskName);
+    }
+    
+}
+
+function createReminder(dateObject, taskName){
+    chrome.alarms.create(taskName, {
+        when: dateObject.getTime(),
+      });
+      console.log("Alarm for " + taskName + " created");
+}
+
+function changeReminder(dateObject, taskName) {
+	chrome.alarms.clear(taskName);
+	addReminder(dateObject, taskName);
+}
+
+function removeReminder(taskName) {
+	chrome.alarms.clear(taskName);
+}
+
+//HELPER FUNCTION
 
 function getMilliseconds(unit, quantity) {
     switch (unit) {
@@ -153,34 +190,23 @@ function getMilliseconds(unit, quantity) {
     }
 }
 
-//REMINDER FUNCTIONS BELOW
-
-function addReminder(dateObject, taskName) {
-    // This function should handle setting alarms and notifications based on the reminderData provided
-    
-    //console.log("Add Reminder Reached: Task name is "+taskName);
-    chrome.alarms.create(taskName, {
-      when: dateObject.getTime(),
-    });
-    console.log("Alarm created");
-    
-    /*
-    chrome.notifications.create('test', {
-        type: 'basic',
-        iconUrl: '../images/taskIcon.png',
-        title: 'Reminder Test',
-        message: 'Reminder notification works',
-        //priority: 2
-    });
-    console.log("Create notification called");
-	*/
+function saveTasksToLocalStorage() {
+    localStorage.setItem("tasks", JSON.stringify(dynamicTaskArray));
 }
 
-function changeReminder(dateObject, taskName) {
-	chrome.alarms.clear(taskName);
-	addReminder(dateObject, taskName);
+
+function loadTaskInLocalStorage() {
+    
+    let loadTask = localStorage.getItem("tasks");
+
+    if (loadTask == null) {
+        console.log("No tasks found in local storage.");
+        return [];
+    } else {
+        return JSON.parse(loadTask);
+    }
 }
 
-function removeReminder(taskName) {
-	chrome.alarms.clear(taskName);
+function createID(){
+    return Date.now()+Math.random();
 }
