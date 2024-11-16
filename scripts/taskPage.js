@@ -154,14 +154,38 @@ function removeReminder() {}
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed: task");
 
-    document.getElementById('edit-button-id')?.addEventListener('click', function(event) {
-        editTask(event);
+    edit_btn = document.getElementById('edit-button-id');
+    edit_btn.addEventListener('click', function(event) {
+        editTask(edit_btn, event);
+    });
+
+    expand_btn = document.getElementById('expand-btn-id');
+    expand_btn.addEventListener('click', function(event) {
+        toggleDetails(expand_btn, event);
     });
 });
 
+/**
+ * Toggles the dropdown menu to show the details of the task
+ * @param {*} button reference to the button
+ */
+function toggleDetails(button) {
+    const details = button.nextElementSibling;
+    if (details.style.display === "block") {
+        details.style.display = "none";
+        button.textContent = "Expand";
+    } else {
+        details.style.display = "block";
+        button.textContent = "Collapse";
+    }
+}
 
+
+/**
+ * NOT CURRENTLY FUNCTIONAL
+ * @param {*} button 
+ */
 function editTask(button) {
-    console.log("Here");
     const task = button.closest('.task');
     const details = task.querySelector('.task-details');
 
@@ -201,4 +225,22 @@ function editTask(button) {
 
     details.appendChild(saveButton);
     details.style.display = "block";
+}
+
+/**
+ * 
+ * @param {*} details 
+ * @param {*} date 
+ * @param {*} time 
+ * @param {*} description 
+ * @param {*} button 
+ */
+function saveTask(details, date, time, description, button) {
+    // Replace input fields with the updated text
+    details.innerHTML = `
+        <p><strong>Date:</strong> ${date}</p>
+        <p><strong>Time:</strong> ${time}</p>
+        <p><strong>Description:</strong> ${description}</p>
+    `;
+    button.textContent = "Edit";
 }
