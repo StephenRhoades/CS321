@@ -1,7 +1,9 @@
+/**
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed: taskPage test");
     runTests();
 });
+**/
 
 
 // Sample mock task for testing
@@ -97,4 +99,5 @@ export function runTests() {
 }
 
 // Run all tests
+    runTests();
 
