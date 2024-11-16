@@ -21,7 +21,7 @@
         "scripts/settings.js",
         "scripts/task.js",
         "scripts/taskPage.js",
-        "scripts/tests/test.js" 
+        "scripts/tests/taskPageTest.js" 
       ]
     }
   ],
