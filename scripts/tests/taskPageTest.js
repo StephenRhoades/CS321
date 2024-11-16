@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed: taskPage test");
+    runTests();
+});
+
+
 // Sample mock task for testing
 let mockTask = {
     taskName: 'Test Task',
@@ -89,4 +95,4 @@ function runTests() {
 }
 
 // Run all tests
-runTests();
+
