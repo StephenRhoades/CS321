@@ -42,7 +42,7 @@ function assertFalse(actual, message) {
 }
 
 // Test Suite
-function runTests() {
+export function runTests() {
     console.log("Running Tests...\n");
 
     // Test changeName function
