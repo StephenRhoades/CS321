@@ -51,13 +51,8 @@
 	      
         <div class="form-group">
           <label for="task-rem">Remind Me:</label>
-          <select id="task-rem" name="task-rem">
-            <option value="15m">15 minutes before</option>
-            <option value="30m">30 minutes before</option>
-            <option value="1h">1 hour before</option>
-            <option value="3h">3 hours before</option>
-            <option value="1d">1 day before</option>
-          </select>
+          <input type="date" id="task-time" name="task-time" required>
+          <input type="time" id="task-time" name="task-time" required>
         </div>
         <button id="submit-task-button" class="submit-button">Add Task</button>
       </form>
