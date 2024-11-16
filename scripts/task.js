@@ -6,12 +6,17 @@ let dynamicTaskArray = loadTaskInLocalStorage();
 
 submitTask();
 
+import { runTests } from "./tests/taskPageTest.js";
+
 /**
  * Event Listener that loads DOM elements of extension webpage for use.
  */
 function submitTask() {
     document.addEventListener('DOMContentLoaded', function() {
         console.log("DOM fully loaded and parsed: task");
+
+        //import { runTests } from "./tests/taskPageTest.js";
+        runTests();
 
         document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
             addTask(event);
