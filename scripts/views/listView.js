@@ -27,16 +27,25 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
             clearTasks();
         });
+
+        document.getElementById('sort-deadline')?.addEventListener('click', function(event) {
+            event.preventDefault();
+            generateTasks('deadline');
+        });
+
+        document.getElementById('sort-alpha')?.addEventListener('click', function(event) {
+            event.preventDefault();
+            generateTasks('alpha');
+        });
     }
 });
 
 /**
  * Builds the HTML for task View from local storage and updates taskView.html 
  */
-function generateTasks() {
+function generateTasks(sortType) {
     const taskContainer = document.getElementById('taskContainer');
     taskContainer.innerHTML = '';  // Clear previous tasks
-    // localStorage.clear();
 
     // Load tasks from localStorage
     let tasks = loadTaskInLocalStorage();
@@ -46,13 +55,20 @@ function generateTasks() {
         return;
     }
 
-    tasks.forEach((task, index) => {
+    // Sort tasks based on sortType
+    if (sortType === 'deadline') {
+        tasks = sortDeadline(tasks);
+    } else if (sortType === 'alpha') {
+        tasks = sortAlpha(tasks);
+    }
+
+    tasks.forEach((task) => {
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task';
 
         const taskLabel = document.createElement('label');
         taskLabel.className = 'name';
-        taskLabel.textContent = `Task ${index + 1}: ${task.taskName}`;
+        taskLabel.textContent = `Task ${task.id}: ${task.taskName}`;
 
         const taskDescription = document.createElement('p');
         taskDescription.className = 'description';
@@ -99,9 +115,11 @@ function buildTaskDiv(tasks) {
  * @returns {*} The tasks sorted by deadline
  */
 function sortDeadline(tasks) {
-    let sortedTasks = tasks;
-    return sortedTasks
-
+    return [...tasks].sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateA - dateB;
+    });
 }
 
 /**
@@ -110,8 +128,9 @@ function sortDeadline(tasks) {
  * @returns {*} The tasks sorted alphabetically
  */
 function sortAlpha(tasks) {
-    let sortedTasks = tasks;
-    return sortedTasks
+    return [...tasks].sort((a, b) => {
+        return a.taskName.localeCompare(b.taskName);
+    });
 }
 
 /**
