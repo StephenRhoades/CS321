@@ -4,7 +4,8 @@ onInstall();
 notify();
 addMessageListener();
 
-/**
+
+import { runTests } from "./tests/taskPageTest.js";/**
  * Basic logging run on installation of the Task Tracker.
  */
 function onInstall() {
