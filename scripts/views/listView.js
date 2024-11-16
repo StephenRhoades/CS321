@@ -1,3 +1,14 @@
+/**
+ * listView.js responsible for:
+ *  - generating the HTML on 'listView.html' page
+ *  - grabbing the tasks from local storage (chrome storage) & building the text for the task
+ *  - sorting the tasks from local storage in the way the user wants  
+ */
+
+
+/**
+ * Event listener for the buttons on the listView page.
+ */
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed");
 
@@ -19,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+/**
+ * Builds the HTML for task View from local storage and updates taskView.html 
+ */
 function generateTasks() {
     const taskContainer = document.getElementById('taskContainer');
     taskContainer.innerHTML = '';  // Clear previous tasks
@@ -37,15 +51,19 @@ function generateTasks() {
         taskDiv.className = 'task';
 
         const taskLabel = document.createElement('label');
+        taskLabel.className = 'name';
         taskLabel.textContent = `Task ${index + 1}: ${task.taskName}`;
 
         const taskDescription = document.createElement('p');
+        taskDescription.className = 'description';
         taskDescription.textContent = `Description: ${task.taskDescription}`;
 
         const taskDate = document.createElement('p');
+        taskDate.className = 'date';
         taskDate.textContent = `Due Date: ${task.date}`;
 
         const taskComplete = document.createElement('p');
+        taskComplete.className = 'complete';
         taskComplete.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
 
         taskDiv.appendChild(taskLabel);
@@ -57,8 +75,51 @@ function generateTasks() {
     });
 }
 
-
+/**
+ * Clears the tasks in taskView.html
+ */
 function clearTasks() {
     const taskContainer = document.getElementById('taskContainer');
     taskContainer.innerHTML = '';
+}
+
+/**
+ * Build the HTML taskDiv given an array of tasks.
+ * @param {*} tasks 
+ */
+function buildTaskDiv(tasks) {
+    // tasks.forEach((task, index) => {
+    //     // etc.
+    // }
+}
+
+/**
+ * Sort the array of tasks by earliest-deadline-first.
+ * @param {*} tasks 
+ * @returns {*} The tasks sorted by deadline
+ */
+function sortDeadline(tasks) {
+    let sortedTasks = tasks;
+    return sortedTasks
+
+}
+
+/**
+ * Sort the array of tasks alphabetically
+ * @param {*} tasks 
+ * @returns {*} The tasks sorted alphabetically
+ */
+function sortAlpha(tasks) {
+    let sortedTasks = tasks;
+    return sortedTasks
+}
+
+/**
+ * Sort the array of tasks in the order that the user added them.
+ * @param {*} tasks 
+ * @returns {*} The tasks sorted by date-added
+ */
+function sortDateAdded(tasks){
+    let sortedTasks = tasks;
+    return sortedTasks
 }

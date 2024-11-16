@@ -10,12 +10,16 @@
     <!-- <script type="text/javascript" src="../../scripts/tests/calendarViewTest.js"></script> -->
 </head>
 <body>
-	<a href="../openView.html"><button class="button">Home Page</button></a>
+    <a href="../openView.html"><button class="home-button">Home Page</button></a>
+    <div class="view-toggle-container">
+        <button id="monthlyViewButton" class="view-tab active">Monthly View</button>
+        <button id="weeklyViewButton" class="view-tab">Weekly View</button>
+    </div>
     <div class="calendar-container">
         <div class="calendar-header">
-            <button id="prevMonth">Previous</button>
+            <button id="prevMonth"><</button>
             <h2 id="monthName"></h2>
-            <button id="nextMonth">Next</button>
+            <button id="nextMonth">></button>
         </div>
         <div class="calendar">
             <div class="week-days">
