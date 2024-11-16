@@ -5,14 +5,12 @@ notify();
 addMessageListener();
 
 
-import { runTests } from "./tests/taskPageTest.js";/**
  * Basic logging run on installation of the Task Tracker.
  */
 function onInstall() {
   chrome.runtime.onInstalled.addListener(() => {
     console.log('Task Tracker extension installed.');
 
-    runTests();
   });
 }
 
