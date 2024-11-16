@@ -20,7 +20,8 @@
         "scripts/views/openView.js",
         "scripts/settings.js",
         "scripts/task.js",
-        "scripts/taskPage.js"
+        "scripts/taskPage.js",
+        "scripts/tests/test.js" 
       ]
     }
   ],
