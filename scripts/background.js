@@ -4,7 +4,7 @@ onInstall();
 notify();
 addMessageListener();
 
-/*
+/**
  * Basic logging run on installation of the Task Tracker.
  */
 function onInstall() {
