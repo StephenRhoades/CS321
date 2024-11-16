@@ -188,7 +188,7 @@ function toggleDetails(button) {
 
 
 /**
- * NOT CURRENTLY FUNCTIONAL
+ * Creates the inputs for the user to edit a task
  * @param {*} button 
  */
 function editTask(button) {

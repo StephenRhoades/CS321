@@ -60,11 +60,10 @@ body {
         border-bottom: none;
     }
     .task-actions {
+
         display: none;
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
+        position: relative;
+        padding-top: 5%;
     }
     .task:hover .task-actions {
         display: inline-block;
