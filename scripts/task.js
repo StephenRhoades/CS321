@@ -14,6 +14,7 @@ submitTask();
 function submitTask() {
     document.addEventListener('DOMContentLoaded', function() {
         console.log("DOM fully loaded and parsed: task");
+        runTests();
 
         //import { runTests } from "./tests/taskPageTest.js";
         document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
