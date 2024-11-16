@@ -5,7 +5,6 @@
 
   "version": "0.5.4",
   "permissions": ["storage", "alarms", "activeTab", "notifications"],
-=======
   "version": "0.5.5",
   "permissions": [
     "storage", 
