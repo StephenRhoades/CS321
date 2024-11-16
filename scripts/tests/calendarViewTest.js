@@ -29,7 +29,7 @@ function assert(condition, message) {
 // Test rendering of February in a leap year (2028)
 function testRenderSpecificMonth() {
     const calendar = new Calendar();
-    calendar.date = new Date(2024, 1); // February 2028
+    calendar.date = new Date(2028, 1); // February 2028
     calendar.renderCalendar();
 
     const calendarDaysElement = document.getElementById('calendarDays');
