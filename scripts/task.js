@@ -1,9 +1,10 @@
-/* All task modifying related functions:
-*     - Adding a task
-*     - Removing a task
-*     - Modifying a task
-*     - Sorting tasks (deadline, alphabetical, etc)
-*/
+/**
+ * Declares dynamicTaskArray field. It is created from tasks that have been
+ * saved in local storage already.
+ */
+let dynamicTaskArray = loadTaskInLocalStorage();
+
+submitTask();
 
 
 /**
@@ -16,18 +17,36 @@ let dynamicTaskArray = loadTaskInLocalStorage();
 /**
  * Event Listener that loads DOM elements of extension webpage for use.
  */
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded and parsed: task");
+function submitTask() {
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("DOM fully loaded and parsed: task");
 
-    document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
-        addTask(event);
+        document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
+            addTask(event);
+        });
     });
-});
+}
+
+async function generateTaskId() {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(['lastTaskId'], (result) => {
+          let newId = (result.lastTaskId || 0) + 1;
+          chrome.storage.local.set({ 'lastTaskId': newId }, () => {
+            console.log("newID " + newId);
+            resolve(newId); 
+          });
+        });
+      });
+}
+
+async function addTask(event) {
 
 
 
 //TASK FUNCTIONS
 function addTask(event) {
+=======
+
     event.preventDefault();
 
     // Collect form data - MUST ADD category and completed to HTML front-end
@@ -35,6 +54,7 @@ function addTask(event) {
     const formData = new FormData(form);
     const taskName = formData.get('task-name');
     const taskDesc = formData.get('task-desc'); 
+
     const taskDay = formData.get('task-date');
     const taskHour = formData.get('task-time');
     const uniqueID = createID();
@@ -72,11 +92,23 @@ function addTask(event) {
 	
     const task = createTask(uniqueID, taskName, taskDesc, 'None', taskDate, false, false);
 
+    const taskDate = formData.get('task-date');
+    const taskTime = formData.get('task-time');
+    const taskRecur = formData.get('task-recur'); 
+    const taskReminder = Number(formData.get('task-rem'));
+
+    const date = taskDate + ' ' + taskTime;
+    const reminder = taskReminder * 60 * 1000;
+    
+    const taskId = await generateTaskId();
+    const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
+
+
     console.log("Saving task:", task);
 
-    // Add the new task to the task array and save it to localStorage
     dynamicTaskArray.push(task);
     saveTasksToLocalStorage();
+
 
 
     //CREATE REMINDERS
@@ -84,6 +116,17 @@ function addTask(event) {
 
     // Form submission or reset
     form.reset();  // This will clear the form after submitting
+}
+
+
+    setAlarm(task);
+
+    form.reset(); 
+}
+
+function setAlarm(task){
+    chrome.runtime.sendMessage("alarm," + Number(task.id) + "," + task.taskName + "," + Date.parse(task.date) + 
+    "," + task.reminder); 
 }
 
 
@@ -207,6 +250,26 @@ function loadTaskInLocalStorage() {
     }
 }
 
+
 function createID(){
     return Date.now()+Math.random();
+ 
+function clearStorage() {
+    localStorage.clear();
+    dynamicTaskArray = loadTaskInLocalStorage();
 }
+
+function createTask(id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring) {
+    return {id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring};
+}
+
+function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring){
+    taskObject.taskName=taskName;
+    taskObject.taskDescription=taskDescription;
+    taskObject.taskCategory=taskCategory;
+    taskObject.date=date;
+    taskObject.complete=complete;
+    taskObject.recurring=recurring;
+
+}
+

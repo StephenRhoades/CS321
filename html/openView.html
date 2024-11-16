@@ -10,9 +10,9 @@
   <body>
 
     <div class="buttons-container">
-      <a href="pages/calendarView.html"><button class="button">View the Calendar</button></a>
-	    <a href="pages/listView.html"><button class="button">List View</button></a>
-	    <a href="pages/settings.html"><button class="button">Settings</button></a>
+      <a href="pages/calendarView.html"><button>View the Calendar</button></a>
+	    <a href="pages/listView.html"><button>List View</button></a>
+	    <a href="pages/settings.html"><button>Settings</button></a>
     </div>
   
     <div class="add-task-section">
@@ -60,6 +60,7 @@
         </div>
 
         <div class="form-group">
+
           <div id="task-recur" class="dropdown-check-list" tabindex="2">
             <span class="anchor">Repeat Every:</span>
             <ul class="items">
@@ -72,6 +73,16 @@
               <li><input type="checkbox" id="Sunday" name="Sunday" value="Sunday" />Sunday</li>
             </ul>
           </div>
+          
+          <label for="task-rem">Remind Me:</label>
+          <select id="task-rem" name="task-rem">
+            <option value="15">15 minutes before</option>
+            <option value="30">30 minutes before</option>
+            <option value="60">1 hour before</option>
+            <option value="180">3 hours before</option>
+            <option value="1440">1 day before</option>
+          </select>
+
         </div>
         
       
