@@ -10,7 +10,8 @@ addMessageListener();
 function onInstall() {
   chrome.runtime.onInstalled.addListener(() => {
     console.log('Task Tracker extension installed.');
-  
+
+    runTests();
   });
 }
 
