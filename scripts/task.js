@@ -6,7 +6,7 @@ let dynamicTaskArray = loadTaskInLocalStorage();
 
 submitTask();
 
-import { runTests } from "./tests/taskPageTest.js";
+import { runTests } from "../tests/taskPageTest.js";
 
 /**
  * Event Listener that loads DOM elements of extension webpage for use.
