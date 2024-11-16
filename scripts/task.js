@@ -7,11 +7,6 @@ let dynamicTaskArray = loadTaskInLocalStorage();
 submitTask();
 
 
-/**
- * Declares dynamicTaskArray field. It is created from tasks that have been
- * saved in local storage already.
- */
-let dynamicTaskArray = loadTaskInLocalStorage();
 
 //EVENT LISTENERS FUNCTIONS
 /**
@@ -39,13 +34,12 @@ async function generateTaskId() {
       });
 }
 
-async function addTask(event) {
+
 
 
 
 //TASK FUNCTIONS
-function addTask(event) {
-=======
+async function addTask(event) {
 
     event.preventDefault();
 
