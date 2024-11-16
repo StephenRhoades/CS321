@@ -62,13 +62,13 @@ function generateTasks(sortType) {
         tasks = sortAlpha(tasks);
     }
 
-    tasks.forEach((task, index) => {
+    tasks.forEach((task) => {
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task';
 
         const taskLabel = document.createElement('label');
         taskLabel.className = 'name';
-        taskLabel.textContent = `Task ${index + 1}: ${task.taskName}`;
+        taskLabel.textContent = `Task ${task.id}: ${task.taskName}`;
 
         const taskDescription = document.createElement('p');
         taskDescription.className = 'description';
