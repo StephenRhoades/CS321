@@ -5,14 +5,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Sample mock task for testing
-let mockTask = {
-    taskName: 'Test Task',
-    taskDescription: 'Test Description',
-    taskCategory: 'Test Category',
-    date: '2024-11-16',
-    complete: false,
-    recurring: false,
-};
+const mockTask = createTask(
+    0,                  // id
+    'Sample Task',      // taskName
+    'This is a sample task description', // taskDescription
+    'Work',             // taskCategory
+    '2024-11-16',       // date
+    '2024-11-15',       // reminder (optional field)
+    false,              // complete (initially incomplete)
+    true                // recurring (whether the task is recurring or not)
+);
 
 // Utility function for comparing values
 function assertEquals(expected, actual, message) {
