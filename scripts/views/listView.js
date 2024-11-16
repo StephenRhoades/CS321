@@ -50,6 +50,14 @@ function generateTasks() {
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task';
 
+        const header = document.createElement('div');
+        header.className = 'header';
+
+        const taskEdit = document.createElement('a');
+        taskEdit.className = 'edit';
+        taskEdit.innerHTML = '&#x270E;';
+        taskEdit.href = "../../html/pages/tasKPage.html";
+
         const taskLabel = document.createElement('label');
         taskLabel.className = 'name';
         taskLabel.textContent = `Task ${index + 1}: ${task.taskName}`;
@@ -66,6 +74,8 @@ function generateTasks() {
         taskComplete.className = 'complete';
         taskComplete.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
 
+        header.appendChild(taskEdit);
+        taskDiv.appendChild(header);
         taskDiv.appendChild(taskLabel);
         taskDiv.appendChild(taskDescription);
         taskDiv.appendChild(taskDate);
