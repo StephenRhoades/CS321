@@ -17,7 +17,7 @@ html{
     }
     
     .container {
-        max-width: 600px;
+        max-width: 400px;
         margin: 0 auto;
         background-color: white;
         padding: 20px;
@@ -55,11 +55,13 @@ html{
     
     .task {
         padding: 10px;
-        margin: 10px 0;
+        margin: 10px;
         background-color: #f9f9f9;
         border: 1px solid #ddd;
         border-radius: 4px;
-        
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
     
     .taskLabel {
@@ -69,5 +71,15 @@ html{
     
     .task input {
         margin-right: 10px;
+    }
+
+    .description {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    
+    .header {
+        text-align: right;
     }
     
