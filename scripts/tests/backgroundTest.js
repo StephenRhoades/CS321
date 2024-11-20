@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed: backgroundTest");
+    // Unit tests
     testParseTimeBefore();
     testGetReminderTime();
+    // testDeleteAlarm();
+    // parital integration
     testCreateTaskAlarmAndNotify();
 });
 
