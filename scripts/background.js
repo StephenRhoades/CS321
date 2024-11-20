@@ -33,6 +33,7 @@ async function notify() {
         title: 'Task Reminder',
         message: 'Task ' + name + ' is due ' + time + '!'
       });
+      console.log(alarm.name + " notification created.")
     }
   });
 }

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed: backgroundTest");
     testParseTimeBefore();
     testGetReminderTime();
-    testCreateTaskAlarm();
+    testCreateTaskAlarmAndNotify();
 });
 
 function testParseTimeBefore() {
@@ -41,7 +41,7 @@ function testGetReminderTime() {
     console.log("Test Get Reminder Time: Passed");
 }
 
-function testCreateTaskAlarm() {
+function testCreateTaskAlarmAndNotify() {
     // Checking Errors first
     try {
         createTaskAlarm();
@@ -58,6 +58,14 @@ function testCreateTaskAlarm() {
     } catch (Error) {
         assert(Error.message === 'Invalid Date: reminderDate results in NaN', "Error for reminderDate time being NaN not generated correctly");
     }
+
+    //overwriting original console.log to check for notifications
+    const originalLog = console.log;
+    const consoleOutput = [];
+    console.log = (...args) => {
+        consoleOutput.push(args.join(" "));
+    };
+
     now = new Date();
     createTaskAlarm(1.31415, now, 0, "test1");
     createTaskAlarm(2.31415, new Date(now.getTime() + 1 * 1000), 1 * 1000, "test2");
@@ -72,39 +80,52 @@ function testCreateTaskAlarm() {
         if (alarm.name.startsWith('taskReminder1.31415')) {
             assert((new Date()).getTime() - now.getTime() < 50, "Alarm 1 did not sound in time");
             assert(alarm.name === 'taskReminder1.31415_test1_0', "Alarm 1 is not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder1.31415_test1_0 alarm!'), "Notification not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder1.31415_test1_0 notification created.'), "Notification not created successfully!");
             checked ++;
         }
         if (alarm.name.startsWith('taskReminder2.31415')) {
             console.log((new Date()).getTime() - (now.getTime() + 1000));
             assert((new Date()).getTime() - (now.getTime() + 1000) < 50, "Alarm 2 did not sound in time");
             assert(alarm.name === 'taskReminder2.31415_test2_1000', "Alarm 2 is not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder2.31415_test2_1000 alarm!'), "Notification not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder2.31415_test2_1000 notification created.'), "Notification not created successfully!");
             checked ++;
         }
         if (alarm.name.startsWith('taskReminder3.31415')) {
             console.log((new Date()).getTime() - (now.getTime() + 2000));
             assert((new Date()).getTime() - (now.getTime() + 2000) < 50, "Alarm 3 did not sound in time");
             assert(alarm.name === 'taskReminder3.31415_test3_2000', "Alarm 3 is not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder3.31415_test3_2000 alarm!'), "Notification not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder3.31415_test3_2000 notification created.'), "Notification not created successfully!");
             checked ++;
         }
         if (alarm.name.startsWith('taskReminder4.31415')) {
             console.log((new Date()).getTime() - (now.getTime() + 3000));
             assert((new Date()).getTime() - (now.getTime() + 3000) < 50, "Alarm 4 did not sound in time");
             assert(alarm.name === 'taskReminder4.31415_test4_3000', "Alarm 4 is not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder4.31415_test4_3000 alarm!'), "Notification not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder4.31415_test4_3000 notification created.'), "Notification not created successfully!");
             checked ++;
         }
         if (alarm.name.startsWith('taskReminder5.31415')) {
             console.log((new Date()).getTime() - (now.getTime() + 4000));
             assert((new Date()).getTime() - (now.getTime() + 4000) < 50, "Alarm 5 did not sound in time");
             assert(alarm.name === 'taskReminder5.31415_test5_4000', "Alarm 5 is not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder5.31415_test5_4000 alarm!'), "Notification not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder5.31415_test5_4000 notification created.'), "Notification not created successfully!");
             checked ++;
         }
         if (alarm.name.startsWith('taskReminder6.31415')) {
             console.log((new Date()).getTime() - (now.getTime() + 30000));
             assert((new Date()).getTime() - (now.getTime() + 30000) < 50, "Alarm 6 did not sound in time");
             assert(alarm.name === 'taskReminder6.31415_test6_30000', "Alarm 6 is not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder6.31415_test6_30000 alarm!'), "Notification not formatted correctly!");
+            assert(consoleOutput.includes('taskReminder6.31415_test6_30000 notification created.'), "Notification not created successfully!");
             checked ++;
         }
         if (checked == 6) {
+            console.log = originalLog;
             console.log("Test Create Task Alarm: Passed");
         }
     });
