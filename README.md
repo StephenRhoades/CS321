@@ -1,19 +1,42 @@
-# CS321
-CS 321 group 2 class project: Task Tracker Chrom Extension.
+I use CommonJS to debug the code.
+the Output should like this.
 
-## This is non-functional currently, but should be how this will be accomplished
-To run this extension, click the green button on the right half with the text "<> code" and then select download zip from the resultant dropdown. 
-You will then want to unzip the folder and ensure that the manifest.json is in the base folder. 
-You can then go to your desired browser and traverse to the manage extensions page by inputing the url "chrome://extensions" into the header. If you are in a browser aside from chrome, this should still work but you can manually replace chrome with the name of your browser if that doesn't happen automatically.
-You will then want to turn on developer mode if it is not alread on, and click the option to load unpacked and select your unzipped folder you downloaded.
-The extension should then be among your extensions, running locally.
+ Calendar Tests
+    ✔ should render February 2028 correctly (29 days in leap year) (133ms)
+    ✔ should navigate from December to January and January to December (129ms)
+    ✔ should mark specific task dates (57ms)
 
-### Authors:
-Evan Bellino,
-Joseph Gery,
-Bin Jiang,
-Nelson Nguyen,
-Giancarlo Jaramillo Rojas,
-Stephen Rhoades,
-David Schmidle
+
+  3 passing (327ms)
+
+
+Install Node.js, npm, and mocha
+
+npm install --save-dev chai eslint glob jsdom mocha
+
+
+vertify if Node.js install correct run node -v and npm list
+
+going to calendarViewTest.js Directory  
+Run: npx mocha calendarViewTest.js
+
+
+if code does not work, try following steps to reintall Dependencies
+Ensure there are no duplicate require("chai") or expect declarations.
+
+
+Install ESLint to catch syntax issues:
+npm install eslint --save-dev
+npx eslint scripts/tests/calendarViewTest.js
+
+Clear Node.js cache to ensure no old code is interfering:
+npm cache clean --force
+
+Delete node_modules and reinstall:
+
+rm -rf node_modules package-lock.json
+npm install
+
+Run your test again:
+Run: npx mocha calendarViewTest.js
 
