@@ -44,7 +44,6 @@ async function notify() {
  * @returns A string formated to list the days, hours, and minutes left till the item is due.
  */
 function parseTimeBefore(timeBefore){
-  console.log(timeBefore);
   const days = Math.floor(timeBefore / (24*60*60*1000));
   const hours = Math.floor((timeBefore % (24*60*60*1000)) / (60*60*1000));
   const minutes = Math.floor((timeBefore % (60*60*1000)) / (60*1000));
@@ -58,12 +57,18 @@ function parseTimeBefore(timeBefore){
     }
   }
   if (hours > 0) {
+    if (time !== "in") {
+      time += ",";
+    }
     time += " " + hours + " hour";
     if (hours > 1) {
       time += "s";
     }
   }
   if (minutes > 0) {
+    if (time !== "in") {
+      time += ",";
+    }
     time += " " + minutes + " minute";
     if (minutes > 1) {
       time += "s";
@@ -119,27 +124,19 @@ function getReminderTime(dueDate, reminderPeriod) {
  * @param {String} name the name of the task to set the alarm for.
  */
 function createTaskAlarm(taskId, reminderDate, timeBefore, name) {
-  try {
-    if (!(reminderDate instanceof Date)) {
-      console.error('Invalid reminderDate: not a Date object');
-      exit(1);
-    }
-
-    const timestamp = reminderDate.getTime();
-
-    if (isNaN(timestamp)) {
-      console.error('Invalid Date: reminderDate results in NaN');
-      exit(1);
-    }
-
-    console.log('Reminder time in ms:', timestamp);
-
-    chrome.alarms.create(`taskReminder${taskId}_${name}_${timeBefore}`, {
-        when: timestamp
-    });
-  } catch (error) {
-    console.error('Error creating task alarm:', error);
+  if (!(reminderDate instanceof Date)) {
+    throw new Error('Invalid reminderDate: not a Date object');
   }
+
+  const timestamp = reminderDate.getTime();
+
+  if (isNaN(timestamp)) {
+    throw new Error('Invalid Date: reminderDate results in NaN');
+  }
+
+  chrome.alarms.create(`taskReminder${taskId}_${name}_${timeBefore}`, {
+      when: timestamp
+  });
 }
 
 /**
