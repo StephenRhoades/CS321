@@ -58,6 +58,15 @@ function fillTaskForm(event, taskObject) {
 }
 
 
+function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring){
+    taskObject.taskName=taskName;
+    taskObject.taskDescription=taskDescription;
+    taskObject.taskCategory=taskCategory;
+    taskObject.date=date;
+    taskObject.complete=complete;
+    taskObject.recurring=recurring;
+}
+
 /**
  * Changes the Task Name 
  * @param {*} task 
@@ -141,7 +150,7 @@ function removeTaskIndex(index) {
 
 
 function addReminder(taskObject) {
-    await chrome.alarms.create(taskObject.taskName, {
+    chrome.alarms.create(taskObject.taskName, {
         when: taskObject.taskDate - 900000 //Creates reminder 15 minutes before task due date
     });
 }
@@ -151,3 +160,5 @@ function changeReminder() {}
 function removeReminder() {}
 
 //function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring)
+
+

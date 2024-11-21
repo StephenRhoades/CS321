@@ -6,7 +6,6 @@ let dynamicTaskArray = loadTaskInLocalStorage();
 
 submitTask();
 
-import { runTests } from "../tests/taskPageTest.js";
 
 /**
  * Event Listener that loads DOM elements of extension webpage for use.
@@ -14,7 +13,6 @@ import { runTests } from "../tests/taskPageTest.js";
 function submitTask() {
     document.addEventListener('DOMContentLoaded', function() {
         console.log("DOM fully loaded and parsed: task");
-        runTests();
 
         //import { runTests } from "./tests/taskPageTest.js";
         document.getElementById('submit-task-button')?.addEventListener('click', function(event) {
@@ -99,12 +97,4 @@ function createTask(id, taskName, taskDescription, taskCategory, date, reminder,
     return {id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring};
 }
 
-function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring){
-    taskObject.taskName=taskName;
-    taskObject.taskDescription=taskDescription;
-    taskObject.taskCategory=taskCategory;
-    taskObject.date=date;
-    taskObject.complete=complete;
-    taskObject.recurring=recurring;
-}
 

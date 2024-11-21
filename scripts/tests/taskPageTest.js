@@ -1,9 +1,8 @@
-/**
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed: taskPage test");
     runTests();
 });
-**/
+
 
 
 // Sample mock task for testing
@@ -12,8 +11,29 @@ const mockTask = createTask(
     'Sample Task',      // taskName
     'This is a sample task description', // taskDescription
     'Work',             // taskCategory
-    '2024-11-16',       // date
-    '2024-11-15',       // reminder (optional field)
+    Date(),       // date
+    false,              // complete (initially incomplete)
+    true                // recurring (whether the task is recurring or not)
+);
+
+// Sample mock task for testing
+const mockTask2 = createTask(
+    1,                  // id
+    'Sample Task2',      // taskName
+    'This is a sample task description', // taskDescription
+    'Work',             // taskCategory
+    Date(),       // date
+    false,              // complete (initially incomplete)
+    true                // recurring (whether the task is recurring or not)
+);
+
+// Sample mock task for testing
+const mockTask3 = createTask(
+    1,                  // id
+    'Sample Task3',      // taskName
+    'This is a sample task description', // taskDescription
+    'Work',             // taskCategory
+    Date(),       // date
     false,              // complete (initially incomplete)
     true                // recurring (whether the task is recurring or not)
 );
@@ -29,7 +49,7 @@ function assertEquals(expected, actual, message) {
 
 function assertTrue(actual, message) {
     if (actual === true) {
-        console.log(`PASS: ${message}`);
+        console.log(`PASS`);
     } else {
         console.log(`FAIL: ${message}`);
     }
@@ -43,61 +63,130 @@ function assertFalse(actual, message) {
     }
 }
 
-// Test Suite
-export function runTests() {
-    console.log("Running Tests...\n");
+// Run all tests
+function runTests() {
+    console.log("Running taskPage.js Tests...\n");
 
-    // Test changeName function
-    let changedName = false;
-    changeName(mockTask, 'New Task Name');
-    assertTrue(mockTask.taskName === 'New Task Name', "changeName should update taskName");
+    testModifyTask();
+    testChangeName();
+    testChangeDescription();
+    testChangeCategory();
+    testChangeDate();
+    testChangeComplete();
+    testChangeRecurring();
+    testRemoveTask();
+    testRemoveTaskIndex();
+    testRemoveTaskIndexInvalid();
+    testRemoveTaskNotFound();
 
-    // Test changeDecription function
-    changeDecription(mockTask, 'New Task Description');
-    assertTrue(mockTask.taskDescription === 'New Task Description', "changeDecription should update taskDescription");
-
-    // Test changeCategory function
-    changeCategory(mockTask, 'New Category');
-    assertTrue(mockTask.taskCategory === 'New Category', "changeCategory should update taskCategory");
-
-    // Test changeDate function
-    changeDate(mockTask, '2025-01-01');
-    assertTrue(mockTask.date === '2025-01-01', "changeDate should update date");
-
-    // Test changeComplete function
-    changeComplete(mockTask, true);
-    assertTrue(mockTask.complete === true, "changeComplete should update complete status");
-
-    // Test changeRecurring function
-    changeRecurring(mockTask, true);
-    assertTrue(mockTask.recurring === true, "changeRecurring should update recurring status");
-
-    // Test removeTask function
-    let dynamicTaskArray = loadTaskInLocalStorage();
-    console.log('Initial tasks:', dynamicTaskArray);
-    removeTask(mockTask); // Mock removing the task
-    dynamicTaskArray = loadTaskInLocalStorage();
-    assertTrue(dynamicTaskArray.length === 0, "removeTask should remove the task");
-
-    // Test removeTaskIndex function
-    loadTaskInLocalStorage = () => [mockTask, {taskName: 'Task 2'}]; // Reset tasks for index removal
-    dynamicTaskArray = loadTaskInLocalStorage();
-    console.log('Initial tasks before index removal:', dynamicTaskArray);
-    removeTaskIndex(0); // Mock removing task at index 0
-    dynamicTaskArray = loadTaskInLocalStorage();
-    assertTrue(dynamicTaskArray.length === 1, "removeTaskIndex should remove task at index");
-
-    // Test invalid index
-    loadTaskInLocalStorage = () => [mockTask, {taskName: 'Task 2'}];
-    dynamicTaskArray = loadTaskInLocalStorage();
-    console.log('Initial tasks before invalid index removal:', dynamicTaskArray);
-    removeTaskIndex(5); // Invalid index, nothing should be removed
-    dynamicTaskArray = loadTaskInLocalStorage();
-    assertTrue(dynamicTaskArray.length === 2, "removeTaskIndex should not remove task with invalid index");
-
-    console.log("\nTests completed.");
+    console.log("\n taskPage.js Tests completed.");
 }
 
-// Run all tests
-    runTests();
+//Test modifyTask function
+function testModifyTask()
+{
+    console.log("Running test: modifyTask");
+    const testDate = Date('2024-11-15');
+    modifyTask(mockTask3, 'taskTestModify', "Modify description text", "taskPage Test", testDate, true, false);
+
+    assertTrue(mockTask3.taskName === 'taskTestModify', "Task Name should be modified");
+    assertTrue(mockTask3.taskDescription === 'Modify description text', "Task Description should be modified");
+    assertTrue(mockTask3.taskCategory === 'taskPage Test', "Task Category should be modified");
+    assertTrue(mockTask3.date === testDate, "Task Date should be modified");
+    assertTrue(mockTask3.complete === true, "Task Reminder should be modified");
+    assertTrue(mockTask3.recurring === false, "Task Recurring should be modified to false");
+    
+}
+
+// Test changeName function
+function testChangeName() {
+    console.log("Running test: changeName");
+    changeName(mockTask, 'New Task Name');
+    assertTrue(mockTask.taskName === 'New Task Name', "changeName should update taskName");
+}
+
+// Test changeDescription function
+function testChangeDescription() {
+    console.log("Running test: changeDescription");
+    changeDecription(mockTask, 'New Task Description');
+    assertTrue(mockTask.taskDescription === 'New Task Description', "changeDecription should update taskDescription");
+}
+
+// Test changeCategory function
+function testChangeCategory() {
+    console.log("Running test: changeCategory");
+    changeCategory(mockTask, 'New Category');
+    assertTrue(mockTask.taskCategory === 'New Category', "changeCategory should update taskCategory");
+}
+
+// Test changeDate function
+function testChangeDate() {
+    console.log("Running test: changeDate");
+    changeDate(mockTask, '2025-01-01');
+    assertTrue(mockTask.date === '2025-01-01', "changeDate should update date");
+}
+
+// Test changeComplete function
+function testChangeComplete() {
+    console.log("Running test: changeComplete");
+    changeComplete(mockTask, true);
+    assertTrue(mockTask.complete === true, "changeComplete should update complete status");
+}
+
+// Test changeRecurring function
+function testChangeRecurring() {
+    console.log("Running test: changeRecurring");
+    changeRecurring(mockTask, true);
+    assertTrue(mockTask.recurring === true, "changeRecurring should update recurring status");
+}
+
+// Test removeTask function
+function testRemoveTask() {
+    console.log("Running test: removeTask");
+    setupTestForRemoval();
+    removeTask(mockTask);
+    saveTasksToLocalStorage();
+    loadTaskInLocalStorage();
+    assertTrue(dynamicTaskArray.length === 0, "removeTask should remove the task");
+}
+
+// Test removeTaskIndex function
+function testRemoveTaskIndex() {
+    console.log("Running test: removeTaskIndex");
+    setupTestForRemoval();
+    removeTaskIndex(0);
+    saveTasksToLocalStorage();
+    loadTaskInLocalStorage();
+    assertTrue(dynamicTaskArray.length === 0, "removeTaskIndex should remove task at index");
+}
+
+// Test removeTaskIndex - invalid index branch
+function testRemoveTaskIndexInvalid() {
+    console.log("Running test: removeTaskIndexInvalid");
+    setupTestForRemoval();
+    dynamicTaskArray.push(mockTask);
+    console.log('Initial tasks before invalid index removal:', dynamicTaskArray);
+    removeTaskIndex(5); // Invalid index
+    saveTasksToLocalStorage();
+    loadTaskInLocalStorage();
+    assertTrue(dynamicTaskArray.length === 1, "removeTaskIndex should not remove task with invalid index");
+}
+
+// Test removeTask - task object not found branch
+function testRemoveTaskNotFound() {
+    console.log("Running test: removeTaskNotFound");
+    setupTestForRemoval();
+    dynamicTaskArray.push(mockTask);
+    console.log('Initial tasks before invalid index removal:', dynamicTaskArray);
+    removeTask(mockTask2); // Invalid task object
+    saveTasksToLocalStorage();
+    loadTaskInLocalStorage();
+    assertTrue(dynamicTaskArray.length === 1, "removeTask should not remove task with invalid object");
+}
+
+// Helper function to set up the test state
+function setupTestForRemoval() {
+    loadTaskInLocalStorage();
+    dynamicTaskArray.length=0;
+}
 

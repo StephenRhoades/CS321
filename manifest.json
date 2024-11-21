@@ -16,13 +16,13 @@
       "matches": ["<all_urls>"],
       "module": true,
       "js": [
-        "scripts/tests/taskPageTest.js",
+        "scripts/task.js",
+        "scripts/views/openView.js",
+        "scripts/taskPage.js",
         "scripts/views/calendarView.js",
         "scripts/views/listView.js",
-        "scripts/views/openView.js",
         "scripts/settings.js",
-        "scripts/task.js",
-        "scripts/taskPage.js"
+        "scripts/tests/taskPageTest.js"
       ]
     }
   ],
