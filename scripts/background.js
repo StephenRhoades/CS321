@@ -16,6 +16,8 @@ function onInstall() {
 
 /**
  * This will create a listener that generates a notification upon an alarm going off.
+ * When an alarm is found the following will be logged: "taskReminderid_name_timeBefore alarm!"
+ * When a notification is created the following will be logged: "taskReminderid_name_timeBefore notification created."
  */
 async function notify() {
   chrome.alarms.onAlarm.addListener((alarm) => {
@@ -33,6 +35,7 @@ async function notify() {
         title: 'Task Reminder',
         message: 'Task ' + name + ' is due ' + time + '!'
       });
+      console.log(alarm.name + " notification created.")
     }
   });
 }
@@ -44,7 +47,6 @@ async function notify() {
  * @returns A string formated to list the days, hours, and minutes left till the item is due.
  */
 function parseTimeBefore(timeBefore){
-  console.log(timeBefore);
   const days = Math.floor(timeBefore / (24*60*60*1000));
   const hours = Math.floor((timeBefore % (24*60*60*1000)) / (60*60*1000));
   const minutes = Math.floor((timeBefore % (60*60*1000)) / (60*1000));
@@ -58,12 +60,18 @@ function parseTimeBefore(timeBefore){
     }
   }
   if (hours > 0) {
+    if (time !== "in") {
+      time += ",";
+    }
     time += " " + hours + " hour";
     if (hours > 1) {
       time += "s";
     }
   }
   if (minutes > 0) {
+    if (time !== "in") {
+      time += ",";
+    }
     time += " " + minutes + " minute";
     if (minutes > 1) {
       time += "s";
@@ -79,18 +87,25 @@ function parseTimeBefore(timeBefore){
  * first reference listed. All messages should split any data from the command by commas with no 
  * spaces. (ie. "alarm,id,name,date,reminder")
  * Current commands:
- * "alarm" "delete"
+ * "alarm" fields:<id>,<name>,<date>,<timeBefore>
+ * "delete" fields:<id>,<name>,<timeBefore>
+ * "clearAlarms" fields:NA
+ * When a message is received the follwing will be logged:
+ *      "Background received: message"
  */
 function addMessageListener(){
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log('Background received:', message);
     values = message.split(',');
-    console.log(values);
+    // console.log(values);
     if (values[0] === "alarm") {
       createTaskAlarm(values[1], getReminderTime(values[3], values[4]), values[4], values[2]);
     }
     else if (values[0] === "delete") {
-      deleteTaskAlarm(values[1], values[2]);
+      deleteTaskAlarm(values[1], values[2], values[3]);
+    } 
+    else if (values[0] === "clearAlarms") {
+      clearAlarms();
     }
     sendResponse({ status: 'received' });
   });
@@ -119,35 +134,61 @@ function getReminderTime(dueDate, reminderPeriod) {
  * @param {String} name the name of the task to set the alarm for.
  */
 function createTaskAlarm(taskId, reminderDate, timeBefore, name) {
-  try {
-    if (!(reminderDate instanceof Date)) {
-      console.error('Invalid reminderDate: not a Date object');
-      exit(1);
-    }
-
-    const timestamp = reminderDate.getTime();
-
-    if (isNaN(timestamp)) {
-      console.error('Invalid Date: reminderDate results in NaN');
-      exit(1);
-    }
-
-    console.log('Reminder time in ms:', timestamp);
-
-    chrome.alarms.create(`taskReminder${taskId}_${name}_${timeBefore}`, {
-        when: timestamp
-    });
-  } catch (error) {
-    console.error('Error creating task alarm:', error);
+  if (!(reminderDate instanceof Date)) {
+    throw new Error('Invalid reminderDate: not a Date object');
   }
-}
+
+  const timestamp = reminderDate.getTime();
+
+  if (isNaN(timestamp)) {
+    throw new Error('Invalid Date: reminderDate results in NaN');
+  }
+
+  chrome.alarms.create(`taskReminder${taskId}_${name}_${timeBefore}`, {
+      when: timestamp
+  });
+  console.log("alarm " + `taskReminder${taskId}_${name}_${timeBefore}` + " created!")
+;}
 
 /**
  * Delete a created alarm by id and timeBefore
- * @param {int} alarmId the id of the alarm to delete.
- * @param {int} alarmTime the timeBefore of the alarm to delete.
- * @return 1 if successful, -1 if failed.
+ * will log the result of attempt as such:
+ *    success   => "taskRemindertaskId_name_timeBefore deleted."
+ *    failure   => "taskRemindertaskId_name_timeBefore failed to delete!"
+ *    alarm not found => "taskRemindertaskId_name_timeBefore not found for deletion."
+ * @param {int} taskId the id of the task of thealarm to delete.
+ * @param {String} name the name of the task of the alarm to delete.
+ * @param {int} timeBefore the timeBefore of the alarm to delete.
  */
-function deleteTaskAlarm(alarmId, alarmTime) {
-  
+function deleteTaskAlarm(taskId, name, timeBefore) {
+  const alarmName = `taskReminder${taskId}_${name}_${timeBefore}`;
+  console.log("test");
+  chrome.alarms.get(alarmName, (alarm) => {
+    if (alarm) {
+      chrome.alarms.clear(alarmName, (success) => {
+        if (success) {
+          console.log(alarmName + " deleted.");
+        } else {
+          console.log(alarmName + " failed to delete!");
+        }
+      });
+    } else {
+      console.log(alarmName + " not found for deletion.");
+    }
+  });
+}
+
+/**
+ * This will clear all alarms from the system
+ * log "All alarms successfully cleared!" on success
+ * log "No alarms to clear." on failure
+ */
+function clearAlarms() {
+  chrome.alarms.clearAll((wasCleared) => {
+    if (wasCleared) {
+        console.log("All alarms successfully cleared!");
+    } else {
+        console.log("No alarms to clear.");
+    }
+  });
 }
