@@ -37,7 +37,8 @@ function testValidTaskDate(taskDate) {
 
 // Test to check if task time is valid (should be a non-empty string)
 function testValidTaskTime(taskTime) {
-    if (!taskTime || typeof taskTime !== 'string' || taskTime.trim() === "" || tastTime.trim() > "24:00") {
+	timeParts = taskTime.split(":");
+    if (!taskTime || typeof taskTime !== 'string' || taskTime.trim() === "" || timeParts[0] > "24" || timeParts[1] > "59" || timeParts[2] > "59") {
         console.log("Invalid task time:", taskTime);
         return false;
     }
@@ -84,6 +85,25 @@ function testAddInvalidTask() {
         console.log("Test 3: Date not valid");
     else 
         console.log("Test 3: Date is valid");
+	
+	const invalidTime1 = {
+        taskName: "Test Invalid Time", // Valid task name
+        taskDesc: "This is a test task description",
+        taskDate: "2024-12-31", // Invalid date
+        taskTime: "", // Valid time
+    };
+	
+	isValidDate = testValidateTaskData(
+        invalidTime1.taskName,
+        invalidTime1.taskDesc,
+        invalidTime1.taskDate,
+        invalidTime1.taskTime
+    );
+	
+	if (!isValidDate) 
+        console.log("Test 4: Time not valid");
+    else 
+        console.log("Test 4: Time is valid");
 }
 
 // Run the invalid task test
