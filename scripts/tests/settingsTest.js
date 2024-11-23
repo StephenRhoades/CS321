@@ -200,60 +200,79 @@ describe('Settings.js Full Coverage Tests', () => {
 
 
     // Integration Tests
-    test('Theme settings update background and font colors', () => {
-        setTheme('dark');
-        expect(globals.windowTheme).toBe('dark');
-        expect(globals.backgroundColor).toBe('1E1E1E');
-        expect(globals.fontColor).toBe('A5A5A5');
+test('Theme settings update background and font colors', () => {
+    setTheme('dark');
+    expect(globals.windowTheme).toBe('dark');
+    expect(globals.backgroundColor).toBe('1E1E1E');
+    expect(globals.fontColor).toBe('A5A5A5');
 
-        setTheme('light');
-        expect(globals.windowTheme).toBe('light');
-        expect(globals.backgroundColor).toBe('FFFFFF');
-        expect(globals.fontColor).toBe('000000');
+    setTheme('light');
+    expect(globals.windowTheme).toBe('light');
+    expect(globals.backgroundColor).toBe('FFFFFF');
+    expect(globals.fontColor).toBe('000000');
 
-        setTheme('custom');
-        expect(globals.windowTheme).toBe('custom');
-    });
+    setTheme('custom');
+    expect(globals.windowTheme).toBe('custom');
+});
 
-    test('Window settings update height and width through setWindow', () => {
-        setWindow(500, 600);
-        expect(globals.windowHeight).toBe(500);
-        expect(globals.windowWidth).toBe(600);
+test('Window settings update height and width through setWindow', () => {
+    setWindow(500, 600);
+    expect(globals.windowHeight).toBe(500);
+    expect(globals.windowWidth).toBe(600);
 
-        setWindowHeight(700);
-        expect(globals.windowHeight).toBe(700);
+    setWindowHeight(700);
+    expect(globals.windowHeight).toBe(700);
 
-        setWindowWidth(450);
-        expect(globals.windowWidth).toBe(450);
+    setWindowWidth(450);
+    expect(globals.windowWidth).toBe(450);
 
-        setWindow(300, 900); // Invalid height and width
-        expect(globals.windowHeight).not.toBe(300);
-        expect(globals.windowWidth).not.toBe(900);
-    });
+    setWindow(300, 900); // Invalid height and width
+    expect(globals.windowHeight).not.toBe(300);
+    expect(globals.windowWidth).not.toBe(900);
+});
 
-    test('Input validation with maxLengthCheck and isNumeric', () => {
-        const input = { value: '123456', max: { length: 3 } };
-        maxLengthCheck(input);
-        expect(input.value).toBe('123');
+test('setFontSize updates font size and interacts with globals', () => {
+    // Set a valid font size
+    setFontSize(16);
+    expect(globals.fontSize).toBe(16);
 
-        const numericEvent = { key: '5', preventDefault: jest.fn() };
-        isNumeric(numericEvent);
-        expect(numericEvent.preventDefault).not.toHaveBeenCalled();
+    // Set an invalid font size (below range)
+    setFontSize(6);
+    expect(globals.fontSize).not.toBe(6);
 
-        const nonNumericEvent = { key: 'A', preventDefault: jest.fn() };
-        isNumeric(nonNumericEvent);
-        expect(nonNumericEvent.preventDefault).toHaveBeenCalled();
-    });
+    // Set an invalid font size (above range)
+    setFontSize(100);
+    expect(globals.fontSize).not.toBe(100);
 
-    test('toggleQuickAdd changes global state without affecting others', () => {
-        toggleQuickAdd();
-        expect(globals.quickAddEnabled).toBe(true);
+    // Ensure no unintended changes to other globals
+    expect(globals.windowTheme).toBe('light');
+    expect(globals.backgroundColor).toBe('FFFFFF');
+    expect(globals.fontColor).toBe('000000');
+});
 
-        toggleQuickAdd();
-        expect(globals.quickAddEnabled).toBe(false);
+test('Input validation with maxLengthCheck and isNumeric', () => {
+    const input = { value: '123456', max: { length: 3 } };
+    maxLengthCheck(input);
+    expect(input.value).toBe('123');
 
-        expect(globals.windowTheme).toBe('light');
-        expect(globals.backgroundColor).toBe('FFFFFF');
-        expect(globals.fontColor).toBe('000000');
-    });
+    const numericEvent = { key: '5', preventDefault: jest.fn() };
+    isNumeric(numericEvent);
+    expect(numericEvent.preventDefault).not.toHaveBeenCalled();
+
+    const nonNumericEvent = { key: 'A', preventDefault: jest.fn() };
+    isNumeric(nonNumericEvent);
+    expect(nonNumericEvent.preventDefault).toHaveBeenCalled();
+});
+
+test('toggleQuickAdd changes global state without affecting others', () => {
+    toggleQuickAdd();
+    expect(globals.quickAddEnabled).toBe(true);
+
+    toggleQuickAdd();
+    expect(globals.quickAddEnabled).toBe(false);
+
+    expect(globals.windowTheme).toBe('light');
+    expect(globals.backgroundColor).toBe('FFFFFF');
+    expect(globals.fontColor).toBe('000000');
+});
 });
