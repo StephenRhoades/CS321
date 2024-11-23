@@ -141,7 +141,7 @@ function removeTaskIndex(index) {
 
 
 function addReminder(taskObject) {
-    await chrome.alarms.create(taskObject.taskName, {
+    chrome.alarms.create(taskObject.taskName, {
         when: taskObject.taskDate - 900000 //Creates reminder 15 minutes before task due date
     });
 }
