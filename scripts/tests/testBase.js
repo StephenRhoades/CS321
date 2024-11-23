@@ -4,3 +4,11 @@ function assert(condition, message) {
         throw new Error(message);
     }
 }
+
+function test(func, errors) {
+    try {
+        func();
+    } catch (e) {
+       errors.push(e);
+    }
+}
