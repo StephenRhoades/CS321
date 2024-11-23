@@ -1,443 +1,153 @@
 
-document.addEventListener('DOMContentLoaded', function() {
-        console.log("DOM fully loaded and parsed: taskPage test");
-        runTests();
-        flag=false;
-}, {once:true});
 
-let date1 = Date('2025-03-25');
 
-// Sample mock task for testing
-const mockTask = createTask(
-    0,                  // id
-    'Sample Task',      // taskName
-    'This is a sample task description', // taskDescription
-    'Work',             // taskCategory
-    '2025-03-25',       // date
-    false,      //reminder
-    false,              // complete (initially incomplete)
-    true                // recurring (whether the task is recurring or not)
-);
+/**
+ * ATTENTION: TEST FUNCTION ONLY. HTML IMPLEMENTATION PENDING.
+ * Takes a taskObject, and once the submit button is pressed modifies the selected task with the filled form field.
+ * @param {*} event Mouse click on submit button.
+ * @param {*} taskObject Selected task.
+ */
+function submitModifyTask(event, taskObject) { //UNCOMMENT code once category, complete and recurring html containers are created.
+    event.preventDefault();
 
-// Sample mock task for testing
-const mockTask2 = createTask(
-    1,                  // id
-    'Sample Task2',      // taskName
-    'This is a sample task description', // taskDescription
-    'Work',             // taskCategory
-    date1,       // date
-    false,      //reminder
-    false,              // complete (initially incomplete)
-    true                // recurring (whether the task is recurring or not)
-);
+    // Collect form data
+    const form = document.getElementById('myForm');
+    const formData = new FormData(form);
+    const taskName = formData.get('task-name');
+    const taskDesc = formData.get('task-desc'); 
+    //const taskCategory = formData.get('task-category');   
+    const taskDate = formData.get('task-date');
+    //const taskRecurring = formData.get('task-complete'); 
+    //const taskComplete = formData.get('task-recurring'); 
 
-// Sample mock task for testing
-const mockTask3 = createTask(
-    2,                  // id
-    'Sample Task3',      // taskName
-    'This is a sample task description', // taskDescription
-    'Work',             // taskCategory
-    date1,       // date
-    false,      //reminder
-    false,              // complete (initially incomplete)
-    true                // recurring (whether the task is recurring or not)
-);
+    changeName(taskObject, taskName);
+    changeDecription(taskObject, taskDesc);
+    //changeCategory(taskObject, taskCategory);
+    changeDate(taskObject, taskDate);
+    //changeComplete(taskObject, taskComplete);
+    //changeRecurring(taskObject, taskRecurring);
 
-const mockTask4 = createTask(3, 'Sample Task4', 'This is a sample task description', 'Work', '2025-03-25', false, false, true);
+    console.log("Saving task:", task);
 
-/*
-function createTask(id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring) {
-    return {id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring};
-}
-    */
+    // Add the new task to the task array and save it to localStorage
+    //dynamicTaskArray.push(task);
+    saveTasksToLocalStorage();
 
-// Utility function for comparing values
-/*
-function assertTrueEquals(expected, actual, message) {
-    if (expected === actual) {
-        console.log(`PASS: ${message}`);
-    } else {
-        console.log(`FAIL: ${message} (Expected: ${expected}, Actual: ${actual})`);
-    }
+    // Form submission or reset
+    form.reset();  // This will clear the form after submitting. Test the behavior of this.
+
 }
 
-function assertTrueTrue(actual, message) {
-    if (actual === true) {
-        console.log(`PASS`);
-    } else {
-        console.log(`FAIL: ${message}`);
-    }
-}
-    */
-
-function assertTrue(actual, message) {
-    if (actual === true) {
-        console.log(`PASS`);
-        return true;
-    } else {
-        console.log(`FAIL: ${message}`);
-        return false;
-    }
-}
-/*
-function assertTrueFalse(actual, message) {
-    if (actual === false) {
-        console.log(`PASS: ${message}`);
-    } else {
-        console.log(`FAIL: ${message}`);
-    }
-}
-*/
-// Run all tests
-function runTests() {
-    console.log("Running taskPage.js Tests...\n");
-
-    /*
-    let date1 = Date('2025-03-25');
-
-        // Sample mock task for testing
-    const mockTask = createTask(
-        0,                  // id
-        'Sample Task',      // taskName
-        'This is a sample task description', // taskDescription
-        'Work',             // taskCategory
-        '2025-03-25',       // date
-        false,      //reminder
-        false,              // complete (initially incomplete)
-        true                // recurring (whether the task is recurring or not)
-    );
-
-    // Sample mock task for testing
-    const mockTask2 = createTask(
-        1,                  // id
-        'Sample Task2',      // taskName
-        'This is a sample task description', // taskDescription
-        'Work',             // taskCategory
-        date1,       // date
-        false,      //reminder
-        false,              // complete (initially incomplete)
-        true                // recurring (whether the task is recurring or not)
-    );
-
-    // Sample mock task for testing
-    const mockTask3 = createTask(
-        2,                  // id
-        'Sample Task3',      // taskName
-        'This is a sample task description', // taskDescription
-        'Work',             // taskCategory
-        date1,       // date
-        false,      //reminder
-        false,              // complete (initially incomplete)
-        true                // recurring (whether the task is recurring or not)
-    );
-
-    const mockTask4 = createTask(3, 'Sample Task4', 'This is a sample task description', 'Work', '2025-03-25', false, false, true);
-    */
-
-    testModifyTask();
-    testChangeName();
-    testChangeDescription();
-    testChangeCategory();
-    testChangeDate();
-    testChangeComplete();
-    testChangeRecurring();
-
-
-    testRemoveTask();
-    testRemoveTaskIndex();
-    testRemoveTaskIndexInvalid();
-    testRemoveTaskNotFound();
-
-    testAddReminder();
-    testRemoveReminder();
-
-    testfillTaskForm();
-    testsubmitModifyTask();
-    testChangeFunctions();
-    testModifyTaskHTML();
-
-    console.log("\n taskPage.js Tests completed.");
+/**
+ * ATTENTION: TEST FUNCTION ONLY. HTML IMPLEMENTATION PENDING.
+ * Auto-fills task form from a given taskObject. Meant to be called after a user selects a task to modify and before submitModifyTask() is called.
+ * @param {*} event Mouse click on selecting task in list or calendar.
+ * @param {*} taskObject Selected task.
+ */
+function fillTaskForm(event, taskObject) {
+    event.preventDefault();
+    const form = document.getElementById('myForm');
+    // Auto-fills form data from existing taskObject
+    form.getElementById('task-name').value=taskObject.taskName;
+    form.getElementById('task-desc').value=taskObject.taskDescription;
+    //form.getElementById('task-category').value=taskObject.taskCategory;
+    form.getElementById('task-date').value=taskObject.taskDate;
+    //form.getElementById('task-complete').value=taskObject.complete;
+    //form.getElementById('task-recurring').value=taskObject.recurring;
+    
 }
 
-// Helper function to set up the test state
-function setupTestForRemoval() {
+
+/**
+ * Changes the Task Name 
+ * @param {*} task 
+ */
+function changeName(taskObject, newName) {
+    modifyTask(taskObject, newName, taskObject.taskDescription, taskObject.taskCategory, taskObject.date, taskObject.complete, taskObject.recurring);
+}
+/**
+ * Changes the taskObject description.
+ * @param {*} taskObject taskObject element from a dynamicArray loaded from local storage.
+ * @param {*} newDescription New description of task object.
+ */
+function changeDecription(taskObject, newDescription) {
+    modifyTask(taskObject,taskObject.taskName, newDescription, taskObject.taskCategory, taskObject.date, taskObject.complete, taskObject.recurring);
+}
+
+/**
+ * Changes the taskObject category.
+ * @param {*} taskObject taskObject element from a dynamicArray loaded from local storage.
+ * @param {*} newCategory New category of task object.
+ */
+function changeCategory(taskObject, newCategory) {
+    modifyTask(taskObject,taskObject.taskName, taskObject.taskDescription, newCategory, taskObject.date, taskObject.complete, taskObject.recurring);
+}
+
+/**
+ * Changes the taskObject date.
+ * @param {*} taskObject taskObject element from a dynamicArray loaded from local storage.
+ * @param {*} newDate New date of task object.
+ */
+function changeDate(taskObject, newDate) {
+    modifyTask(taskObject,taskObject.taskName, taskObject.taskDescription, taskObject.taskCategory, newDate, taskObject.complete, taskObject.recurring);
+}
+
+/**
+ * Changes the taskObject completion status.
+ * @param {*} taskObject taskObject element from a dynamicArray loaded from local storage.
+ * @param {*} newComplete New completion status of task object. Currently False if not completed, true otherwise.
+ */
+function changeComplete(taskObject, newComplete) {
+    modifyTask(taskObject,taskObject.taskName, taskObject.taskDescription, taskObject.taskCategory, taskObject.date, newComplete, taskObject.recurring);
+}
+
+/**
+ * Changes the taskObject recurring status.
+ * @param {*} taskObject taskObject element from a dynamicArray loaded from local storage.
+ * @param {*} newRecurring New recurring of task object.
+ */
+function changeRecurring(taskObject, newRecurring) {
+    modifyTask(taskObject,taskObject.taskName, taskObject.taskDescription, taskObject.taskCategory, taskObject.date, taskObject.complete, newRecurring);
+}
+
+//let dynamicTaskArray = loadTaskInLocalStorage();
+
+/**
+ * Removes the given taskObject from the dynamicArray and saves the new array to local storage.
+ * @param {*} taskObject taskObject element
+ */
+function removeTask(taskObject) {
     loadTaskInLocalStorage();
-    dynamicTaskArray.length=0;
-}
-
-//UNIT TESTS BELOW
-
-//Test modifyTask function
-function testModifyTask()
-{
-    console.log("Running test: modifyTask");
-    const testDate = Date('2024-11-15');
-    modifyTask(mockTask3, 'taskTestModify', "Modify description text", "taskPage Test", testDate, true, false);
-
-    assertTrue(mockTask3.taskName === 'taskTestModify', "Task Name should be modified");
-    assertTrue(mockTask3.taskDescription === 'Modify description text', "Task Description should be modified");
-    assertTrue(mockTask3.taskCategory === 'taskPage Test', "Task Category should be modified");
-    assertTrue(mockTask3.date === testDate, "Task Date should be modified");
-    assertTrue(mockTask3.complete === true, "Task Reminder should be modified");
-    assertTrue(mockTask3.recurring === false, "Task Recurring should be modified to false");
-    
-}
-
-// Test changeName function
-function testChangeName() {
-    console.log("Running test: changeName");
-    changeName(mockTask, 'New Task Name');
-    assertTrue(mockTask.taskName === 'New Task Name', "changeName should update taskName");
-}
-
-// Test changeDescription function
-function testChangeDescription() {
-    console.log("Running test: changeDescription");
-    changeDecription(mockTask, 'New Task Description');
-    assertTrue(mockTask.taskDescription === 'New Task Description', "changeDecription should update taskDescription");
-}
-
-// Test changeCategory function
-function testChangeCategory() {
-    console.log("Running test: changeCategory");
-    changeCategory(mockTask, 'New Category');
-    assertTrue(mockTask.taskCategory === 'New Category', "changeCategory should update taskCategory");
-}
-
-// Test changeDate function
-function testChangeDate() {
-    console.log("Running test: changeDate");
-    changeDate(mockTask, '2025-01-01');
-    assertTrue(mockTask.date === '2025-01-01', "changeDate should update date");
-}
-
-// Test changeComplete function
-function testChangeComplete() {
-    console.log("Running test: changeComplete");
-    changeComplete(mockTask, true);
-    assertTrue(mockTask.complete === true, "changeComplete should update complete status");
-}
-
-// Test changeRecurring function
-function testChangeRecurring() {
-    console.log("Running test: changeRecurring");
-    changeRecurring(mockTask, true);
-    assertTrue(mockTask.recurring === true, "changeRecurring should update recurring status");
-}
-
-// Test removeTask function
-function testRemoveTask() {
-    console.log("Running test: removeTask");
-    dynamicTaskArray.push(mockTask);
-    assertTrue(dynamicTaskArray.includes(mockTask) === true, "removeTask should remove the task");
-    removeTask(mockTask);
-    //saveTasksToLocalStorage();
-    //loadTaskInLocalStorage();
-    assertTrue(dynamicTaskArray.includes(mockTask) === false, "removeTask should remove the task");
-}
-
-// Test removeTaskIndex function
-function testRemoveTaskIndex() {
-    console.log("Running test: removeTaskIndex");
-    dynamicTaskArray.push(mockTask);
-    const index = dynamicTaskArray.indexOf(mockTask)
-    assertTrue(dynamicTaskArray.includes(mockTask) === true, "removeTask should remove the task");
-    removeTaskIndex(index);
-    assertTrue(dynamicTaskArray.includes(mockTask)=== false, "removeTaskIndex should remove task at index");
-}
-
-// Test removeTaskIndex - invalid index branch
-function testRemoveTaskIndexInvalid() {
-    console.log("Running test: removeTaskIndexInvalid");
-    dynamicTaskArray.push(mockTask);
-    assertTrue(dynamicTaskArray.includes(mockTask) === true, "removeTask should remove the task");
-    const currentLen = dynamicTaskArray.length;
-    //console.log('Initial tasks before invalid index removal:', dynamicTaskArray);
-    removeTaskIndex(-2); // Invalid index
-    assertTrue(dynamicTaskArray.length === currentLen, "removeTaskIndex should not remove task with invalid index");
-
-    removeTask(mockTask);
-}
-
-// Test removeTask - task object not found branch
-function testRemoveTaskNotFound() {
-    console.log("Running test: removeTaskNotFound");
-    dynamicTaskArray.push(mockTask);
-    const currentLen = dynamicTaskArray.length;
-    removeTask(mockTask2); // Invalid task object
-    assertTrue(dynamicTaskArray.length === currentLen, "removeTask should not remove task with invalid object");
-    removeTask(mockTask);
-    assertTrue(dynamicTaskArray.length === currentLen-1, "removeTask should not remove task with invalid object");
-
-}
-
-//Test addReminder
-function testAddReminder()
-{
-    console.log("Running test: addReminder");
-
-    if(!assertTrue(typeof(reminderArray)!= "undefined", "reminderArray needs to exist!"))
+    const index = dynamicTaskArray.indexOf(taskObject); //may replace this logic using taskID instead.
+    if (index > -1) //Splice only when item is found
     {
-        return;
+        dynamicTaskArray.splice(index, 1);
+        saveTasksToLocalStorage();
     }
-    reminderArray.length=0;
-    addReminder(mockTask4);
-    assertTrue(reminderArray[0].name === "Sample Task4", "Reminder not added correctly");
-    reminderArray.length=0;
-    
 }
-//Test changeReminder
-function testChangeReminder()
-{
-    console.log("Running test: changeReminder");
 
-    if(!assertTrue(typeof(reminderArray)!= "undefined", "reminderArray needs to exist!"))
+/**
+ * Removes the taskObject at the given index. The resulting dynamicArray is saved to local storage.
+ * @param {*} index Index of a taskObject in the dynamicArray.
+ */
+function removeTaskIndex(index) {
+    loadTaskInLocalStorage();
+    if (index > -1 && index<dynamicTaskArray.length) //Only splice when given valid index
     {
-        return;
+        dynamicTaskArray.splice(index, 1);
+        saveTasksToLocalStorage();
     }
-
-    reminderArray.length=0;
-    addReminder(mockTask4);
-    assertTrue(reminderArray.length === 1, "Reminder not added correctly");
-    
-    const beforeWhen = reminderArray[0].when;
-    const ms = Date.now().getTime()+900000;
-    changeReminder(reminderArray[0], ms);
-
-    assertTrue(reminderArray[0].when === Date.now().getTime()+900000, "Reminder time not changed correctly");
-    reminderArray.length=0;
-
-}
-//Test removeReminder
-function testRemoveReminder()
-{
-    console.log("Running test: removeReminder");
-
-    if(!assertTrue(typeof(reminderArray)!= "undefined", "reminderArray needs to exist!"))
-    {
-        return;
-    }
-    reminderArray.length=0;
-
-    addReminder(mockTask4);
-    assertTrue(reminderArray.length === 1, "Reminder not added correctly");
-    removeReminder(reminderArray[0]);
-    assertTrue(reminderArray.length === 0, "Reminder not removed correctly");
-    reminderArray.length=0;
-    
-}
-//Test fillTaskForm
-
-function testfillTaskForm()
-{
-    console.log("Running test: fillTaskForm");
-    if(!assertTrue(document.getElementById('myTaskForm')!=null, "Task Page must exist first!"))
-    {
-        return;
-    }
-
-    fillTaskForm('onclick', mockTask4);
-
-    const form = document.getElementById('myTaskForm');
-    assertTrue(form.getElementById('task-name').value===mockTask4.taskName, "Fill Task Form name not done correctly");
-    assertTrue(form.getElementById('task-desc').value===mockTask4.taskDescription, "Fill Task Form description not done correctly");
-    assertTrue(form.getElementById('task-date').value===mockTask4.date, "Fill Task Form date not done correctly");
-
-    form.getElementById('task-name').innerHTML = '';
-    form.getElementById('task-desc').innerHTML = '';
-    form.getElementById('task-date').innerHTML = '';
-
 }
 
-//Test submitModifyTask
-function testsubmitModifyTask()
-{
-    console.log("Running test: submitModifyTask");
 
-    if(!assertTrue(document.getElementById('myTaskForm')!=null, "Task Page must exist first!"))
-    {
-        return;
-    }
-    const oldName =mockTask4.taskName;
-    const oldDescription=mockTask4.taskDescription;
-    const oldDate=mockTask4.date;
-    const newDate = Date.now();
-
-    form.getElementById('task-name').value="submitModifyTask Name";
-    form.getElementById('task-desc').value="submitModifyTask Description";
-    form.getElementById('task-date').value=newDate;
-
-    submitModifyTask('onclick', mockTask4);
-
-    assertTrue(mockTask4.taskName==="submitModifyTask Name", "submitModifyTask Name not changed correctly");
-    assertTrue(mockTask4.taskDescription==="submitModifyTask Description", "submitModifyTask Description not changed correctly");
-    assertTrue(mockTask4.date===newDate, "submitModifyTask Date not changed correctly");
-
-    mockTask4.taskName=oldName;
-    mockTask4.taskDescription=oldDescription;
-    mockTask4.date=oldDate;
+function addReminder(taskObject) {
+    chrome.alarms.create(taskObject.taskName, {
+        when: taskObject.taskDate - 900000 //Creates reminder 15 minutes before task due date
+    });
 }
 
-//INTEGRATION TESTS
+function changeReminder() {}
 
-//TEST Change Functions
-function testChangeFunctions()
-{
-    console.log("Running test: testChangeFunctions");
-    const oldName =mockTask4.taskName;
-    const oldDescription=mockTask4.taskDescription;
-    const oldCategory =mockTask4.taskCategory;
-    const oldDate=mockTask4.date;
-    const oldComplete=mockTask4.complete;
-    const oldRecurring = mockTask4.recurring;
-    const newDate = Date.now();
+function removeReminder() {}
 
-
-    changeName(mockTask4,"Integration Test Name");
-    changeDecription(mockTask4,"Integration Test Description");
-    changeCategory(mockTask4,"Integration Test Category");
-    changeDate(mockTask4,newDate);
-    changeComplete(mockTask4, true);
-    changeRecurring(mockTask4, false);
-
-    assertTrue(mockTask4.taskName==="Integration Test Name", "Task Name not changed correctly");
-    assertTrue(mockTask4.taskDescription==="Integration Test Description", "Task Description not changed correctly");
-    assertTrue(mockTask4.taskCategory==="Integration Test Category", "Task Category not changed correctly");
-    assertTrue(mockTask4.date===newDate, "Task Date not changed correctly");
-    assertTrue(mockTask4.complete===true, "Task Complete not changed correctly");
-    assertTrue(mockTask4.recurring===false, "Task Recurring not changed correctly");
-
-    mockTask4.taskName=oldName;
-    mockTask4.taskDescription=oldDescription;
-    mockTask4.taskCategory=oldCategory;
-    mockTask4.date=oldDate;
-    mockTask4.complete=oldComplete;
-    mockTask4.recurring=oldRecurring;
-}
-
-//Test submitModifyTask & fillTaskForm & change Functions
-function testModifyTaskHTML()
-{
-    console.log("Running test: submitModifyTask");
-
-    if(!assertTrue(document.getElementById('myTaskForm')!=null, "Task Page must exist first!"))
-    {
-        return;
-    }
-    const oldName =mockTask4.taskName;
-    const oldDescription=mockTask4.taskDescription;
-    const oldDate=mockTask4.date;
-    const newDate = Date.now();
-
-    fillTaskForm('onclick', mockTask4);
-
-    submitModifyTask('onclick', mockTask4);
-
-    assertTrue(mockTask4.taskName==="submitModifyTask Name", "submitModifyTask Name not changed correctly");
-    assertTrue(mockTask4.taskDescription==="submitModifyTask Description", "submitModifyTask Description not changed correctly");
-    assertTrue(mockTask4.date===newDate, "submitModifyTask Date not changed correctly");
-
-    mockTask4.taskName=oldName;
-    mockTask4.taskDescription=oldDescription;
-    mockTask4.date=oldDate;
-}
+//function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring)
