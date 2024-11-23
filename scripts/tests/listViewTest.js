@@ -5,12 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     testLoadTasksFromLocalStorage();
 });
 
-function assert(condition, message) {
-    if (!condition) {
-        throw new Error(message);
-    }
-}
-
 function testAddAndDisplayTask() {
     clearStorage();
 
