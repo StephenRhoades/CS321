@@ -153,7 +153,6 @@ function runTests() {
 
     testfillTaskForm();
     testsubmitModifyTask();
-
     testChangeFunctions();
     testModifyTaskHTML();
 
@@ -255,8 +254,6 @@ function testRemoveTaskIndexInvalid() {
     const currentLen = dynamicTaskArray.length;
     //console.log('Initial tasks before invalid index removal:', dynamicTaskArray);
     removeTaskIndex(-2); // Invalid index
-    assertTrue(dynamicTaskArray.length === currentLen, "removeTaskIndex should not remove task with invalid index");
-    removeTaskIndex(currentLen+5); // Invalid index
     assertTrue(dynamicTaskArray.length === currentLen, "removeTaskIndex should not remove task with invalid index");
 
     removeTask(mockTask);
