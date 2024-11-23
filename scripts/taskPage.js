@@ -8,10 +8,10 @@
  * @param {*} taskObject Selected task.
  */
 function submitModifyTask(event, taskObject) { //UNCOMMENT code once category, complete and recurring html containers are created.
-    event.preventDefault();
+    //event.preventDefault();
 
     // Collect form data
-    const form = document.getElementById('myForm');
+    const form = document.getElementById('myTaskForm');
     const formData = new FormData(form);
     const taskName = formData.get('task-name');
     const taskDesc = formData.get('task-desc'); 
@@ -45,13 +45,13 @@ function submitModifyTask(event, taskObject) { //UNCOMMENT code once category, c
  * @param {*} taskObject Selected task.
  */
 function fillTaskForm(event, taskObject) {
-    event.preventDefault();
-    const form = document.getElementById('myForm');
+    //event.preventDefault();
+    const form = document.getElementById('myTaskForm');
     // Auto-fills form data from existing taskObject
     form.getElementById('task-name').value=taskObject.taskName;
     form.getElementById('task-desc').value=taskObject.taskDescription;
     //form.getElementById('task-category').value=taskObject.taskCategory;
-    form.getElementById('task-date').value=taskObject.taskDate;
+    form.getElementById('task-date').value=taskObject.date;
     //form.getElementById('task-complete').value=taskObject.complete;
     //form.getElementById('task-recurring').value=taskObject.recurring;
     
@@ -150,14 +150,19 @@ function removeTaskIndex(index) {
 
 
 function addReminder(taskObject) {
+    //console.log(taskObject.taskDate);
+    //console.log(taskObject.date);
+    //console.log(Date.parse(taskObject.date));
     chrome.alarms.create(taskObject.taskName, {
-        when: taskObject.taskDate - 900000 //Creates reminder 15 minutes before task due date
+        when: (Date.parse(taskObject.date) - 900000) //Creates reminder 15 minutes before task due date
     });
 }
 
-function changeReminder() {}
+function changeReminder(reminderObject, reminderTime) {}
 
-function removeReminder() {}
+function removeReminder(reminderObject) {
+    chrome.alarms.clear(reminderObject.name);
+}
 
 //function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring)
 
