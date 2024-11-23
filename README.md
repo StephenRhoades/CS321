@@ -17,3 +17,7 @@ Giancarlo Jaramillo Rojas,
 Stephen Rhoades,
 David Schmidle
 
+### Testing:
+Install Node.js
+Install jest: npm install --save-dev jest
+Run tests: npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"

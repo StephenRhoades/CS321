@@ -1,163 +1,94 @@
-/** Handles extension settings and user preferences.
- * 
- * @author Evan Bellino.
- * @since 5.4.0
- */
+const globals = {
+    windowTheme: 'light',
+    backgroundColor: 'FFFFFF',
+    fontColor: '000000',
+    fontSize: 12,
+    windowWidth: 400,
+    windowHeight: 400,
+    quickAddEnabled: false,
+};
 
-/**
- * Changes default visual theme.
- * 
- * @param {String} theme Specifies theme to be set.
- */
-function setTheme(theme){
-
+function maxLengthCheck(object) {
+    if (object.value.length > object.max.length) {
+        object.value = object.value.slice(0, object.max.length);
+    }
 }
 
-/**
- * Changes default window background color.
- * 
- * @param {String} color Specifies background color to be set.
- */
-function setBackgroundColor(color){
-
+function isNumeric(evt) {
+    const theEvent = evt || window.event;
+    const key = theEvent.key || String.fromCharCode(theEvent.keyCode || theEvent.which);
+    const regex = /^[0-9]$/;
+    if (!regex.test(key)) {
+        theEvent.returnValue = false;
+        if (theEvent.preventDefault) theEvent.preventDefault();
+    }
 }
 
-/**
- * Changes default font size/scaling.
- * 
- * @param {String} size Specifies font size to be set.
- */
-function setFontSize(size){
-
+function setTheme(theme) {
+    if (theme === 'light') {
+        globals.windowTheme = 'light';
+        setBackgroundColor('FFFFFF');
+        setFontColor('000000');
+    } else if (theme === 'dark') {
+        globals.windowTheme = 'dark';
+        setBackgroundColor('1E1E1E');
+        setFontColor('A5A5A5');
+    } else {
+        globals.windowTheme = 'custom';
+    }
 }
 
-/**
- * Changes default font color.
- * 
- * @param {String} color Specifies font size to be set.
- */
-function setFontColor(color){
-
+function setBackgroundColor(color) {
+    const hexNumber = parseInt(color, 16);
+    if (hexNumber >= 0x000000 && hexNumber <= 0xFFFFFF) {
+        globals.backgroundColor = color;
+    }
 }
 
-/**
- * Changes default window size/scaling.
- * 
- * @param {Number} height Specifies window height to be set.
- * @param {Number} width  Specifies window width to be set.
- */
-function setWindow(height, width){
-
+function setFontSize(size) {
+    if (size >= 8 && size <= 96) {
+        globals.fontSize = size;
+    }
 }
 
-/**
- * Changes default window height size/scaling.
- * 
- * @param {Number} height Specifies window height to be set.
- */
-function setWindowHeight(height){
-
+function setFontColor(color) {
+    const hexNumber = parseInt(color, 16);
+    if (hexNumber >= 0x000000 && hexNumber <= 0xFFFFFF) {
+        globals.fontColor = color;
+    }
 }
 
-/**
- * Changes default window width size/scaling.
- * 
- * @param {Number} width Specifies window size to be set.
- */
-function setWindowWidth(width){
-
+function setWindow(height, width) {
+    setWindowHeight(height);
+    setWindowWidth(width);
 }
 
-/**
- * Toggles default task input form between comprehensive and quick input schemes.
- */
-function toggleQuickAdd(){
-
+function setWindowHeight(height) {
+    if (height >= 400 && height <= 800) {
+        globals.windowHeight = height;
+    }
 }
 
-/**
- * Sets a default date to autofill a new tasks date field.
- * 
- * Does not handle defaults (ie: calculating current date) in function,
- * any date calculations should be done before calling.
- * Will likley be used to set current year/month as day is less useful.
- * 
- * @param {Number} month Defines desired autofill month.
- * @param {Number} day   Defines desired autofill day.
- * @param {Number} year  Defines desired autofill year.
- */
-function setDatePreset(month, day, year){
-
+function setWindowWidth(width) {
+    if (width >= 400 && width <= 800) {
+        globals.windowWidth = width;
+    }
 }
 
-/**
- * Removes any preset autofill for new task date field.
- */
-function removeDatePreset(){
-
+function toggleQuickAdd() {
+    globals.quickAddEnabled = !globals.quickAddEnabled;
 }
 
-
-
-/************************************************************
- *                                                          *
- * Below are some QOL additions but not necessary me thinks.*
- * Or i'm not sure how hard they'd be to implement.         *
- *                                                          *
- ***********************************************************/
-
-
-
-/**
- * Sets a default time to autofill a new tasks time field.
- * 
- * @param {Number} hour   Defines desired autofill hour.
- * @param {Number} minute Defines desired autofill minute.
- * @param {String} tod    Defines desired autofill (AM/PM).
- */
-function setTimePreset(hour, minute, tod){
-
-}
-
-/**
- * Removes any preset autofill for new task time field.
- */
-function removeTimePreset(){
-
-}
-
-/**
- * Adds a new custome option for a task to be repeated.
- * 
- * @param {*} rep Describes repetition increment to be added.
- */
-function addRepeater(rep){
-
-}
-
-/**
- * Removes an option for a task repetition.
- * 
- * @param {*} rep Describes repetition option to be removed.
- */
-function removeRepeater(rep){
-
-}
-
-/**
- * Adds a new custome option for a task reminder.
- * 
- * @param {*} rem Describes reminder timeframe to be added.
- */
-function addReminder(rem){
-
-}
-
-/**
- * Removes an option for a task reminder.
- * 
- * @param {*} rem Describes reminder timeframe to be removed.
- */
-function removeReminder(rem){
-
-}
+module.exports = {
+    maxLengthCheck,
+    isNumeric,
+    setTheme,
+    setBackgroundColor,
+    setFontSize,
+    setFontColor,
+    setWindow,
+    setWindowHeight,
+    setWindowWidth,
+    toggleQuickAdd,
+    globals,
+};
