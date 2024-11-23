@@ -18,6 +18,9 @@ Stephen Rhoades,
 David Schmidle
 
 ### Testing:
-Install Node.js
-Install jest: npm install --save-dev jest
+For non jest tests, open extension and the tests will run
+
+For jest tests:  
+Install Node.js  
+Install jest: npm install --save-dev jest  
 Run tests: npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"
