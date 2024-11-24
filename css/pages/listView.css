@@ -1,73 +1,73 @@
-html{
-	min-height:200px;
-	max-height:400px;
-	min-width:200px;
-	max-height:400px;
-}
 * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        padding: 20px;
-    }
-    
-    .container {
-        max-width: 600px;
-        margin: 0 auto;
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    
-    input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-    
-    button {
-        width: 100%;
-        padding: 10px;
-        margin: 10px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    
-    button:hover {
-        background-color: #0056b3;
-    }
-    
-    .task {
-        padding: 10px;
-        margin: 10px 0;
-        background-color: #f9f9f9;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        
-    }
-    
-    .taskLabel {
-        display: block;
-        width: 100%;
-    }
-    
-    .task input {
-        margin-right: 10px;
-    }
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.task {
+    padding: 10px;
+    margin: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.taskLabel {
+    display: block;
+    width: 100%;
+}
+
+.task input {
+    margin-right: 10px;
+}
+
+.description {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.header {
+    text-align: right;
+}
     
