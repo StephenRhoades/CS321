@@ -5,7 +5,6 @@
  *  - sorting the tasks from local storage in the way the user wants  
  */
 
-
 /**
  * Event listener for the buttons on the listView page.
  */
@@ -66,6 +65,11 @@ function generateTasks(sortType) {
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task';
 
+        const taskEdit = document.createElement('a');
+        taskEdit.className = 'edit';
+        taskEdit.innerHTML = '&#x270E;';
+        taskEdit.href = "../../html/pages/taskPage.html"
+
         const taskLabel = document.createElement('label');
         taskLabel.className = 'name';
         taskLabel.textContent = `Task ${task.id}: ${task.taskName}`;
@@ -83,6 +87,7 @@ function generateTasks(sortType) {
         taskComplete.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
 
         taskDiv.appendChild(taskLabel);
+        taskDiv.appendChild(taskEdit);
         taskDiv.appendChild(taskDescription);
         taskDiv.appendChild(taskDate);
         taskDiv.appendChild(taskComplete);
