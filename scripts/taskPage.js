@@ -151,3 +151,105 @@ function changeReminder() {}
 function removeReminder() {}
 
 //function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring)
+
+
+/**
+ * Event Listeners for the buttons.
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed: task");
+
+    edit_btn = document.getElementById('edit-button-id');
+    edit_btn.addEventListener('click', function(event) {
+        editTask(edit_btn, event);
+    });
+
+    expand_btn = document.getElementById('expand-btn-id');
+    expand_btn.addEventListener('click', function(event) {
+        toggleDetails(expand_btn, event);
+    });
+});
+
+/**
+ * Toggles the dropdown menu to show the details of the task
+ * @param {*} button reference to the button
+ */
+function toggleDetails(button) {
+    const details = button.nextElementSibling;
+    if (details.style.display === "block") {
+        details.style.display = "none";
+        button.textContent = "Expand";
+    } else {
+        details.style.display = "block";
+        button.textContent = "Collapse";
+    }
+}
+
+
+/**
+ * Creates the inputs for the user to edit a task
+ * @param {*} button 
+ */
+function editTask(button) {
+    const task = button.closest('.task');
+    const details = task.querySelector('.task-details');
+
+    // name
+    const nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.value = details.querySelector('p:nth-child(1)').innerText.split(": ")[1];
+    nameInput.className = "edit-input";
+
+    // date
+    const dateInput = document.createElement("input");
+    dateInput.type = "date";
+    dateInput.value = details.querySelector('p:nth-child(1)').innerText.split(": ")[1];
+    dateInput.className = "edit-input";
+
+    // time
+    const timeInput = document.createElement("input");
+    timeInput.type = "time";
+    timeInput.value = details.querySelector('p:nth-child(2)').innerText.split(": ")[1];
+    timeInput.className = "edit-input";
+
+    // description
+    const descInput = document.createElement("textarea");
+    descInput.className = "edit-input";
+    descInput.value = details.querySelector('p:nth-child(3)').innerText.split(": ")[1];
+
+    // Clear details and add input fields with a Save button
+    details.innerHTML = '';
+    details.appendChild(nameInput);
+    details.appendChild(dateInput);
+    details.appendChild(timeInput);
+    details.appendChild(descInput);
+
+    const saveButton = document.createElement("button");
+    saveButton.textContent = "Save";
+    saveButton.className = "save-btn";
+    saveButton.onclick = function () {
+        saveTask(details, nameInput.value, dateInput.value, timeInput.value, descInput.value, button);
+    };
+
+    details.appendChild(saveButton);
+    details.style.display = "block";
+}
+
+/**
+ * 
+ * @param {*} details 
+ * @param {*} date 
+ * @param {*} time 
+ * @param {*} description 
+ * @param {*} button 
+ */
+function saveTask(details, taskName, date, time, description, button) {
+    // Replace input fields with the updated text
+    details.innerHTML = `
+        <p><strong>Date:</strong> ${taskName}</p>
+        <p><strong>Date:</strong> ${date}</p>
+        <p><strong>Time:</strong> ${time}</p>
+        <p><strong>Description:</strong> ${description}</p>
+    `;
+    button.textContent = "Edit";
+}
