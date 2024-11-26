@@ -44,11 +44,11 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 function generateTasks(sortType) {
     const taskContainer = document.getElementById('taskContainer');
-    taskContainer.innerHTML = '';  // Clear previous tasks
+    taskContainer.innerHTML = ''; // Clear previous tasks
 
     // Load tasks from localStorage
     let tasks = loadTaskInLocalStorage();
-    
+
     if (tasks.length === 0) {
         taskContainer.innerHTML = '<p>No tasks available</p>';
         return;
@@ -65,10 +65,8 @@ function generateTasks(sortType) {
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task';
 
-        const taskEdit = document.createElement('a');
-        taskEdit.className = 'edit';
-        taskEdit.innerHTML = '&#x270E;';
-        taskEdit.href = "../../html/pages/taskPage.html"
+        const taskInfo = document.createElement('div');
+        taskInfo.className = 'task-info';
 
         const taskLabel = document.createElement('label');
         taskLabel.className = 'name';
@@ -86,14 +84,50 @@ function generateTasks(sortType) {
         taskComplete.className = 'complete';
         taskComplete.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
 
-        taskDiv.appendChild(taskLabel);
-        taskDiv.appendChild(taskEdit);
-        taskDiv.appendChild(taskDescription);
-        taskDiv.appendChild(taskDate);
-        taskDiv.appendChild(taskComplete);
+        taskInfo.appendChild(taskLabel);
+        taskInfo.appendChild(taskDescription);
+        taskInfo.appendChild(taskDate);
+        taskInfo.appendChild(taskComplete);
 
+        const taskActions = document.createElement('div');
+        taskActions.className = 'task-actions';
+
+        // Edit button
+        const editButton = document.createElement('a');
+        editButton.className = 'edit-button';
+        editButton.href = `../../html/pages/taskPage.html?taskId=${task.id}&source=list`;
+        editButton.textContent = 'Edit';
+
+        // Delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-button';
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => deleteTaskFromList(task.id));
+
+        taskActions.appendChild(editButton);
+        taskActions.appendChild(deleteButton);
+
+        taskDiv.appendChild(taskInfo);
+        taskDiv.appendChild(taskActions);
         taskContainer.appendChild(taskDiv);
     });
+}
+
+/**
+ * Deletes a task from the list view and updates the global tasks.
+ * @param {number} taskId - The ID of the task to delete.
+ */
+function deleteTaskFromList(taskId) {
+    const taskIndex = dynamicTaskArray.findIndex((task) => task.id === taskId);
+
+    if (taskIndex > -1) {
+        dynamicTaskArray.splice(taskIndex, 1); // Remove task from global array
+        saveTasksToLocalStorage(); // Update local storage
+        generateTasks(); // Refresh the task list
+        alert('Task deleted successfully!');
+    } else {
+        alert('Error: Task not found.');
+    }
 }
 
 /**
