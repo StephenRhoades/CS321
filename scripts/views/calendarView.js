@@ -196,7 +196,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const taskList = tasksForDay.map(task => {
                     const taskDateTime = new Date(task.date);
                     const timeDisplay = taskDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    return `<li><strong>${timeDisplay ? timeDisplay + ' - ' : ''}${task.taskName}</strong><br>${task.taskDescription}</li>`;
+                    return `
+                        <li class="task-item">
+                            <div class="task-info">
+                                <strong>${timeDisplay ? timeDisplay + ' - ' : ''}${task.taskName}</strong>
+                                <p>${task.taskDescription}</p>
+                            </div>
+                            <div class="task-actions">
+                                <a href="../../html/pages/taskPage.html?taskId=${task.id}&source=calendar" class="edit-button">Edit</a>
+                                <button class="delete-button" data-task-id="${task.id}">Delete</button>
+                            </div>
+                        </li>`;
                 }).join('');
                 this.showTaskModal(dateString, taskList);
             } else {
@@ -223,11 +233,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>`;
             document.body.insertAdjacentHTML('beforeend', modalContent);
             this.activeModal = document.querySelector('.modal');
-
+        
+            // Close modal event
             document.getElementById('closeModal').addEventListener('click', () => {
                 this.clearExistingModal();
             });
+        
+            // Add delete functionality
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const taskId = parseInt(event.target.getAttribute('data-task-id'), 10);
+                    this.deleteTask(taskId);
+                    this.clearExistingModal();
+                    this.renderCalendar(); // Refresh calendar view after deletion
+                });
+            });
         }
+        
+        /**
+         * Deletes a task by ID and updates the task list.
+         * @param {number} taskId - ID of the task to delete.
+         */
+        deleteTask(taskId) {
+            const taskIndex = this.tasks.findIndex(task => task.id === taskId);
+        
+            if (taskIndex > -1) {
+                this.tasks.splice(taskIndex, 1);
+                dynamicTaskArray = dynamicTaskArray.filter(task => task.id !== taskId);
+                saveTasksToLocalStorage();
+                alert('Task deleted successfully!');
+            } else {
+                alert('Error: Task not found.');
+            }
+        }
+        
 
         /**
         * Method to clear any existing modals to ensure only one is shown at a time
