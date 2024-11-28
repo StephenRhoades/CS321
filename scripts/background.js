@@ -13,7 +13,7 @@ function onInstall() {
     chrome.contextMenus.create({
       id: "quickAddTask",
       title: "Quick Add Task",
-      contexts: ["page"]
+      contexts: ["page", "selection"]
     });
   });
 }
@@ -21,8 +21,17 @@ function onInstall() {
 // listener for quick add context menu option
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "quickAddTask") {
-      chrome.action.setPopup({ popup: "../html/openView.html" }, () => {
+      // Check if text is selected
+      const selectedText = info.selectionText || "";
+
+      // Dynamically set the popup to include the selected text
+      chrome.action.setPopup({
+          popup: `../html/openView.html?task=${encodeURIComponent(selectedText)}`,
+      }, () => {
+          // Open the popup window
           chrome.action.openPopup();
+
+          // Reset popup to default (calendar view) for normal behavior
           chrome.action.setPopup({ popup: "../html/pages/calendarView.html" });
       });
   }
