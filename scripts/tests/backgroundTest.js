@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Unit tests
     test(testParseTimeBefore, errors);
     test(testGetReminderTime, errors);
-    // test(testDeleteAlarm, errors);
     // parital integration
     test(testCreateTaskAlarmNotifyAndDelete, errors);
     // test(testAddMessageListener, errors);
@@ -245,12 +244,10 @@ function testCreateTaskAlarmNotifyAndDelete() {
                     assert(consoleOutput.includes("taskReminder3141592_2-day-alarm_172800000 failed to delete!"), "repeated alarm deletion did not cause failure to delete (not found?).");
                 } catch (e) {
                     console.log = originalLog;
-                    console.log(consoleOutput);
                     console.log("Test Create Task Alarm Notify and Delete: Failed");
                     throw e;
                 }
                 console.log = originalLog;
-                console.log(consoleOutput);
                 console.log("Test Create Task Alarm Notify and Delete: Passed");
             }
         });

@@ -43,11 +43,17 @@ async function addTask(event) {
     const taskDate = formData.get('task-date');
     const taskTime = formData.get('task-time');
     const taskRecur = formData.get('task-recur'); 
-    const taskReminder = Number(formData.get('task-rem'));
+    const taskReminderDays = formData.get('days');
+    const taskReminderHours = formData.get('hours');
+    const taskReminderMinutes = formData.get('minutes');
 
-    const date = taskDate + ' ' + taskTime;
-    const reminder = taskReminder * 60 * 1000;
+    console.log("days: " + taskReminderDays);
+    console.log("hours: " + taskReminderHours);
+    console.log("minutes " + taskReminderMinutes);
     
+    const date = taskDate + ' ' + taskTime;
+    const reminder = taskReminderDays * 24 * 60 * 60 * 1000 + taskReminderHours * 60 * 60 * 1000 + taskReminderMinutes * 60 * 1000;
+
     const taskId = await generateTaskId();
     const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
 
@@ -55,15 +61,20 @@ async function addTask(event) {
 
     dynamicTaskArray.push(task);
     saveTasksToLocalStorage();
-
-    setAlarm(task);
+    
+    if (reminder != 0) {
+        setAlarm(task);
+    }
 
     form.reset(); 
 }
 
 function setAlarm(task){
-    chrome.runtime.sendMessage("alarm," + Number(task.id) + "," + task.taskName + "," + Date.parse(task.date) + 
-    "," + task.reminder); 
+    task.reminderList.forEach(reminder => {
+        chrome.runtime.sendMessage("alarm," + Number(task.id) + "," + task.taskName + "," + Date.parse(task.date) + 
+        "," + reminder); 
+    });
+    
 }
 
 /**
@@ -92,7 +103,8 @@ function clearStorage() {
 }
 
 function createTask(id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring) {
-    return {id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring};
+    const reminderList = [reminder]; 
+    return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
 }
 
 function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring){

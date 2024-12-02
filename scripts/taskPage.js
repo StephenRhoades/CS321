@@ -8,6 +8,50 @@ function populateTaskForm(taskObject) {
     form.querySelector('#task-desc').value = taskObject.taskDescription;
     form.querySelector('#task-date').value = taskObject.date.split(' ')[0]; // Extract date
     form.querySelector('#task-time').value = taskObject.date.split(' ')[1]; // Extract time
+    let list = document.getElementById("reminder-list");
+    taskObject.reminderList.forEach(reminder => {
+        let li = document.createElement('li');
+        let button = document.createElement('button');
+        li.innerText = parseReminder(reminder);
+        button.className = "delete-btn";
+        button.innerText = "delete";
+        li.appendChild(button);
+        list.appendChild(li);
+    });
+}
+
+function parseReminder(reminder) {
+    const days = Math.floor(reminder / (24*60*60*1000));
+  const hours = Math.floor((reminder % (24*60*60*1000)) / (60*60*1000));
+  const minutes = Math.floor((reminder % (60*60*1000)) / (60*1000));
+    let time = "in";
+
+    if (days > 0) {
+        time += " " +  days + " day";
+        if (days > 1) {
+        time += "s";
+        }
+    }
+    if (hours > 0) {
+        if (time !== "in") {
+        time += ",";
+        }
+        time += " " + hours + " hour";
+        if (hours > 1) {
+        time += "s";
+        }
+    }
+    if (minutes > 0) {
+        if (time !== "in") {
+        time += ",";
+        }
+        time += " " + minutes + " minute";
+        if (minutes > 1) {
+        time += "s";
+        }
+    }
+
+    return time;
 }
 
 /**
