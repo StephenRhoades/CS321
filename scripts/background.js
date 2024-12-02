@@ -10,9 +10,32 @@ addMessageListener();
 function onInstall() {
   chrome.runtime.onInstalled.addListener(() => {
     console.log('Task Tracker extension installed.');
-  
+    chrome.contextMenus.create({
+      id: "quickAddTask",
+      title: "Quick Add Task",
+      contexts: ["page", "selection"]
+    });
   });
 }
+
+// listener for quick add context menu option
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === "quickAddTask") {
+      // Check if text is selected
+      const selectedText = info.selectionText || "";
+
+      // Dynamically set the popup to include the selected text
+      chrome.action.setPopup({
+          popup: `../html/openView.html?task=${encodeURIComponent(selectedText)}`,
+      }, () => {
+          // Open the popup window
+          chrome.action.openPopup();
+
+          // Reset popup to default (calendar view) for normal behavior
+          chrome.action.setPopup({ popup: "../html/pages/calendarView.html" });
+      });
+  }
+});
 
 /**
  * This will create a listener that generates a notification upon an alarm going off.
