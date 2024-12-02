@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed: backgroundTest");
     const errors = [];
     // Unit tests
+    // test(testAddMessageListener, errors);
     test(testParseTimeBefore, errors);
     test(testGetReminderTime, errors);
     // parital integration
@@ -106,15 +107,9 @@ function testDeleteAlarm() {
 function testAddMessageListener() {
     try {
         chrome.runtime.sendMessage("clearAlarms");
-        setTimeout(() => {
         chrome.runtime.sendMessage("delete,0,none,0");
-        }, 2000);
-        setTimeout(() => {
         chrome.runtime.sendMessage("alarm,0,none," + new Date(new Date().getTime() + 60 * 1000).getTime() + ",100");
-        }, 2000);
-        setTimeout(() => {
         chrome.runtime.sendMessage("delete,0,none,100");
-        }, 2000);
         console.log("Test Add Message Listener: Passed");
     } catch (e) {
         console.log("Test Add Message Listener: Failed");

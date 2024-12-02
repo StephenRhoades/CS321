@@ -63,17 +63,15 @@ async function addTask(event) {
     saveTasksToLocalStorage();
     
     if (reminder != 0) {
-        setAlarm(task);
+        setAlarm(task, reminder);
     }
 
     form.reset(); 
 }
 
-function setAlarm(task){
-    task.reminderList.forEach(reminder => {
-        chrome.runtime.sendMessage("alarm," + Number(task.id) + "," + task.taskName + "," + Date.parse(task.date) + 
-        "," + reminder); 
-    });
+function setAlarm(task, reminder){
+    chrome.runtime.sendMessage("alarm," + Number(task.id) + "," + task.taskName + "," + Date.parse(task.date) + 
+    "," + reminder); 
     
 }
 

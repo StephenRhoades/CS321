@@ -8,20 +8,7 @@ function populateTaskForm(taskObject) {
     form.querySelector('#task-desc').value = taskObject.taskDescription;
     form.querySelector('#task-date').value = taskObject.date.split(' ')[0]; // Extract date
     form.querySelector('#task-time').value = taskObject.date.split(' ')[1]; // Extract time
-    let i = 0;
-    let list = document.getElementById("reminder-list");
-    taskObject.reminderList.forEach(reminder => {
-        let li = document.createElement('li');
-        let button = document.createElement('button');
-        li.innerText = parseReminder(reminder);
-        li.className = "reminder";
-        button.id = "delete-reminder-" + i;
-        button.className = "delete-reminder";
-        button.innerText = "Delete Reminder";
-        li.appendChild(button);
-        list.appendChild(li);
-        i++;
-    });
+    reloadReminders(taskObject);
 }
 
 /**
@@ -33,7 +20,7 @@ function parseReminder(reminder) {
     const days = Math.floor(reminder / (24*60*60*1000));
   const hours = Math.floor((reminder % (24*60*60*1000)) / (60*60*1000));
   const minutes = Math.floor((reminder % (60*60*1000)) / (60*1000));
-    let time = "in";
+    let time = "remind ";
 
     if (days > 0) {
         time += " " +  days + " day";
@@ -42,7 +29,7 @@ function parseReminder(reminder) {
         }
     }
     if (hours > 0) {
-        if (time !== "in") {
+        if (time !== "remind ") {
         time += ",";
         }
         time += " " + hours + " hour";
@@ -51,7 +38,7 @@ function parseReminder(reminder) {
         }
     }
     if (minutes > 0) {
-        if (time !== "in") {
+        if (time !== "remind ") {
         time += ",";
         }
         time += " " + minutes + " minute";
@@ -60,7 +47,7 @@ function parseReminder(reminder) {
         }
     }
 
-    return time;
+    return time + " before";
 }
 
 /**
@@ -104,8 +91,13 @@ function saveEditedTask(event, taskId, source) {
  */
 function deleteTask(taskId, source) {
     const taskIndex = dynamicTaskArray.findIndex((task) => task.id === taskId);
+    const task = dynamicTaskArray.find((task) => task.id === taskId);
 
     if (taskIndex > -1) {
+        console.log(task.reminderList);
+        task.reminderList.forEach((reminder, index) => {
+            chrome.runtime.sendMessage("delete," + Number(task.id) + "," + task.taskName + "," + task.reminderList[index]);
+        });
         dynamicTaskArray.splice(taskIndex, 1); // Remove from global array
         saveTasksToLocalStorage(); // Save updated global array to localStorage
         window.location.href = source === 'calendar' ? 'calendarView.html' : 'listView.html'; // Redirect based on source
@@ -144,16 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
             saveEditedTask(event, taskId, source);
         });
 
-        // Add delete reminder functionality
-        document.querySelectorAll('.delete-reminder').forEach(element => {
-            element.addEventListener('click', function(event) {
-                event.preventDefault();
-                // Get the id of the clicked element
-                const elementId = event.target.id;
-                deleteReminder(elementId, taskId);
-                console.log('Clicked element ID:', elementId);
-            });
-        });
+        // Add reminder functionality
+        const addReminderButton = document.getElementById('add-reminder');
+        addReminderButton.addEventListener('click', (event) => {addNewReminder(event, taskId)});
 
         // Add delete functionality
         const deleteButton = document.getElementById('delete-task-button');
@@ -170,50 +155,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/**
- * deletes the reminder from the task object and send a message to the background to delete the alarm.
- * @param {*} elementId 
- * @param {*} taskId 
- */
-function deleteReminder(elementId, taskId) {
-    index = elementId.substring(elementId.lastIndexOf('-') + 1);
-    const task = dynamicTaskArray.find((task) => task.id === taskId);
-    console.log(task);
-    console.log("before: " + task.reminderList);
-    chrome.runtime.sendMessage("delete," + Number(task.id) + "," + task.taskName + "," + task.reminderList[index]); 
-    task.reminderList.splice(index, 1);
-    console.log("index: " + index);
-    console.log("after: " + task.reminderList);
+
+function addNewReminder(event, taskId) {
+    event.preventDefault();
+    const form = document.getElementById('myForm');
+
+    const taskReminderDays = form.querySelector('#days').value;
+    form.querySelector('#days').value = '';
+    const taskReminderHours = form.querySelector('#hours').value;
+    form.querySelector('#hours').value = '';
+    const taskReminderMinutes = form.querySelector('#minutes').value;
+    form.querySelector('#minutes').value = '';
     
+    const reminder = taskReminderDays * 24 * 60 * 60 * 1000 + taskReminderHours * 60 * 60 * 1000 + taskReminderMinutes * 60 * 1000;
+    const taskObject = dynamicTaskArray.find((task) => task.id === taskId);
+
+    addReminder(reminder, taskObject);
+    reloadReminders(taskObject);
+}
+
+function addReminder(reminder, task) {
+    task.reminderList.push(reminder);
     saveTasksToLocalStorage();
-    reloadReminders(task.reminderList); // Reload reminders in the DOM
+    setAlarm(task, reminder);
+}
+
+function deleteReminder(event, taskId) {
+    event.preventDefault();
+    const elementId = event.target.id;
+    const taskObject = dynamicTaskArray.find((task) => task.id === taskId);
+    const index = elementId.substring(elementId.lastIndexOf('-') + 1);
+    chrome.runtime.sendMessage("delete," + Number(taskObject.id) + "," + taskObject.taskName + "," + taskObject.reminderList[index]);
+    taskObject.reminderList.splice(index, 1);
+    saveTasksToLocalStorage();
+    reloadReminders(taskObject);
 }
 
 /**
 * Reloads the reminder list in the DOM.
 * @param {Array} reminderList - The updated list of reminders.
 */
-function reloadReminders(reminderList) {
-const list = document.getElementById("reminder-list");
-list.innerHTML = ""; // Clear the current list
+function reloadReminders(taskObject) {
+    const list = document.getElementById("reminder-list");
+    if (taskObject.reminderList.length == 0) {
+        list.innerHTML = "There are no reminders.";
+    } else {
+        list.innerHTML = "";
+    }
 
-reminderList.forEach((reminder, index) => {
-let li = document.createElement('li');
-let button = document.createElement('button');
-li.innerText = parseReminder(reminder);
-li.className = "reminder";
-button.id = "delete-reminder-" + (index + 1);
-button.className = "delete-reminder";
-button.innerText = "Delete Reminder";
+    taskObject.reminderList.forEach((reminder, index) => {
+        let li = document.createElement('li');
+        let button = document.createElement('button');
+        li.innerText = parseReminder(reminder);
+        li.className = "reminder";
+        button.id = "delete-reminder-" + index;
+        button.className = "delete-reminder";
+        button.innerText = "Delete Reminder";
 
-// Add event listener to the new delete button
-button.addEventListener('click', function (event) {
-    deleteReminder(button.id);
-});
+        button.addEventListener('click', (event) => {
+            deleteReminder(event, taskObject.id);
+        });
 
-li.appendChild(button);
-list.appendChild(li);
-});
+        li.appendChild(button);
+        list.appendChild(li);
+    });
 }
 
 // /**

@@ -256,8 +256,12 @@ document.addEventListener('DOMContentLoaded', function() {
          */
         deleteTask(taskId) {
             const taskIndex = this.tasks.findIndex(task => task.id === taskId);
+            const task = dynamicTaskArray.find((task) => task.id === taskId);
         
             if (taskIndex > -1) {
+                task.reminderList.forEach((reminder, index) => {
+                    chrome.runtime.sendMessage("delete," + Number(task.id) + "," + task.taskName + "," + task.reminderList[index]);
+                });
                 this.tasks.splice(taskIndex, 1);
                 dynamicTaskArray = dynamicTaskArray.filter(task => task.id !== taskId);
                 saveTasksToLocalStorage();

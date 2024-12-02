@@ -29,9 +29,28 @@
 
         <label for="task-time">Time:</label>
         <input type="time" id="task-time" name="task-time" required>
+                
+        <label for="task-reminder">New Reminder:</label>
 
+        <div class="row">
+            <div class="column">
+              <label for="task-rem-days">days:</label>
+              <input type="number" id="days" name="days" min="0" max="365">
+            </div>
+            <div class="column">
+              <label for="task-rem-hours">hours:</label>
+              <input type="number" id="hours" name="hours" min="0" max="24">
+            </div>
+            <div class="column">
+              <label for="task-rem-minutes">minutes:</label>
+              <input type="number" id="minutes" name="minutes" min="0" max="60">
+            </div>
+        </div>
+        <button class="add-reminder" id="add-reminder">Add Reminder</button>
+
+        <label for="task-reminder-list">Reminders:</label>
         <div class="form-group">
-            <ul id="reminder-list"></ul>
+            <ul id="reminder-list">There are no reminders?</ul>
         </div>
 
         <div class="button-container">

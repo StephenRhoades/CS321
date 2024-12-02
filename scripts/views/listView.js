@@ -119,8 +119,12 @@ function generateTasks(sortType) {
  */
 function deleteTaskFromList(taskId) {
     const taskIndex = dynamicTaskArray.findIndex((task) => task.id === taskId);
+    const task = dynamicTaskArray.find((task) => task.id === taskId);
 
     if (taskIndex > -1) {
+        task.reminderList.forEach((reminder, index) => {
+            chrome.runtime.sendMessage("delete," + Number(task.id) + "," + task.taskName + "," + task.reminderList[index]);
+        });
         dynamicTaskArray.splice(taskIndex, 1); // Remove task from global array
         saveTasksToLocalStorage(); // Update local storage
         generateTasks(); // Refresh the task list
