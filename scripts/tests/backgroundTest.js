@@ -108,16 +108,19 @@ function testCreateTaskAlarmNotifyAndDelete() {
         // Checking Errors first
         try {
             createTaskAlarm();
+            throw new Error('reached too far!');
         } catch (Error) {
             assert(Error.message === 'Invalid reminderDate: not a Date object', "Error for no input not generated correctly");
         }
         try {
             createTaskAlarm(1, "word", 100, "name");
+            throw new Error('reached too far!');
         } catch (Error) {
             assert(Error.message === 'Invalid reminderDate: not a Date object', "Error for reminderDate not being a date not generated correctly");
         }
         try {
             createTaskAlarm(1, new Date("not-a-date"), 100, "name");
+            throw new Error('reached too far!');
         } catch (Error) {
             assert(Error.message === 'Invalid Date: reminderDate results in NaN', "Error for reminderDate time being NaN not generated correctly");
         }
@@ -128,7 +131,24 @@ function testCreateTaskAlarmNotifyAndDelete() {
             consoleOutput.push(args.join(" "));
         };
 
+        clearAlarms();
+
         const now = new Date();
+        createTaskAlarm(314159, new Date(now.getTime() + 60 * 1000), 60 * 1000, "minute-alarm!");
+
+        clearAlarms();
+
+        setTimeout(() => {
+            try {
+                assert(consoleOutput.includes("All alarms successfully cleared!"), "clearAlarms did not clear correctly!");
+                // assert(consoleOutput.includes("No alarms to clear."), "alarms found incorrectly!");
+            } catch (e) {
+                console.log = originalLog;
+                console.log("Test Create Task Alarm Notify and Delete: Failed");
+                throw e;
+            }
+        }, 500);
+
         deleteTaskAlarm(0, "none", 0)
 
         createTaskAlarm(3141592, new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000), 2 * 24 * 60 * 60 * 1000, "2-day-alarm");
