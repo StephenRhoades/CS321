@@ -52,6 +52,11 @@ async function notify() {
 
       const time = parseTimeBefore(timeBefore);
       
+      chrome.runtime.sendMessage({
+        command: 'removeReminder',
+        reminderId: alarm.name,  // Send the unique alarm name to identify
+      });
+
       chrome.notifications.create({
         type: 'basic',
         iconUrl: '../images/taskIcon.png',

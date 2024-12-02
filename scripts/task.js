@@ -114,3 +114,24 @@ function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, c
     taskObject.recurring=recurring;
 }
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.command === 'removeReminder') {
+      const reminderId = message.reminderId;
+  
+      // Call a function to remove the reminder from reminderList
+      removeReminderFromList(reminderId);
+  
+      // Send a response back if needed
+      sendResponse({ status: 'success', message: `Reminder ${reminderId} removed.` });
+    }
+  });
+
+function removeReminderFromList(reminderId) {
+    const taskName = reminderId.substring(reminderId.indexOf('_') + 1, reminderId.lastIndexOf('_'));
+    const task = dynamicTaskArray.find(task => task.taskName === taskName);
+    const timeBefore = Number(reminderId.substring(reminderId.lastIndexOf('_') + 1));
+    const index = task.reminderList.findIndex(reminder => reminder === timeBefore);
+    task.reminderList.splice(index, 1);
+    saveTasksToLocalStorage();
+}
+
