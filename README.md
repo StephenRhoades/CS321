@@ -17,7 +17,18 @@ Giancarlo Jaramillo Rojas,
 Stephen Rhoades,
 David Schmidle
 
-### Testing:
-Install Node.js
-Install jest: npm install --save-dev jest
-Run tests: npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"
+### Testing Using Jest:
+1.Install Node.js
+
+2.Install jest: npm install --save-dev jest
+
+3.Run tests: npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"
+
+### Testing Using Jest:
+Some tests do not use jest to run. For these manual console testing is used. To run these tests:
+
+1. Download branch as a zip and unpack.
+2. Enter google chrome extensions and select "Load unpacked" on top left of page.
+3. Select the unpacked branch file
+4. Select "Task Tracker" extension.
+5. Inspect the extension and review the console logging to view testing results.
