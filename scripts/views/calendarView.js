@@ -1,4 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
     class Calendar {
         constructor() {
             this.date = new Date();       // Current date (used for determining the month and year)
@@ -6,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.activeModal = null;      // Track the currently active modal
             this.viewMode = 'monthly';    // Default view mode
         }
+        
 
         /**
         *   Method to load tasks into the calendar
@@ -249,8 +249,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    document.addEventListener('DOMContentLoaded', function() {
+  
+
+        if (typeof window !== 'undefined') {
+            window.Calendar = Calendar; // Assign Calendar globally for browser
+        }
     // Initialize the calendar
     const calendar = new Calendar();
+    
 
     // Example tasks for demonstration purposes
     const exampleTasks = loadTaskInLocalStorage(); 
@@ -282,3 +289,5 @@ document.addEventListener('DOMContentLoaded', function() {
         monthlyViewButton.classList.remove('active');
     });
 });
+
+module.exports = Calendar; // Export Calendar for Node.js and Jest
