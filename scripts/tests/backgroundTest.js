@@ -1,13 +1,15 @@
-document.addEventListener('DOMContentLoaded', function() {
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+document.addEventListener('DOMContentLoaded', async function() {
     console.log("DOM fully loaded and parsed: backgroundTest");
     const errors = [];
     // Unit tests
-    // test(testAddMessageListener, errors);
+    test(testAddMessageListener, errors);
+    await delay(500);
     test(testParseTimeBefore, errors);
     test(testGetReminderTime, errors);
     // parital integration
     test(testCreateTaskAlarmNotifyAndDelete, errors);
-    // test(testAddMessageListener, errors);
     //log all errors
     errors.forEach(e => console.error(e));
 });
@@ -56,60 +58,43 @@ function testGetReminderTime() {
     }
 }
 
-//not being able to delete on direct call and cant catch console.log with sendMessage as is
-function testDeleteAlarm() {
-    // const originalLog = console.log;
-    try {
-        // const consoleOutput = [];
-        // console.log = (...args) => {
-        //     consoleOutput.push(args.join(" "));
-        // };
-        deleteTaskAlarm(0, "none", 0)
-
-        createTaskAlarm(3141592, new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000), 2 * 24 * 60 * 60 * 1000, "2-day-alarm");
-        createTaskAlarm(3141592, new Date(new Date().getTime() + 24 * 60 * 60 * 1000), 24 * 60 * 60 * 1000, "day-alarm");
-        createTaskAlarm(3141592, new Date(new Date().getTime() + 60 * 1000), 60 * 1000, "minute-alarm");
-
-        // setTimeout(() => {     
-            // chrome.runtime.sendMessage("delete,3141592,minute-alarm,60000");
-            deleteTaskAlarm(3141592, "minute-alarm", 0);
-            deleteTaskAlarm(3141592, "bad-alarm", 60 * 1000);
-            deleteTaskAlarm(0, "minute-alarm", 24 * 60 * 60 * 1000);
-            deleteTaskAlarm(3141592, "minute-alarm", 60 * 1000);
-            deleteTaskAlarm(3141592, "day-alarm", 24 * 60 * 60 * 1000);
-            deleteTaskAlarm(3141592, "2-day-alarm", 2 * 24 * 60 * 60 * 1000);
-            deleteTaskAlarm(3141592, "2-day-alarm", 2 * 24 * 60 * 60 * 1000);
-            
-            // setTimeout(() => { 
-                // console.log = originalLog;
-                // console.log(consoleOutput);
-                assert(consoleOutput.includes("taskReminder0_none_0 not found for deletion."), "nonexistent alarm is incorrectly counted as being deleted.");
-                assert(consoleOutput.includes("taskReminder3141592_minute alarm_0 not found for deletion."), "despite incorrect timeBefore, alarm is still being deleted.");
-                assert(consoleOutput.includes("taskReminder3141592_bad alarm_60000 not found for deletion."), "despite incorrect name, alarm is still being deleted.");
-                assert(consoleOutput.includes("taskReminder3141592_minute alarm_86400000 not found for deletion."), "despite incorrect Id, alarm is still being deleted.");
-                assert(consoleOutput.includes("taskReminder3141592_minute alarm_60000 deleted."), "despite correct input, failed to delete minute alarm.");
-                assert(consoleOutput.includes("taskReminder3141592_day alarm_86400000 deleted."), "despite correct input, failed to delete day alarm.");
-                assert(consoleOutput.includes("taskReminder3141592_2 day alarm_172800000 deleted."), "despite correct input, failed to delete 2 day alarm.");
-                assert(consoleOutput.includes("taskReminder3141592_2 day alarm_172800000 failed to delete!"), "repeated alarm deletion did not cause failure to delete (not found?).");
-                console.log = originalLog;
-                console.log("Test Delete Alarm: Passed");
-        //     }, 5000);
-            
-        // }, 10 * 1000);
-        
-    } catch (e) {
-        // console.log = originalLog;
-        console.log("Test Delete Alarm: Failed");
-        throw e;
-    }
-}
 
 function testAddMessageListener() {
     try {
-        chrome.runtime.sendMessage("clearAlarms");
-        chrome.runtime.sendMessage("delete,0,none,0");
-        chrome.runtime.sendMessage("alarm,0,none," + new Date(new Date().getTime() + 60 * 1000).getTime() + ",100");
-        chrome.runtime.sendMessage("delete,0,none,100");
+        chrome.runtime.sendMessage({
+            command: "clearAlarms",
+        }, 
+        (response) => {
+            assert(response?.status === 'received', "clearAlarms message not received!");
+        });
+        chrome.runtime.sendMessage({
+            command: "delete!",
+            id: 0,
+            name: "none",
+            timeBefore: 0,
+        }, 
+        (response) => {
+            assert(response?.status === 'error', "invalid message was received incorrectly!");
+        }); 
+        chrome.runtime.sendMessage({
+            command: "alarm",
+            id: 0,
+            name: "none",
+            date:  new Date(new Date().getTime() + 60 * 1000).getTime(),
+            timeBefore: 100,
+        }, 
+        (response) => {
+            assert(response?.status === 'received', "alarm message not received!");
+        }); 
+        chrome.runtime.sendMessage({
+            command: "delete",
+            id: 0,
+            name: "none",
+            timeBefore: 100,
+        }, 
+        (response) => {
+            assert(response?.status === 'received', "delete message not received!");
+        }); 
         console.log("Test Add Message Listener: Passed");
     } catch (e) {
         console.log("Test Add Message Listener: Failed");
@@ -150,10 +135,22 @@ function testCreateTaskAlarmNotifyAndDelete() {
         createTaskAlarm(3141592, new Date(now.getTime() + 24 * 60 * 60 * 1000), 24 * 60 * 60 * 1000, "day-alarm");
         createTaskAlarm(3141592, new Date(now.getTime() + 60 * 1000), 60 * 1000, "minute-alarm");
 
-        createTaskAlarm(6.31415, new Date(now.getTime() + 30 * 1000), 30 * 1000, "test6");
-        createTaskAlarm(5.31415, new Date(now.getTime() + 4 * 1000), 4 * 1000, "test5");
+        dynamicTaskArray = loadTaskInLocalStorage();
+
+        const date6 = new Date(now.getTime() + 30 * 1000);
+        dynamicTaskArray.push(createTask(6.31415, "test6", "taskDescription", "taskCategory", date6, 30 * 1000, false, false));
+        createTaskAlarm(6.31415, date6, 30 * 1000, "test6");
+        saveTasksToLocalStorage();
+
+        const date5 = new Date(now.getTime() + 4 * 1000);
+        dynamicTaskArray.push(createTask(5.31415, "test5", "taskDescription", "taskCategory", date5, 4 * 1000, false, false));
+        createTaskAlarm(5.31415, date5, 4 * 1000, "test5");
+        saveTasksToLocalStorage();
+
+        dynamicTaskArray.push(createTask(1.31415, "test1", "taskDescription", "taskCategory", now, 0, false, false));
         createTaskAlarm(1.31415, now, 0, "test1");
-        
+        saveTasksToLocalStorage();
+
         checked = 0;
         chrome.alarms.onAlarm.addListener((alarm) => {
             if (alarm.name.startsWith('taskReminder1.31415')) {

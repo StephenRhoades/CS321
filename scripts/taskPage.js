@@ -25,29 +25,34 @@ function parseReminder(reminder) {
     if (days > 0) {
         time += " " +  days + " day";
         if (days > 1) {
-        time += "s";
+            time += "s";
         }
     }
     if (hours > 0) {
         if (time !== "remind ") {
-        time += ",";
+            time += ",";
         }
         time += " " + hours + " hour";
         if (hours > 1) {
-        time += "s";
+            time += "s";
         }
     }
     if (minutes > 0) {
         if (time !== "remind ") {
-        time += ",";
+            time += ",";
         }
         time += " " + minutes + " minute";
         if (minutes > 1) {
-        time += "s";
+            time += "s";
         }
     }
+    if (time === "remind ") {
+        time += " when due";
+    } else {
+        time += " before"
+    }
 
-    return time + " before";
+    return time;
 }
 
 /**
@@ -96,7 +101,21 @@ function deleteTask(taskId, source) {
     if (taskIndex > -1) {
         console.log(task.reminderList);
         task.reminderList.forEach((reminder, index) => {
-            chrome.runtime.sendMessage("delete," + Number(task.id) + "," + task.taskName + "," + task.reminderList[index]);
+            chrome.runtime.sendMessage({
+                command: "delete",
+                id: Number(taskObject.id),
+                name: taskObject.taskName,
+                timeBefore: taskObject.reminderList[index],
+            }, 
+            (response) => {
+                if (chrome.runtime.lastError) {
+                    console.error("Error sending message:", chrome.runtime.lastError.message);
+                } else if (response?.status === 'received') {
+                    console.log("Message successfully received by background.");
+                } else {
+                    console.error("Unexpected response:", response);
+                }
+            });
         });
         dynamicTaskArray.splice(taskIndex, 1); // Remove from global array
         saveTasksToLocalStorage(); // Save updated global array to localStorage
@@ -185,7 +204,22 @@ function deleteReminder(event, taskId) {
     const elementId = event.target.id;
     const taskObject = dynamicTaskArray.find((task) => task.id === taskId);
     const index = elementId.substring(elementId.lastIndexOf('-') + 1);
-    chrome.runtime.sendMessage("delete," + Number(taskObject.id) + "," + taskObject.taskName + "," + taskObject.reminderList[index]);
+    chrome.runtime.sendMessage({
+        command: "delete",
+        id: Number(taskObject.id),
+        name: taskObject.taskName,
+        timeBefore: taskObject.reminderList[index],
+    }, 
+    (response) => {
+        if (chrome.runtime.lastError) {
+            console.error("Error sending message:", chrome.runtime.lastError.message);
+        } else if (response?.status === 'received') {
+            console.log("Message successfully received by background.");
+        } else {
+            console.error("Unexpected response:", response);
+        }
+    });
+        // "delete," + Number(taskObject.id) + "," + taskObject.taskName + "," + taskObject.reminderList[index]);
     taskObject.reminderList.splice(index, 1);
     saveTasksToLocalStorage();
     reloadReminders(taskObject);

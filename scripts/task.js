@@ -70,9 +70,22 @@ async function addTask(event) {
 }
 
 function setAlarm(task, reminder){
-    chrome.runtime.sendMessage("alarm," + Number(task.id) + "," + task.taskName + "," + Date.parse(task.date) + 
-    "," + reminder); 
-    
+    chrome.runtime.sendMessage({
+        command: 'alarm',
+        id: Number(task.id),
+        name: task.taskName,
+        date:  Date.parse(task.date),
+        timeBefore: reminder,
+    }, 
+    (response) => {
+        if (chrome.runtime.lastError) {
+            console.error("Error sending message:", chrome.runtime.lastError.message);
+        } else if (response?.status === 'received') {
+            console.log("Message successfully received by background.");
+        } else {
+            console.error("Unexpected response:", response);
+        }
+    });    
 }
 
 /**
@@ -101,7 +114,10 @@ function clearStorage() {
 }
 
 function createTask(id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring) {
-    const reminderList = [reminder]; 
+    const reminderList =[];
+    if (reminder != 0) {
+        reminderList.push(reminder); 
+    }
     return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
 }
 

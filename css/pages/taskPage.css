@@ -180,18 +180,18 @@ html {
     
     .delete-reminder {
         position: absolute;
-        font-size: 10px;
+        font-size: 12px;
         right: 20px;
         padding: 10px;
-        width: 25%;
+        width: 30%;
         color: white;
         background-color: #d9534f;
     }
 
     .add-reminder {
-        font-size: 10px;
+        font-size: 12px;
         padding: 10px;
-        width: 25%;
+        width: 30%;
         margin-bottom: 15px;
     }
 
