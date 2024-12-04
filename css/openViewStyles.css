@@ -79,6 +79,14 @@ button:hover {
   background-color: #218838;
 }
 
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 30%;
+}
+
 /* dropdown checklist style */
 .dropdown-check-list {
   display: inline-block;

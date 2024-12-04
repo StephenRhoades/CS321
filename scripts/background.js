@@ -52,6 +52,11 @@ async function notify() {
 
       const time = parseTimeBefore(timeBefore);
       
+      chrome.runtime.sendMessage({
+        command: 'removeReminder',
+        reminderId: alarm.name,  // Send the unique alarm name to identify
+      });
+
       chrome.notifications.create({
         type: 'basic',
         iconUrl: '../images/taskIcon.png',
@@ -106,9 +111,14 @@ function parseTimeBefore(timeBefore){
 }
 
 /**
- * Listens for any messages from other js files and handles them in specific ways depending on the 
- * first reference listed. All messages should split any data from the command by commas with no 
- * spaces. (ie. "alarm,id,name,date,reminder")
+ * Listens for any messages from other js files and handles them in specific ways depending on the command. 
+ * ie.chrome.runtime.sendMessage({
+ *       command: 'alarm',
+ *       id: Number(task.id),
+ *       name: task.taskName,
+ *       date:  Date.parse(task.date),
+ *       timeBefore: reminder,
+ *   }); 
  * Current commands:
  * "alarm" fields:<id>,<name>,<date>,<timeBefore>
  * "delete" fields:<id>,<name>,<timeBefore>
@@ -117,21 +127,26 @@ function parseTimeBefore(timeBefore){
  *      "Background received: message"
  */
 function addMessageListener(){
-  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log('Background received:', message);
-    values = message.split(',');
-    // console.log(values);
-    if (values[0] === "alarm") {
-      createTaskAlarm(values[1], getReminderTime(values[3], values[4]), values[4], values[2]);
-    }
-    else if (values[0] === "delete") {
-      deleteTaskAlarm(values[1], values[2], values[3]);
-    } 
-    else if (values[0] === "clearAlarms") {
-      clearAlarms();
-    }
-    sendResponse({ status: 'received' });
-  });
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        console.log('Background received:', message);
+        switch (message.command) {
+          case "alarm":
+            createTaskAlarm(message.id, getReminderTime(message.date, message.timeBefore), message.timeBefore, message.name);
+            sendResponse({ status: 'received' });
+            break;
+          case "delete":
+            deleteTaskAlarm(message.id, message.name, message.timeBefore);
+            sendResponse({ status: 'received' });
+            break;
+          case "clearAlarms":
+            clearAlarms();
+            sendResponse({ status: 'received' });
+            break;
+          default:
+            sendResponse({ status: 'error', message: 'Unknown command' });
+            break;
+        }
+    });
 }
 
 /**
@@ -185,7 +200,6 @@ function createTaskAlarm(taskId, reminderDate, timeBefore, name) {
  */
 function deleteTaskAlarm(taskId, name, timeBefore) {
   const alarmName = `taskReminder${taskId}_${name}_${timeBefore}`;
-  console.log("test");
   chrome.alarms.get(alarmName, (alarm) => {
     if (alarm) {
       chrome.alarms.clear(alarmName, (success) => {

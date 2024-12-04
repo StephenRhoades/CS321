@@ -8,6 +8,51 @@ function populateTaskForm(taskObject) {
     form.querySelector('#task-desc').value = taskObject.taskDescription;
     form.querySelector('#task-date').value = taskObject.date.split(' ')[0]; // Extract date
     form.querySelector('#task-time').value = taskObject.date.split(' ')[1]; // Extract time
+    reloadReminders(taskObject);
+}
+
+/**
+ * Takes the milisecond value of reminders and makes it more readable for the user.
+ * @param {Number} reminder the miliseconds before the task to remind the user
+ * @returns the reminder in days, hours, and minutes
+ */
+function parseReminder(reminder) {
+    const days = Math.floor(reminder / (24*60*60*1000));
+  const hours = Math.floor((reminder % (24*60*60*1000)) / (60*60*1000));
+  const minutes = Math.floor((reminder % (60*60*1000)) / (60*1000));
+    let time = "remind ";
+
+    if (days > 0) {
+        time += " " +  days + " day";
+        if (days > 1) {
+            time += "s";
+        }
+    }
+    if (hours > 0) {
+        if (time !== "remind ") {
+            time += ",";
+        }
+        time += " " + hours + " hour";
+        if (hours > 1) {
+            time += "s";
+        }
+    }
+    if (minutes > 0) {
+        if (time !== "remind ") {
+            time += ",";
+        }
+        time += " " + minutes + " minute";
+        if (minutes > 1) {
+            time += "s";
+        }
+    }
+    if (time === "remind ") {
+        time += " when due";
+    } else {
+        time += " before"
+    }
+
+    return time;
 }
 
 /**
@@ -51,8 +96,27 @@ function saveEditedTask(event, taskId, source) {
  */
 function deleteTask(taskId, source) {
     const taskIndex = dynamicTaskArray.findIndex((task) => task.id === taskId);
+    const task = dynamicTaskArray.find((task) => task.id === taskId);
 
     if (taskIndex > -1) {
+        console.log(task.reminderList);
+        task.reminderList.forEach((reminder, index) => {
+            chrome.runtime.sendMessage({
+                command: "delete",
+                id: Number(taskObject.id),
+                name: taskObject.taskName,
+                timeBefore: taskObject.reminderList[index],
+            }, 
+            (response) => {
+                if (chrome.runtime.lastError) {
+                    console.error("Error sending message:", chrome.runtime.lastError.message);
+                } else if (response?.status === 'received') {
+                    console.log("Message successfully received by background.");
+                } else {
+                    console.error("Unexpected response:", response);
+                }
+            });
+        });
         dynamicTaskArray.splice(taskIndex, 1); // Remove from global array
         saveTasksToLocalStorage(); // Save updated global array to localStorage
         window.location.href = source === 'calendar' ? 'calendarView.html' : 'listView.html'; // Redirect based on source
@@ -91,6 +155,10 @@ document.addEventListener('DOMContentLoaded', () => {
             saveEditedTask(event, taskId, source);
         });
 
+        // Add reminder functionality
+        const addReminderButton = document.getElementById('add-reminder');
+        addReminderButton.addEventListener('click', (event) => {addNewReminder(event, taskId)});
+
         // Add delete functionality
         const deleteButton = document.getElementById('delete-task-button');
         deleteButton.addEventListener('click', () => deleteTask(taskId, source));
@@ -107,6 +175,85 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+function addNewReminder(event, taskId) {
+    event.preventDefault();
+    const form = document.getElementById('myForm');
+
+    const taskReminderDays = form.querySelector('#days').value;
+    form.querySelector('#days').value = '';
+    const taskReminderHours = form.querySelector('#hours').value;
+    form.querySelector('#hours').value = '';
+    const taskReminderMinutes = form.querySelector('#minutes').value;
+    form.querySelector('#minutes').value = '';
+    
+    const reminder = taskReminderDays * 24 * 60 * 60 * 1000 + taskReminderHours * 60 * 60 * 1000 + taskReminderMinutes * 60 * 1000;
+    const taskObject = dynamicTaskArray.find((task) => task.id === taskId);
+
+    addReminder(reminder, taskObject);
+    reloadReminders(taskObject);
+}
+
+function addReminder(reminder, task) {
+    task.reminderList.push(reminder);
+    saveTasksToLocalStorage();
+    setAlarm(task, reminder);
+}
+
+function deleteReminder(event, taskId) {
+    event.preventDefault();
+    const elementId = event.target.id;
+    const taskObject = dynamicTaskArray.find((task) => task.id === taskId);
+    const index = elementId.substring(elementId.lastIndexOf('-') + 1);
+    chrome.runtime.sendMessage({
+        command: "delete",
+        id: Number(taskObject.id),
+        name: taskObject.taskName,
+        timeBefore: taskObject.reminderList[index],
+    }, 
+    (response) => {
+        if (chrome.runtime.lastError) {
+            console.error("Error sending message:", chrome.runtime.lastError.message);
+        } else if (response?.status === 'received') {
+            console.log("Message successfully received by background.");
+        } else {
+            console.error("Unexpected response:", response);
+        }
+    });
+        // "delete," + Number(taskObject.id) + "," + taskObject.taskName + "," + taskObject.reminderList[index]);
+    taskObject.reminderList.splice(index, 1);
+    saveTasksToLocalStorage();
+    reloadReminders(taskObject);
+}
+
+/**
+* Reloads the reminder list in the DOM.
+* @param {Array} reminderList - The updated list of reminders.
+*/
+function reloadReminders(taskObject) {
+    const list = document.getElementById("reminder-list");
+    if (taskObject.reminderList.length == 0) {
+        list.innerHTML = "There are no reminders.";
+    } else {
+        list.innerHTML = "";
+    }
+
+    taskObject.reminderList.forEach((reminder, index) => {
+        let li = document.createElement('li');
+        let button = document.createElement('button');
+        li.innerText = parseReminder(reminder);
+        li.className = "reminder";
+        button.id = "delete-reminder-" + index;
+        button.className = "delete-reminder";
+        button.innerText = "Delete Reminder";
+
+        button.addEventListener('click', (event) => {
+            deleteReminder(event, taskObject.id);
+        });
+
+        li.appendChild(button);
+        list.appendChild(li);
+    });
+}
 
 // /**
 //  * ATTENTION: TEST FUNCTION ONLY. HTML IMPLEMENTATION PENDING.

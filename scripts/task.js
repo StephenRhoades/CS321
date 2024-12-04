@@ -43,11 +43,17 @@ async function addTask(event) {
     const taskDate = formData.get('task-date');
     const taskTime = formData.get('task-time');
     const taskRecur = formData.get('task-recur'); 
-    const taskReminder = Number(formData.get('task-rem'));
+    const taskReminderDays = formData.get('days');
+    const taskReminderHours = formData.get('hours');
+    const taskReminderMinutes = formData.get('minutes');
 
-    const date = taskDate + ' ' + taskTime;
-    const reminder = taskReminder * 60 * 1000;
+    console.log("days: " + taskReminderDays);
+    console.log("hours: " + taskReminderHours);
+    console.log("minutes " + taskReminderMinutes);
     
+    const date = taskDate + ' ' + taskTime;
+    const reminder = taskReminderDays * 24 * 60 * 60 * 1000 + taskReminderHours * 60 * 60 * 1000 + taskReminderMinutes * 60 * 1000;
+
     const taskId = await generateTaskId();
     const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
 
@@ -55,15 +61,31 @@ async function addTask(event) {
 
     dynamicTaskArray.push(task);
     saveTasksToLocalStorage();
-
-    setAlarm(task);
+    
+    if (reminder != 0) {
+        setAlarm(task, reminder);
+    }
 
     form.reset(); 
 }
 
-function setAlarm(task){
-    chrome.runtime.sendMessage("alarm," + Number(task.id) + "," + task.taskName + "," + Date.parse(task.date) + 
-    "," + task.reminder); 
+function setAlarm(task, reminder){
+    chrome.runtime.sendMessage({
+        command: 'alarm',
+        id: Number(task.id),
+        name: task.taskName,
+        date:  Date.parse(task.date),
+        timeBefore: reminder,
+    }, 
+    (response) => {
+        if (chrome.runtime.lastError) {
+            console.error("Error sending message:", chrome.runtime.lastError.message);
+        } else if (response?.status === 'received') {
+            console.log("Message successfully received by background.");
+        } else {
+            console.error("Unexpected response:", response);
+        }
+    });    
 }
 
 /**
@@ -92,7 +114,11 @@ function clearStorage() {
 }
 
 function createTask(id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring) {
-    return {id, taskName, taskDescription, taskCategory, date, reminder, complete, recurring};
+    const reminderList =[];
+    if (reminder != 0) {
+        reminderList.push(reminder); 
+    }
+    return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
 }
 
 function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, complete, recurring){
@@ -102,5 +128,26 @@ function modifyTask(taskObject, taskName, taskDescription, taskCategory, date, c
     taskObject.date=date;
     taskObject.complete=complete;
     taskObject.recurring=recurring;
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.command === 'removeReminder') {
+      const reminderId = message.reminderId;
+  
+      // Call a function to remove the reminder from reminderList
+      removeReminderFromList(reminderId);
+  
+      // Send a response back if needed
+      sendResponse({ status: 'success', message: `Reminder ${reminderId} removed.` });
+    }
+  });
+
+function removeReminderFromList(reminderId) {
+    const taskName = reminderId.substring(reminderId.indexOf('_') + 1, reminderId.lastIndexOf('_'));
+    const task = dynamicTaskArray.find(task => task.taskName === taskName);
+    const timeBefore = Number(reminderId.substring(reminderId.lastIndexOf('_') + 1));
+    const index = task.reminderList.findIndex(reminder => reminder === timeBefore);
+    task.reminderList.splice(index, 1);
+    saveTasksToLocalStorage();
 }
 
