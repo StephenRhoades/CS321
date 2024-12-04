@@ -18,11 +18,15 @@ Stephen Rhoades,
 David Schmidle
 
 ### Testing Using Jest:
-1.Install Node.js
+1. Install Node.js
 
-2.Install jest: npm install --save-dev jest
+2. Install jest: `npm install --save-dev jest`
 
-3. Run tests: `npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"`
+3. Install jsdom: `npm install --save-dev jest-environment-jsdom`
+
+4. Make sure you are in CS321 directory when running the tests, path should look similar to this: `C:\Users\Oswald\Documents\GitHub\CS321>`
+
+5. Run tests: `npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"`
 
 ### Testing Not Using Jest:
 Some tests do not use jest to run. For these manual console testing is used. To run these tests:
