@@ -24,6 +24,16 @@ David Schmidle
 
 3. Run tests: `npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"`
 
+4. If "No tests found, exiting with code 1" pops up, add or modify the dependency below into package.json file.    
+    "jest": {
+    "testEnvironment": "jsdom",
+    "testMatch": ["<rootDir>/scripts/tests/**/*Test.js"],
+    "collectCoverage": true
+    },
+
+
+
+
 ### Testing Not Using Jest:
 Some tests do not use jest to run. For these manual console testing is used. To run these tests:
 
