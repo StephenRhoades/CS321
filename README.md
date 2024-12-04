@@ -24,7 +24,7 @@ David Schmidle
 
 3. Install jsdom: `npm install --save-dev jest-environment-jsdom`
 
-4. Make sure you are in CS321 directory when running the tests, path should look similar to this: `C:\Users\Oswald\Documents\GitHub\CS321>`
+4. Make sure you are in CS321 directory when running the tests, path should look similar to this: `C:\Users\You\Documents\GitHub\CS321>`
 
 5. Run tests: `npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"`
 
