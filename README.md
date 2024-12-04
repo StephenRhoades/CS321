@@ -22,7 +22,7 @@ David Schmidle
 
 2.Install jest: npm install --save-dev jest
 
-3.Run tests: npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"
+3. Run tests: `npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"`
 
 ### Testing Not Using Jest:
 Some tests do not use jest to run. For these manual console testing is used. To run these tests:
