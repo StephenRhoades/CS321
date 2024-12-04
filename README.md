@@ -24,11 +24,12 @@ David Schmidle
 
 3.Run tests: npx jest --coverage --testMatch "<rootDir>/scripts/tests/**/*Test.js"
 
-### Testing Using Jest:
+### Testing Not Using Jest:
 Some tests do not use jest to run. For these manual console testing is used. To run these tests:
 
 1. Download branch as a zip and unpack.
-2. Enter google chrome extensions and select "Load unpacked" on top left of page.
-3. Select the unpacked branch file
-4. Select "Task Tracker" extension.
-5. Inspect the extension and review the console logging to view testing results.
+2. Uncomment the test scripts you want to run in the top of the relevant html file and save.
+3. Enter google chrome extensions and select "Load unpacked" on top left of page.
+4. Select the unpacked branch file
+5. Select "Task Tracker" extension.
+6. Inspect the extension and review the console logging to view testing results.
