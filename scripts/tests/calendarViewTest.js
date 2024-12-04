@@ -1,3 +1,7 @@
+
+/**
+ * @jest-environment jsdom
+ */
 const Calendar = require('../views/calendarView.js');
 
 describe('Calendar Class', () => {
