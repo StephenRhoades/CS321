@@ -80,13 +80,17 @@ describe('Calendar Class', () => {
     });
 
     test('prevMonthOrWeek updates date differently based on view mode', () => {
-        const initialDate = new Date(calendar.date);
-
-        // Weekly view
-        calendar.viewMode = 'weekly';
-        calendar.prevMonthOrWeek();
-        expect(calendar.date.getDate()).toBe(initialDate.getDate() - 7);
-      });
+      const initialDate = new Date(calendar.date); // Clone initial date
+      calendar.viewMode = 'weekly';
+      calendar.prevMonthOrWeek();
+  
+      // Create the expected date by manually subtracting 7 days
+      const expectedDate = new Date(initialDate);
+      expectedDate.setDate(initialDate.getDate() - 7);
+  
+      expect(calendar.date.toISOString()).toBe(expectedDate.toISOString());
+  });
+  
 
       test('nextMonthOrWeek updates date differently based on view mode', () => {
         // Create a new Date object to avoid mutation issues
