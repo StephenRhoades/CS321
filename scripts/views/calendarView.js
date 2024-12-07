@@ -185,6 +185,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         /**
+         * Toggles the completion status of a task, updates local storage, and refreshes the view.
+         * @param {number} taskId - The ID of the task to toggle completion status.
+         */
+        toggleTaskCompletion(taskId) {
+            // Update the task in the calendar's local task array
+            const taskIndex = this.tasks.findIndex(task => task.id === taskId);
+            if (taskIndex > -1) {
+                const task = this.tasks[taskIndex];
+                task.complete = !task.complete; // Toggle the completion status
+        
+                // Update the main dynamicTaskArray and save changes to local storage
+                const globalTaskIndex = dynamicTaskArray.findIndex(globalTask => globalTask.id === taskId);
+                if (globalTaskIndex > -1) {
+                    dynamicTaskArray[globalTaskIndex].complete = task.complete;
+                    saveTasksToLocalStorage(); // Save changes to localStorage
+                }
+            } else {
+                alert('Error: Task not found.');
+            }
+        }
+        /**
         *   Method to show the selected day's tasks, if any
         *   Will link with html to get a task view to select a specific task on the day
         *   The selected task should be able to be modified, removed, or just viewed in more detail
@@ -197,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const taskDateTime = new Date(task.date);
                     const timeDisplay = taskDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     return `
-                        <li class="task-item">
+                        <li class="task-item ${task.complete ? 'task-complete' : ''}" data-task-id="${task.id}">
                             <div class="task-info">
                                 <strong>${timeDisplay ? timeDisplay + ' - ' : ''}${task.taskName}</strong>
                                 <p>${task.taskDescription}</p>
@@ -205,10 +226,45 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="task-actions">
                                 <a href="../../html/pages/taskPage.html?taskId=${task.id}&source=calendar" class="edit-button">Edit</a>
                                 <button class="delete-button" data-task-id="${task.id}">Delete</button>
+                                <button class="complete-button" data-task-id="${task.id}">
+                                    ${task.complete ? '❌' : '✔'}
+                                </button>
                             </div>
                         </li>`;
                 }).join('');
                 this.showTaskModal(dateString, taskList);
+        
+                // Add event listeners for the completion buttons
+                document.querySelectorAll('.complete-button').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const taskId = parseInt(event.target.getAttribute('data-task-id'), 10);
+                        this.toggleTaskCompletion(taskId);
+        
+                        // Update the modal without closing it
+                        const taskItem = document.querySelector(`.task-item[data-task-id="${taskId}"]`);
+                        const task = this.tasks.find(task => task.id === taskId);
+        
+                        // Toggle the task-complete class and button icon
+                        taskItem.classList.toggle('task-complete', task.complete);
+                        button.textContent = task.complete ? '❌' : '✔';
+                    });
+                });
+        
+                // Add delete functionality
+                document.querySelectorAll('.delete-button').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const taskId = parseInt(event.target.getAttribute('data-task-id'), 10);
+                        this.toggleTaskCompletion(taskId);
+                    
+                        // Update the modal UI dynamically
+                        const taskItem = document.querySelector(`.task-item[data-task-id="${taskId}"]`);
+                        const task = this.tasks.find(task => task.id === taskId);
+                    
+                        // Toggle the task-complete class and button icon
+                        taskItem.classList.toggle('task-complete', task.complete);
+                        button.textContent = task.complete ? '❌' : '✔';
+                    });
+                });
             } else {
                 alert('No tasks for this day.');
             }
@@ -280,7 +336,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.tasks.splice(taskIndex, 1);
                 dynamicTaskArray = dynamicTaskArray.filter(task => task.id !== taskId);
                 saveTasksToLocalStorage();
-                alert('Task deleted successfully!');
             } else {
                 alert('Error: Task not found.');
             }
