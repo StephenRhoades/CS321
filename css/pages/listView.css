@@ -138,3 +138,40 @@ button:hover {
 .delete-button:hover {
     background-color: #c9302c;
 }
+
+
+.task-complete {
+    background-color: #d4edda; 
+    border-left: 4px solid #28a745; 
+    color: #155724; 
+}
+
+.task-complete .name {
+    text-decoration: line-through; /* Strike-through for completed task names */
+}
+
+.complete-button {
+    padding: 8px 15px; 
+    font-size: 14px;
+    color: white;
+    background-color: #28a745; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.complete-button:hover {
+    background-color: #218838; 
+}
+
+.task-complete .complete-button {
+    background-color: #d9534f; 
+}
+
+.task-complete .complete-button:hover {
+    background-color: #c9302c; 
+}
