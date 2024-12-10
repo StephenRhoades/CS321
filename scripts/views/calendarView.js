@@ -399,4 +399,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.body.classList.remove('light-theme', 'dark-theme');
     document.body.classList.add(`${savedTheme}-theme`);
+    document.getElementById("calendar-container").classList.remove('light-theme', 'dark-theme');
+    document.getElementById("calendar-container").classList.add(`${savedTheme}-theme`);
 });
