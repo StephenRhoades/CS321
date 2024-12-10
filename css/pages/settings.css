@@ -47,7 +47,17 @@ button:hover {
         overflow: hidden;
         text-align: center;
       }
-  
+
+      .settings-container.light-theme {
+                background-color: white;
+                color:#121212;
+        }
+    
+        .settings-container.dark-theme {
+                background-color: #3f3f3f;
+                color:white;
+        }
+
       .settings-header {
         background-color: #007bff;
         color: white;

@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     applyTheme(savedTheme);
     console.log("Theme was saved as: "+savedTheme);
+    if (savedTheme == 'light'){
+        document.getElementById("dark-mode").checked = false;
+    } else {
+        document.getElementById("dark-mode").checked = true;
+    }
 
     themeToggle.addEventListener('click', () => {
         const currentTheme = body.classList.contains('dark-theme') ? 'dark' : 'light';
@@ -29,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function applyTheme(theme) {
         body.classList.remove('light-theme', 'dark-theme');
         body.classList.add(`${theme}-theme`);
-        themeToggle.textContent = theme === 'dark' ? 'Enable Light Mode' : 'Enable Dark Mode';
-        console.log("succcesfully changed to "+theme);
+        document.getElementById("settings-section").classList.remove('light-theme', 'dark-theme');
+        document.getElementById("settings-section").classList.add(`${theme}-theme`);
     }
 
 
