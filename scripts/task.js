@@ -47,6 +47,24 @@ async function addTask(event) {
     const taskReminderHours = formData.get('hours');
     const taskReminderMinutes = formData.get('minutes');
 
+    /*CHANGE HERE */
+
+    const taskRecurElement = document.getElementById('task-recur');
+    console.log(taskRecurElement); // Logs the <div> element
+
+    const listItems = taskRecurElement.querySelectorAll('ul.items li');
+    console.log(listItems); // Logs all <li> elements
+
+    const checkboxes = taskRecurElement.querySelectorAll('input[type="checkbox"]');
+    console.log(checkboxes); // Logs all <input> elements (checkboxes)
+
+    const anchorText = taskRecurElement.querySelector('span.anchor');
+    console.log(anchorText.textContent);
+
+
+
+
+    /**CHANGE HERE */
     console.log("days: " + taskReminderDays);
     console.log("hours: " + taskReminderHours);
     console.log("minutes " + taskReminderMinutes);
