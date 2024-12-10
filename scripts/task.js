@@ -49,19 +49,30 @@ async function addTask(event) {
 
     /*CHANGE HERE */
 
-    const taskRecurElement = document.getElementById('task-recur');
-    console.log(taskRecurElement); // Logs the <div> element
+    //const taskRecurElement = document.getElementById('task-recur');
+    //console.log(taskRecurElement); // Logs the <div> element
 
-    const listItems = taskRecurElement.querySelectorAll('ul.items li');
-    console.log(listItems); // Logs all <li> elements
+    //const listItems = taskRecurElement.querySelectorAll('ul.items li');
+    //console.log(listItems); // Logs all <li> elements
 
-    const checkboxes = taskRecurElement.querySelectorAll('input[type="checkbox"]');
-    console.log(checkboxes); // Logs all <input> elements (checkboxes)
+    //const checkboxes = taskRecurElement.querySelectorAll('input[type="checkbox"]');
+    //console.log(checkboxes); // Logs all <input> elements (checkboxes)
 
-    const anchorText = taskRecurElement.querySelector('span.anchor');
-    console.log(anchorText.textContent);
+    //const anchorText = taskRecurElement.querySelector('span.anchor');
+    //console.log(anchorText.textContent);
+    const checkboxes = document.querySelectorAll('#task-recur input[type="checkbox"]');
+    const selectedWeekdays = [];
+    const weekdays = [
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+      ];
 
+      checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+          selectedWeekdays.push(weekdays[index]);
+        }
+      });
 
+      console.log(selectedWeekdays);
 
 
     /**CHANGE HERE */
