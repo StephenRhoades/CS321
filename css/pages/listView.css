@@ -16,6 +16,13 @@ body {
     padding: 20px;
 }
 
+.top-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+
 .container {
     max-width: 1000px; /* Wider layout for the container */
     margin: 0 auto;

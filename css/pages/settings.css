@@ -13,11 +13,11 @@ body {
 }
 body.light-theme {
         background-color: white;
-        color:black;
+        color:#121212;
       }
       
 body.dark-theme {
-        background-color: black;
+        background-color: #121212;
         color:white;
 }
 
