@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed: settings");
 
-    const themeToggle = document.getElementById('darktheme_button');
+    const themeToggle = document.getElementById('dark-mode');
     const body = document.body;
 
     // Load the saved theme
