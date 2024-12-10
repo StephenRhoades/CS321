@@ -1,3 +1,5 @@
+// some change
+
 const globals = {
     windowTheme: 'light',
     backgroundColor: 'FFFFFF',
