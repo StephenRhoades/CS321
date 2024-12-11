@@ -401,4 +401,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.classList.add(`${savedTheme}-theme`);
     document.getElementById("calendar-container").classList.remove('light-theme', 'dark-theme');
     document.getElementById("calendar-container").classList.add(`${savedTheme}-theme`);
+    document.getElementById("buttons-container").classList.remove('light-theme', 'dark-theme');
+    document.getElementById("buttons-container").classList.add(`${savedTheme}-theme`);
 });

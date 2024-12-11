@@ -16,6 +16,9 @@ function loadTheme(){
     // change the main container of add Task
     document.getElementById("add-task-section").classList.remove('light-theme', 'dark-theme');
     document.getElementById("add-task-section").classList.add(`${savedTheme}-theme`);
+
+    document.getElementById("buttons-container").classList.remove('light-theme', 'dark-theme');
+    document.getElementById("buttons-container").classList.add(`${savedTheme}-theme`);
 }
 
 

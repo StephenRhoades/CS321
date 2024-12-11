@@ -24,6 +24,26 @@ body.dark-theme {
   color:white;
 }
 
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  background-color: #3f3f3f;
+  margin-bottom: 20px;
+  margin-top:10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.buttons-container.dark-theme {
+  background-color: var(--container);
+  color: white;
+
+}
+
+.buttons-container.light-theme {
+  background-color: white;
+  color: black;
+}
+
 .view-toggle-container {
   margin: 20px 0;
   display: flex;
@@ -58,7 +78,7 @@ body.dark-theme {
 .button {
   background-color: #007bff;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 10px;
   margin: 20px;
   border: none;
   border-radius: 5px;
