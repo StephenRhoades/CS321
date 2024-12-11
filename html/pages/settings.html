@@ -1,106 +1,44 @@
 <html>
   <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="../../css/openViewStyles.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/pages/settings.css" />
     <script type="text/javascript" src="../../scripts/settings.js"></script>
     <!-- All of the remainig scripts are only for testing purposes. -->
     <!-- <script type="text/javascript" src="../../scripts/tests/testBase.js"></script> -->
     <!-- <script type="text/javascript" src="../../scripts/tests/settingsTest.js"></script> -->
   </head>
+  
   <body>
-	<h2>Settings</h2>
-	<a href="calendarView.html"><button>Calendar View</button></a>
-	<a href="listView.html"><button>List View</button></a>
-	
-	<div>
-		<form>
-			<fieldset>
-				<legend>Font Settings</legend>
-				<label for="fontColorPicker">Font Color: <input type="color" 
-																	id="fontColorPicker">
-				</label>
-				<label for="fontSize">Font Size: <input type="number"
-														id="fontSize" 
-														onkeypress="return isNumeric(event)"
-														oninput="maxLengthCheck(this)"
-														placeholder="16-32"
-														min="16" 
-														max="32"
-														maxlength="2"/>
-														
-				</label>
-			</fieldset>
-		</form>
-	</div>	
-
-	<div>
-		<form>
-			<fieldset>
-				<legend>Window Settings</legend>
-				<label for="windowHeight">Window Height: <input type="number" 
-																id="windowHeight" 
-																onkeypress="return isNumeric(event)"
-																oninput="maxLengthCheck(this)"
-																min="400" 
-																max="600"
-																placeholder="400-600"/>
-				</label>
-				<label for="windowWidth">Window Width: <input type="number" 
-																id="windowWidth" 
-																onkeypress="return isNumeric(event)"
-																oninput="maxLengthCheck(this)"
-																min="400" 
-																max="600"
-																placeholder="400-600"/>
-				</label>
-			</fieldset>
-		</form>		
-	</div>
-	
-	<div>
-		<form>
-			<fieldset>
-				<legend>Button Settings</legend>
-				<div>
-					<label for="buttonFontColor">Button Font Color: <input type="color" 
-																		id="buttonFontColor">
-					</label>
-					<label for="buttonColor">Button Color: <input type="color" 
-																		id="buttonColor">
-					</label>
-				</div>
-				<div>
-					<label for="buttonFontSize">Button Font Size: <input type="number"
-															id="buttonFontSize" 
-															onkeypress="return isNumeric(event)"
-															oninput="maxLengthCheck(this)"
-															placeholder="16-24"
-															min="16" 
-															max="24"
-															maxlength="2"/>
-															
-					</label>
-					<label for="buttonSize">Button Size: <input type="number"
-															id="buttonSize" 
-															onkeypress="return isNumeric(event)"
-															oninput="maxLengthCheck(this)"
-															placeholder=""
-															min="16" 
-															max="24"
-															maxlength="2"/>
-															
-					</label>
-				</div>
-			</fieldset>
-		</form>
-	</div>
-	
-	<div>
-		<label for="backgroundColorPicker">Background Color: <input type="color" 
-																	id="backgroundColorPicker">
-		</label>
-	</div>
-	
-	<button id="submit_Settings_button" class="submit-button">Change Settings</button>
+    <div class="settings-container" id="settings-section">
+      <div class="settings-header">
+        Extension Settings
+      </div>
+	  <a href="calendarView.html"><button>Calendar View</button></a>
+	  <a href="listView.html"><button>List View</button></a>
+  
+      <div class="settings-section">
+        <h2>Appearance</h2>
+        <div class="toggle">
+          <label for="dark-mode">Dark Mode</label>
+          <input type="checkbox" id="dark-mode" >
+        </div>
+        <div class="toggle">
+          <label for="compact-view">Compact View (not functional)</label>
+          <input type="checkbox" id="compact-view">
+        </div>
+      </div>
+  
+      <div class="settings-section">
+        <h2>Preferences</h2>
+        <label for="theme-select">Select Theme</label>
+        <select id="theme-select" class="dropdown">
+          <option value="default">Default</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="pink">Pink</option>
+        </select>
+      </div>
+  
+    </div>
 </body>
 </html>
