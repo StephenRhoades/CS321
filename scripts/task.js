@@ -60,7 +60,7 @@ async function addTask(event) {
         }
     });
 
-      console.log(selectedWeekdays);
+    console.log(selectedWeekdays);
 
 
     /**CHANGE HERE */
@@ -120,6 +120,7 @@ async function addRecurring(selectedWeekdays, task, currentDate)
     {
         if(selectedWeekdays.includes(weekdays[i]))
         {
+            console.log(weekdays[i]);
             while (currentDate.getDay() !== i) { // 2 represents Tuesday in JavaScript Date object
                 currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
             }
