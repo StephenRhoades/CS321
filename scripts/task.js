@@ -116,7 +116,7 @@ async function addRecurring(selectedWeekdays, task)
             currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
         }
         /**Add new task every weekday*/
-        while (currentDate.getTime() <= endDate.getTime()) {
+        while (currentDate.getTime() < endDate.getTime()) {
             /**Get new task ID */
             const newTaskId = await generateTaskId();
             // Create a new task object
@@ -137,7 +137,7 @@ async function addRecurring(selectedWeekdays, task)
             currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
         }
         /**Add new task every weekday*/
-        while (currentDate.getTime() <= endDate.getTime()) {
+        while (currentDate.getTime() < endDate.getTime()) {
             /**Get new task ID */
             const newTaskId = await generateTaskId();
             // Create a new task object
@@ -158,7 +158,7 @@ async function addRecurring(selectedWeekdays, task)
             currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
         }
         /**Add new task every weekday*/
-        while (currentDate.getTime() <= endDate.getTime()) {
+        while (currentDate.getTime() < endDate.getTime()) {
             /**Get new task ID */
             const newTaskId = await generateTaskId();
             // Create a new task object
@@ -179,7 +179,7 @@ async function addRecurring(selectedWeekdays, task)
             currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
         }
         /**Add new task every weekday*/
-        while (currentDate.getTime() <= endDate.getTime()) {
+        while (currentDate.getTime() < endDate.getTime()) {
             /**Get new task ID */
             const newTaskId = await generateTaskId();
             // Create a new task object
@@ -200,7 +200,7 @@ async function addRecurring(selectedWeekdays, task)
             currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
         }
         /**Add new task every weekday*/
-        while (currentDate.getTime() <= endDate.getTime()) {
+        while (currentDate.getTime() < endDate.getTime()) {
             /**Get new task ID */
             const newTaskId = await generateTaskId();
             // Create a new task object
@@ -221,7 +221,7 @@ async function addRecurring(selectedWeekdays, task)
             currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
         }
         /**Add new task every weekday*/
-        while (currentDate.getTime() <= endDate.getTime()) {
+        while (currentDate.getTime() < endDate.getTime()) {
             /**Get new task ID */
             const newTaskId = await generateTaskId();
             // Create a new task object
@@ -242,7 +242,7 @@ async function addRecurring(selectedWeekdays, task)
             currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
         }
         /**Add new task every weekday*/
-        while (currentDate.getTime() <= endDate.getTime()) {
+        while (currentDate.getTime() < endDate.getTime()) {
             /**Get new task ID */
             const newTaskId = await generateTaskId();
             // Create a new task object
