@@ -26,7 +26,7 @@ David Schmidle
 
 4. Make sure you are in CS321 directory when running the tests, path should look similar to this: `C:\Users\You\Documents\GitHub\CS321>`
 
-5. Run tests: `npx jest --coverage --testMatch "<rootDir>/scripts/coverage/**/*Coverage.js"`
+5. Run tests: `npx jest --coverage --testMatch "<rootDir>/scripts/jest/**/*Coverage.js"`
 
 6. If "No tests found, exiting with code 1" pops up, add or modify the dependency below into package.json file.    
     "jest": {
