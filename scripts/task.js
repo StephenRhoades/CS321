@@ -86,6 +86,7 @@ async function addTask(event) {
     else
     {
         const isRecurring=true;
+        const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, isRecurring);
         addRecurring(selectedWeekdays, task, currentDate);
     }
 
