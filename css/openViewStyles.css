@@ -4,7 +4,7 @@
 }
 
 html {
-  min-height: 400px;
+  min-height: 800px; /* this is the max height chrome extensions allow :( */
   min-width: 400px;
 }
 
