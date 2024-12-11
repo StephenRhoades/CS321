@@ -227,6 +227,57 @@ body.dark-theme {
   display: flex;
   flex-direction: column;
   z-index: 1000;
+  color: #333; /* Default text color */
+}
+
+body.dark-theme .modal {
+  background-color: var(--container); /* Dark mode background */
+  color: white; /* Light text for contrast */
+}
+
+/* Top text in modal (e.g., "Tasks for 2024-12-28") */
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333; /* Default color */
+}
+
+body.dark-theme .modal-header h3 {
+  color: white; /* Ensure white text in dark mode */
+}
+
+body.dark-theme .modal-header {
+  background-color: var(--background); /* Slightly darker for the header */
+}
+
+body.dark-theme .close-button {
+  color: white;
+}
+
+body.dark-theme .close-button:hover {
+  color: #ff6666;
+}
+
+.modal-body {
+  padding: 15px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+/* Specific styles for task list items inside the modal */
+body.dark-theme .task-item {
+  background-color: var(--background);
+  border-left-color: var(--container);
+  color: white;
+}
+
+
+body.dark-theme .close-button {
+  color: white;
+}
+
+body.dark-theme .close-button:hover {
+  color: #ff6666;
 }
 
 .modal-header {
@@ -333,11 +384,18 @@ body.dark-theme {
 .task-complete {
   background-color: #d4edda; 
   border-left-color: #28a745; 
-  color: #155724; 
+  color: #155724;
+}
+
+body.dark-theme .task-complete {
+  background-color: #2a5933;
+  border-left-color: #28a745;
+  color: white;
 }
 
 .task-complete .task-info strong {
-  text-decoration: line-through; /* Strike-through for completed tasks */
+  text-decoration: line-through;
+  color: inherit; 
 }
 
 .complete-button {
@@ -353,6 +411,14 @@ body.dark-theme {
 
 .complete-button:hover {
   background-color: #218838; 
+}
+
+body.dark-theme .complete-button {
+  background-color: #2a5933; /* Match dark theme task-complete */
+}
+
+body.dark-theme .complete-button:hover {
+  background-color: #218838;
 }
 
 .task-complete .complete-button {
