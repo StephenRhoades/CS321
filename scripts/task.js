@@ -93,7 +93,7 @@ async function addTask(event) {
     if (reminder != 0) {
         setAlarm(task, reminder);
     }
-=
+
     form.reset(); 
 }
 
