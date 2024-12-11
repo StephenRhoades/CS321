@@ -79,11 +79,12 @@ async function addTask(event) {
     }
     else
     {
+        console.log("Weeksday breanch creation selected")
         const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, true);
         addRecurring(selectedWeekdays, task);
     }
     
-    const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
+    //const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
 
     console.log("Saving task:", task);
 
