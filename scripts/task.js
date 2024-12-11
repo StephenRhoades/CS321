@@ -51,7 +51,7 @@ async function addTask(event) {
     /*CHANGE HERE */
     const checkboxes = document.querySelectorAll('#task-recur input[type="checkbox"]');
     const selectedWeekdays = [];
-    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 
     checkboxes.forEach((checkbox, index) => {
