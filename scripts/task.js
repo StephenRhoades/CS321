@@ -90,7 +90,8 @@ async function addTask(event) {
     console.log("Saving task:", task);
 
     dynamicTaskArray.push(task);
-    addRecurring(selectedWeekdays, task);
+    let currentDate= new Date();
+    addRecurring(selectedWeekdays, task, currentDate);
     saveTasksToLocalStorage();
     
     if (reminder != 0) {
@@ -101,11 +102,11 @@ async function addTask(event) {
 }
 
 
-async function addRecurring(selectedWeekdays, task)
+async function addRecurring(selectedWeekdays, task, currentDate)
 {
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-    let currentDate= new Date();
+    //let currentDate= new Date();
     let endDate= new Date(Date.parse(task.date));
     
 
