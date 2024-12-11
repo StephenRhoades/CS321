@@ -102,7 +102,7 @@ async function addRecurring(selectedWeekdays, task)
 {
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-    let currentDate=Date();
+    let currentDate= new Date();
     let endDate= Date.parse(task.date);
     
 
