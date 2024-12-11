@@ -31,7 +31,7 @@ David Schmidle
 6. If "No tests found, exiting with code 1" pops up, add or modify the dependency below into package.json file.    
     "jest": {
     "testEnvironment": "jsdom",
-    "testMatch": ["<rootDir>/scripts/coverage/**/*Coverage.js"],
+    "testMatch": ["<rootDir>/scripts/jest/**/*Coverage.js"],
     "collectCoverage": true
     },
 
