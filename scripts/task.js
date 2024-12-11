@@ -72,23 +72,25 @@ async function addTask(event) {
     const reminder = taskReminderDays * 24 * 60 * 60 * 1000 + taskReminderHours * 60 * 60 * 1000 + taskReminderMinutes * 60 * 1000;
 
     const taskId = await generateTaskId();
+    const isRecurring;
     
     if(selectedWeekdays.length==0) //No recurring days selected
     {
-        const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
+        isRecurring=false;
     }
     else
     {
-        console.log("Weeksday breanch creation selected")
-        const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, true);
-        addRecurring(selectedWeekdays, task);
+        isRecurring=true;
     }
+
     
-    //const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
+    const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, isRecurring);
+    //addRecurring(selectedWeekdays, task);
 
     console.log("Saving task:", task);
 
     dynamicTaskArray.push(task);
+    addRecurring(selectedWeekdays, task);
     saveTasksToLocalStorage();
     
     if (reminder != 0) {
@@ -122,6 +124,7 @@ async function addRecurring(selectedWeekdays, task)
             //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
         
             dynamicTaskArray.push(newTask); // Add the task to the list
+            saveTasksToLocalStorage();
         
             // Increment by 7 days (next weekday)
             currentDate.setDate(currentDate.getDate() + 7);
@@ -142,6 +145,7 @@ async function addRecurring(selectedWeekdays, task)
             //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
         
             dynamicTaskArray.push(newTask); // Add the task to the list
+            saveTasksToLocalStorage();
         
             // Increment by 7 days (next weekday)
             currentDate.setDate(currentDate.getDate() + 7);
@@ -162,6 +166,7 @@ async function addRecurring(selectedWeekdays, task)
             //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
         
             dynamicTaskArray.push(newTask); // Add the task to the list
+            saveTasksToLocalStorage();
         
             // Increment by 7 days (next weekday)
             currentDate.setDate(currentDate.getDate() + 7);
@@ -182,6 +187,7 @@ async function addRecurring(selectedWeekdays, task)
             //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
         
             dynamicTaskArray.push(newTask); // Add the task to the list
+            saveTasksToLocalStorage();
         
             // Increment by 7 days (next weekday)
             currentDate.setDate(currentDate.getDate() + 7);
@@ -202,6 +208,7 @@ async function addRecurring(selectedWeekdays, task)
             //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
         
             dynamicTaskArray.push(newTask); // Add the task to the list
+            saveTasksToLocalStorage();
         
             // Increment by 7 days (next weekday)
             currentDate.setDate(currentDate.getDate() + 7);
@@ -222,6 +229,7 @@ async function addRecurring(selectedWeekdays, task)
             //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
         
             dynamicTaskArray.push(newTask); // Add the task to the list
+            saveTasksToLocalStorage();
         
             // Increment by 7 days (next weekday)
             currentDate.setDate(currentDate.getDate() + 7);
@@ -242,6 +250,7 @@ async function addRecurring(selectedWeekdays, task)
             //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
         
             dynamicTaskArray.push(newTask); // Add the task to the list
+            saveTasksToLocalStorage();
         
             // Increment by 7 days (next weekday)
             currentDate.setDate(currentDate.getDate() + 7);
