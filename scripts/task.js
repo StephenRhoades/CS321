@@ -114,10 +114,12 @@ async function addRecurring(selectedWeekdays, task, currentDate)
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     //let currentDate= new Date();
+    let backupCurrentDay= new Date(currentDate.getTime());
     let endDate= new Date(Date.parse(task.date));
 
     for (let i=0; i<7; i++)
     {
+        currentDate.setTime(backupCurrentDay.getTime());
         if(selectedWeekdays.includes(weekdays[i]))
         {
             console.log(weekdays[i]);
@@ -142,153 +144,6 @@ async function addRecurring(selectedWeekdays, task, currentDate)
     }
     
     return;
-    if(selectedWeekdays.includes(weekdays[0]))
-    {
-        /**Find Next Selected Weekday */
-        while (currentDate.getDay() !== 0) { // 2 represents Tuesday in JavaScript Date object
-            currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
-        }
-        /**Add new task every weekday*/
-        while (currentDate.getTime() < endDate.getTime()) {
-            /**Get new task ID */
-            const newTaskId = await generateTaskId();
-            // Create a new task object
-            const newTask = createTask(newTaskId, task.taskName, task.taskDescription, task.taskCategory, currentDate.toString(), task.reminderList, task.complete, task.recurring);
-            //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
-        
-            dynamicTaskArray.push(newTask); // Add the task to the list
-            saveTasksToLocalStorage();
-        
-            // Increment by 7 days (next weekday)
-            currentDate.setDate(currentDate.getDate() + 7);
-        }
-    }
-    if(selectedWeekdays.includes(weekdays[1]))
-    {
-        /**Find Next Selected Weekday */
-        while (currentDate.getDay() !== 1) { // 2 represents Tuesday in JavaScript Date object
-            currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
-        }
-        /**Add new task every weekday*/
-        while (currentDate.getTime() < endDate.getTime()) {
-            /**Get new task ID */
-            const newTaskId = await generateTaskId();
-            // Create a new task object
-            const newTask = createTask(newTaskId, task.taskName, task.taskDescription, task.taskCategory, currentDate.toString(), task.reminderList, task.complete, task.recurring);
-            //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
-        
-            dynamicTaskArray.push(newTask); // Add the task to the list
-            saveTasksToLocalStorage();
-        
-            // Increment by 7 days (next weekday)
-            currentDate.setDate(currentDate.getDate() + 7);
-        }
-    }
-    if(selectedWeekdays.includes(weekdays[2]))
-    {
-        /**Find Next Selected Weekday */
-        while (currentDate.getDay() !== 2) { // 2 represents Tuesday in JavaScript Date object
-            currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
-        }
-        /**Add new task every weekday*/
-        while (currentDate.getTime() < endDate.getTime()) {
-            /**Get new task ID */
-            const newTaskId = await generateTaskId();
-            // Create a new task object
-            const newTask = createTask(newTaskId, task.taskName, task.taskDescription, task.taskCategory, currentDate.toString(), task.reminderList, task.complete, task.recurring);
-            //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
-        
-            dynamicTaskArray.push(newTask); // Add the task to the list
-            saveTasksToLocalStorage();
-        
-            // Increment by 7 days (next weekday)
-            currentDate.setDate(currentDate.getDate() + 7);
-        }
-    }
-    if(selectedWeekdays.includes(weekdays[3]))
-    {
-        /**Find Next Selected Weekday */
-        while (currentDate.getDay() !== 3) { // 2 represents Tuesday in JavaScript Date object
-            currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
-        }
-        /**Add new task every weekday*/
-        while (currentDate.getTime() < endDate.getTime()) {
-            /**Get new task ID */
-            const newTaskId = await generateTaskId();
-            // Create a new task object
-            const newTask = createTask(newTaskId, task.taskName, task.taskDescription, task.taskCategory, currentDate.toString(), task.reminderList, task.complete, task.recurring);
-            //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
-        
-            dynamicTaskArray.push(newTask); // Add the task to the list
-            saveTasksToLocalStorage();
-        
-            // Increment by 7 days (next weekday)
-            currentDate.setDate(currentDate.getDate() + 7);
-        }       
-    }
-    if(selectedWeekdays.includes(weekdays[4]))
-    {
-        /**Find Next Selected Weekday */
-        while (currentDate.getDay() !== 4) { // 2 represents Tuesday in JavaScript Date object
-            currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
-        }
-        /**Add new task every weekday*/
-        while (currentDate.getTime() < endDate.getTime()) {
-            /**Get new task ID */
-            const newTaskId = await generateTaskId();
-            // Create a new task object
-            const newTask = createTask(newTaskId, task.taskName, task.taskDescription, task.taskCategory, currentDate.toString(), task.reminderList, task.complete, task.recurring);
-            //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
-        
-            dynamicTaskArray.push(newTask); // Add the task to the list
-            saveTasksToLocalStorage();
-        
-            // Increment by 7 days (next weekday)
-            currentDate.setDate(currentDate.getDate() + 7);
-        }                   
-    }
-    if(selectedWeekdays.includes(weekdays[5]))
-    {
-        /**Find Next Selected Weekday */
-        while (currentDate.getDay() !== 5) { // 2 represents Tuesday in JavaScript Date object
-            currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
-        }
-        /**Add new task every weekday*/
-        while (currentDate.getTime() < endDate.getTime()) {
-            /**Get new task ID */
-            const newTaskId = await generateTaskId();
-            // Create a new task object
-            const newTask = createTask(newTaskId, task.taskName, task.taskDescription, task.taskCategory, currentDate.toString(), task.reminderList, task.complete, task.recurring);
-            //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
-        
-            dynamicTaskArray.push(newTask); // Add the task to the list
-            saveTasksToLocalStorage();
-        
-            // Increment by 7 days (next weekday)
-            currentDate.setDate(currentDate.getDate() + 7);
-        }
-    }
-    if(selectedWeekdays.includes(weekdays[6]))
-    {
-        /**Find Next Selected Weekday */
-        while (currentDate.getDay() !== 6) { // 2 represents Tuesday in JavaScript Date object
-            currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
-        }
-        /**Add new task every weekday*/
-        while (currentDate.getTime() < endDate.getTime()) {
-            /**Get new task ID */
-            const newTaskId = await generateTaskId();
-            // Create a new task object
-            const newTask = createTask(newTaskId, task.taskName, task.taskDescription, task.taskCategory, currentDate.toString(), task.reminderList, task.complete, task.recurring);
-            //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
-        
-            dynamicTaskArray.push(newTask); // Add the task to the list
-            saveTasksToLocalStorage();
-        
-            // Increment by 7 days (next weekday)
-            currentDate.setDate(currentDate.getDate() + 7);
-        }            
-    }
 }
 
 function createRecurrObject(id, recurInterval) {
