@@ -73,26 +73,32 @@ async function addTask(event) {
 
     const taskId = await generateTaskId();
     const isRecurring=false;
+    let currentDate= new Date();
     
     if(selectedWeekdays.length==0) //No recurring days selected
     {
         const isRecurring=false;
+        const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, isRecurring);
+        console.log("Saving task:", task);
+        dynamicTaskArray.push(task);
+        saveTasksToLocalStorage();
     }
     else
     {
         const isRecurring=true;
+        addRecurring(selectedWeekdays, task, currentDate);
     }
 
     
-    const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, isRecurring);
+    //const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, isRecurring);
     //addRecurring(selectedWeekdays, task);
 
-    console.log("Saving task:", task);
+    //console.log("Saving task:", task);
 
-    dynamicTaskArray.push(task);
-    let currentDate= new Date();
-    addRecurring(selectedWeekdays, task, currentDate);
-    saveTasksToLocalStorage();
+    //dynamicTaskArray.push(task);
+    //let currentDate= new Date();
+    //addRecurring(selectedWeekdays, task, currentDate);
+    //saveTasksToLocalStorage();
     
     if (reminder != 0) {
         setAlarm(task, reminder);
