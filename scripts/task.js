@@ -96,7 +96,7 @@ async function addTask(event) {
 }
 
 
-function addRecurring(selectedWeekdays, task)
+async function addRecurring(selectedWeekdays, task)
 {
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
