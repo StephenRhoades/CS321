@@ -72,7 +72,7 @@ async function addTask(event) {
     const reminder = taskReminderDays * 24 * 60 * 60 * 1000 + taskReminderHours * 60 * 60 * 1000 + taskReminderMinutes * 60 * 1000;
 
     const taskId = await generateTaskId();
-    //const isRecurring;
+    const isRecurring=false;
     
     if(selectedWeekdays.length==0) //No recurring days selected
     {
