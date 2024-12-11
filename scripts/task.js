@@ -72,7 +72,7 @@ async function addTask(event) {
     const reminder = taskReminderDays * 24 * 60 * 60 * 1000 + taskReminderHours * 60 * 60 * 1000 + taskReminderMinutes * 60 * 1000;
 
     const taskId = await generateTaskId();
-    /*
+    
     if(selectedWeekdays.length==0) //No recurring days selected
     {
         const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
@@ -82,7 +82,7 @@ async function addTask(event) {
         const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, true);
         addRecurring(selectedWeekdays, task);
     }
-    */
+    
     const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
 
     console.log("Saving task:", task);
@@ -103,7 +103,7 @@ async function addRecurring(selectedWeekdays, task)
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     let currentDate=Date();
-    let endDate= Date.parse(date);
+    let endDate= Date.parse(task.date);
     
 
     if(selectedWeekdays.includes(weekdays[0]))
