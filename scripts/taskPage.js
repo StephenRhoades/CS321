@@ -120,8 +120,6 @@ function deleteTask(taskId, source) {
         dynamicTaskArray.splice(taskIndex, 1); // Remove from global array
         saveTasksToLocalStorage(); // Save updated global array to localStorage
         window.location.href = source === 'calendar' ? 'calendarView.html' : 'listView.html'; // Redirect based on source
-    } else {
-        alert('Error: Task not found.');
     }
 }
 
@@ -133,8 +131,6 @@ function loadTaskForEditing(taskId) {
     const task = dynamicTaskArray.find((task) => task.id === taskId);
     if (task) {
         populateTaskForm(task);
-    } else {
-        alert('Error: Task not found.');
     }
 }
 
@@ -172,6 +168,13 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('No task selected for editing.');
         window.location.href = 'listView.html'; // Default redirect
     }
+
+    // load the saved theme, must be done locally since the html page is 'refreshed' everytime the user changes pages
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.remove('light-theme', 'dark-theme');
+    document.body.classList.add(`${savedTheme}-theme`);
+    document.getElementById("myForm").classList.remove('light-theme', 'dark-theme');
+    document.getElementById("myForm").classList.add(`${savedTheme}-theme`);
 });
 
 
@@ -507,3 +510,13 @@ function reloadReminders(taskObject) {
 //     `;
 //     button.textContent = "Edit";
 // }
+
+// Attach functions to window for testing
+window.populateTaskForm = populateTaskForm;
+window.parseReminder = parseReminder;
+window.saveEditedTask = saveEditedTask;
+window.deleteTask = deleteTask;
+window.loadTaskForEditing = loadTaskForEditing;
+window.addNewReminder = addNewReminder;
+window.deleteReminder = deleteReminder;
+window.reloadReminders = reloadReminders;

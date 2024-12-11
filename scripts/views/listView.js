@@ -46,6 +46,14 @@ document.addEventListener('DOMContentLoaded', function() {
          const clearTasksButton = document.getElementById('clear-tasks');
          clearTasksButton.parentNode.insertBefore(toggleCompletedButton, clearTasksButton.nextSibling);
     }
+
+    // load the saved theme, must be done locally since the html page is 'refreshed' everytime the user changes pages
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.remove('light-theme', 'dark-theme');
+    document.body.classList.add(`${savedTheme}-theme`);
+    // change the main container of listView 
+    document.getElementById("listViewMainContainer").classList.remove('light-theme', 'dark-theme');
+    document.getElementById("listViewMainContainer").classList.add(`${savedTheme}-theme`);
 });
 
 /**
@@ -221,7 +229,6 @@ function deleteTaskFromList(taskId) {
         dynamicTaskArray.splice(taskIndex, 1); // Remove task from global array
         saveTasksToLocalStorage(); // Update local storage
         generateTasks(); // Refresh the task list
-        alert('Task deleted successfully!');
     } else {
         alert('Error: Task not found.');
     }
@@ -278,3 +285,13 @@ function sortDateAdded(tasks){
     let sortedTasks = tasks;
     return sortedTasks
 }
+
+
+window.generateTasks = generateTasks;
+window.toggleCompletedTasks = toggleCompletedTasks;
+window.clearTasks = clearTasks;
+window.sortDeadline = sortDeadline;
+window.sortAlpha = sortAlpha;
+window.sortDateAdded = sortDateAdded;
+window.deleteTaskFromList = deleteTaskFromList;
+window.toggleTaskCompletion = toggleTaskCompletion;
