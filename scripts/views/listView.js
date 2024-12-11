@@ -229,7 +229,6 @@ function deleteTaskFromList(taskId) {
         dynamicTaskArray.splice(taskIndex, 1); // Remove task from global array
         saveTasksToLocalStorage(); // Update local storage
         generateTasks(); // Refresh the task list
-        alert('Task deleted successfully!');
     } else {
         alert('Error: Task not found.');
     }
@@ -288,3 +287,11 @@ function sortDateAdded(tasks){
 }
 
 
+window.generateTasks = generateTasks;
+window.toggleCompletedTasks = toggleCompletedTasks;
+window.clearTasks = clearTasks;
+window.sortDeadline = sortDeadline;
+window.sortAlpha = sortAlpha;
+window.sortDateAdded = sortDateAdded;
+window.deleteTaskFromList = deleteTaskFromList;
+window.toggleTaskCompletion = toggleTaskCompletion;
