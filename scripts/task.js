@@ -93,7 +93,7 @@ async function addTask(event) {
     if (reminder != 0) {
         setAlarm(task, reminder);
     }
-
+=
     form.reset(); 
 }
 
@@ -103,7 +103,7 @@ async function addRecurring(selectedWeekdays, task)
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     let currentDate= new Date();
-    let endDate= Date.parse(task.date);
+    let endDate= new Date(Date.parse(task.date));
     
 
     if(selectedWeekdays.includes(weekdays[0]))
