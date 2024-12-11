@@ -115,8 +115,32 @@ async function addRecurring(selectedWeekdays, task, currentDate)
 
     //let currentDate= new Date();
     let endDate= new Date(Date.parse(task.date));
-    
 
+    for (let i=0; i<7; i++)
+    {
+        if(selectedWeekdays.includes(weekdays[i]))
+        {
+            while (currentDate.getDay() !== i) { // 2 represents Tuesday in JavaScript Date object
+                currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
+            }
+            /**Add new task every weekday*/
+            while (currentDate.getTime() < endDate.getTime()) {
+                /**Get new task ID */
+                const newTaskId = await generateTaskId();
+                // Create a new task object
+                const newTask = createTask(newTaskId, task.taskName, task.taskDescription, task.taskCategory, currentDate.toString(), task.reminderList, task.complete, task.recurring);
+                //return {id, taskName, taskDescription, taskCategory, date, reminderList, complete, recurring};
+            
+                dynamicTaskArray.push(newTask); // Add the task to the list
+                saveTasksToLocalStorage();
+            
+                // Increment by 7 days (next weekday)
+                currentDate.setDate(currentDate.getDate() + 7);
+            }
+        }
+    }
+    
+    return;
     if(selectedWeekdays.includes(weekdays[0]))
     {
         /**Find Next Selected Weekday */
