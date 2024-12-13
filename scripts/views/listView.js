@@ -36,8 +36,41 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
             generateTasks('alpha');
         });
+
+         // Create and attach the toggle completed tasks button
+         const toggleCompletedButton = document.createElement('button');
+         toggleCompletedButton.id = 'toggle-completed-tasks';
+         toggleCompletedButton.textContent = 'Hide Completed Tasks'; // Default text
+         toggleCompletedButton.addEventListener('click', toggleCompletedTasks);
+ 
+         const clearTasksButton = document.getElementById('clear-tasks');
+         clearTasksButton.parentNode.insertBefore(toggleCompletedButton, clearTasksButton.nextSibling);
     }
+
+    // load the saved theme, must be done locally since the html page is 'refreshed' everytime the user changes pages
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.remove('light-theme', 'dark-theme');
+    document.body.classList.add(`${savedTheme}-theme`);
+    // change the main container of listView 
+    document.getElementById("listViewMainContainer").classList.remove('light-theme', 'dark-theme');
+    document.getElementById("listViewMainContainer").classList.add(`${savedTheme}-theme`);
 });
+
+/**
+ * Toggles the visibility of completed tasks and regenerates the task list.
+ */
+let showCompletedTasks = true; // Global flag to track visibility of completed tasks
+
+function toggleCompletedTasks() {
+    showCompletedTasks = !showCompletedTasks; // Toggle the flag
+
+    // Update the button text based on the new state
+    const toggleCompletedButton = document.getElementById('toggle-completed-tasks');
+    toggleCompletedButton.textContent = showCompletedTasks ? 'Hide Completed Tasks' : 'Show Completed Tasks';
+
+    // Refresh the task list to reflect changes
+    generateTasks();
+}
 
 /**
  * Builds the HTML for task View from local storage and updates taskView.html 
@@ -62,15 +95,28 @@ function generateTasks(sortType) {
     }
 
     tasks.forEach((task) => {
+        // Skip rendering completed tasks if showCompletedTasks is false
+        if (!showCompletedTasks && task.complete) {
+            return;
+        }
+
+        // Create task container
         const taskDiv = document.createElement('div');
         taskDiv.className = 'task';
+        if (task.complete) {
+            taskDiv.classList.add('task-complete'); // Add class for completed tasks
+        }
 
+        // Task information container
         const taskInfo = document.createElement('div');
         taskInfo.className = 'task-info';
 
         const taskLabel = document.createElement('label');
         taskLabel.className = 'name';
         taskLabel.textContent = `Task ${task.id}: ${task.taskName}`;
+        if (task.complete) {
+            taskLabel.style.textDecoration = 'line-through'; // Strike-through for completed tasks
+        }
 
         const taskDescription = document.createElement('p');
         taskDescription.className = 'description';
@@ -84,11 +130,13 @@ function generateTasks(sortType) {
         taskComplete.className = 'complete';
         taskComplete.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`;
 
+        // Append information to task info container
         taskInfo.appendChild(taskLabel);
         taskInfo.appendChild(taskDescription);
         taskInfo.appendChild(taskDate);
         taskInfo.appendChild(taskComplete);
 
+        // Task actions container
         const taskActions = document.createElement('div');
         taskActions.className = 'task-actions';
 
@@ -104,14 +152,53 @@ function generateTasks(sortType) {
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', () => deleteTaskFromList(task.id));
 
+        // Mark as Complete/Incomplete button
+        const toggleCompleteButton = document.createElement('button');
+        toggleCompleteButton.className = 'complete-button';
+        toggleCompleteButton.textContent = task.complete ? '\u274C' : '\u2714'; // Cross or checkmark
+        toggleCompleteButton.addEventListener('click', () => {
+            toggleTaskCompletion(task.id);
+
+            // Update task appearance dynamically
+            task.complete = !task.complete;
+            taskDiv.classList.toggle('task-complete', task.complete);
+            taskLabel.style.textDecoration = task.complete ? 'line-through' : 'none';
+            taskComplete.textContent = `Completed: ${task.complete ? 'Yes' : 'No'}`; // Update text dynamically
+            toggleCompleteButton.textContent = task.complete ? '\u274C' : '\u2714';
+        });
+
+        // Append actions to task actions container
         taskActions.appendChild(editButton);
         taskActions.appendChild(deleteButton);
+        taskActions.appendChild(toggleCompleteButton);
 
+        // Append info and actions to task container
         taskDiv.appendChild(taskInfo);
         taskDiv.appendChild(taskActions);
+
+        // Append task container to task list
         taskContainer.appendChild(taskDiv);
     });
 }
+
+
+
+/**
+ * Toggles the completion status of a task, updates local storage, and refreshes the list.
+ * @param {number} taskId - The ID of the task to toggle completion status.
+ */
+function toggleTaskCompletion(taskId) {
+    const taskIndex = dynamicTaskArray.findIndex((task) => task.id === taskId);
+
+    if (taskIndex > -1) {
+        const task = dynamicTaskArray[taskIndex];
+        task.complete = !task.complete; // Toggle the completion status
+        saveTasksToLocalStorage(); // Save changes to local storage
+    } else {
+        alert('Error: Task not found.');
+    }
+}
+
 
 /**
  * Deletes a task from the list view and updates the global tasks.
@@ -199,3 +286,5 @@ function sortDateAdded(tasks){
     let sortedTasks = tasks;
     return sortedTasks
 }
+
+
