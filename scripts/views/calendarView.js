@@ -394,4 +394,13 @@ document.addEventListener('DOMContentLoaded', function() {
         weeklyViewButton.classList.add('active');
         monthlyViewButton.classList.remove('active');
     });
+
+    // load the saved theme, must be done locally since the html page is 'refreshed' everytime the user changes pages
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.remove('light-theme', 'dark-theme');
+    document.body.classList.add(`${savedTheme}-theme`);
+    document.getElementById("calendar-container").classList.remove('light-theme', 'dark-theme');
+    document.getElementById("calendar-container").classList.add(`${savedTheme}-theme`);
+    document.getElementById("buttons-container").classList.remove('light-theme', 'dark-theme');
+    document.getElementById("buttons-container").classList.add(`${savedTheme}-theme`);
 });
