@@ -120,8 +120,6 @@ function deleteTask(taskId, source) {
         dynamicTaskArray.splice(taskIndex, 1); // Remove from global array
         saveTasksToLocalStorage(); // Save updated global array to localStorage
         window.location.href = source === 'calendar' ? 'calendarView.html' : 'listView.html'; // Redirect based on source
-    } else {
-        alert('Error: Task not found.');
     }
 }
 
@@ -133,8 +131,6 @@ function loadTaskForEditing(taskId) {
     const task = dynamicTaskArray.find((task) => task.id === taskId);
     if (task) {
         populateTaskForm(task);
-    } else {
-        alert('Error: Task not found.');
     }
 }
 
@@ -514,3 +510,13 @@ function reloadReminders(taskObject) {
 //     `;
 //     button.textContent = "Edit";
 // }
+
+// Attach functions to window for testing
+window.populateTaskForm = populateTaskForm;
+window.parseReminder = parseReminder;
+window.saveEditedTask = saveEditedTask;
+window.deleteTask = deleteTask;
+window.loadTaskForEditing = loadTaskForEditing;
+window.addNewReminder = addNewReminder;
+window.deleteReminder = deleteReminder;
+window.reloadReminders = reloadReminders;
