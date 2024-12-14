@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Task Tracker",
   "description": "An extension that will help in tracking tasks through organization and reminders",
-  "version": "1.0",
+  "version": "1.0.0",
   "permissions": [
     "storage", 
     "alarms", 
