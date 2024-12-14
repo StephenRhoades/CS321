@@ -79,6 +79,9 @@ async function addTask(event) {
     {
         const isRecurring=false;
         const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, isRecurring);
+        if (reminder != 0) {
+            setAlarm(task, reminder);
+        }
         console.log("Saving task:", task);
         dynamicTaskArray.push(task);
         saveTasksToLocalStorage();
@@ -90,21 +93,6 @@ async function addTask(event) {
         addRecurring(selectedWeekdays, task, currentDate);
     }
 
-    
-    //const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, isRecurring);
-    //addRecurring(selectedWeekdays, task);
-
-    //console.log("Saving task:", task);
-
-    //dynamicTaskArray.push(task);
-    //let currentDate= new Date();
-    //addRecurring(selectedWeekdays, task, currentDate);
-    //saveTasksToLocalStorage();
-    
-    if (reminder != 0) {
-        setAlarm(task, reminder);
-    }
-
     form.reset(); 
 }
 
@@ -113,6 +101,7 @@ async function addRecurring(selectedWeekdays, task, currentDate) {
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let backupCurrentDay = new Date(currentDate.getTime());
     let endDate = new Date(Date.parse(task.date));
+    console.log("endDate: ", endDate);
 
     for (let i = 0; i < 7; i++) {
         currentDate.setTime(backupCurrentDay.getTime());
@@ -127,7 +116,7 @@ async function addRecurring(selectedWeekdays, task, currentDate) {
                 const newTaskId = await generateTaskId();
 
                 // Format the date to "YYYY-MM-DD HH:mm"
-                const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}`;
+                const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(endDate.getHours()).padStart(2, '0')}:${String(endDate.getMinutes()).padStart(2, '0')}`;
 
                 const newTask = createTask(
                     newTaskId,
@@ -135,10 +124,13 @@ async function addRecurring(selectedWeekdays, task, currentDate) {
                     task.taskDescription,
                     task.taskCategory,
                     formattedDate,
-                    task.reminderList,
+                    task.reminderList[0],
                     task.complete,
                     task.recurring
                 );
+                if (task.reminderList.length != 0) {
+                    setAlarm(newTask, task.reminderList[0]);
+                }
 
                 console.log(`Adding recurring task for ${formattedDate}`);
                 dynamicTaskArray.push(newTask);
