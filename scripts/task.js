@@ -3,6 +3,7 @@
  * saved in local storage already.
  */
 let dynamicTaskArray = loadTaskInLocalStorage();
+let intervalID = [];
 
 submitTask();
 
@@ -47,6 +48,22 @@ async function addTask(event) {
     const taskReminderHours = formData.get('hours');
     const taskReminderMinutes = formData.get('minutes');
 
+    /*CHANGE HERE */
+    const checkboxes = document.querySelectorAll('#task-recur input[type="checkbox"]');
+    const selectedWeekdays = [];
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+
+    checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+          selectedWeekdays.push(weekdays[index]);
+        }
+    });
+
+    console.log(selectedWeekdays);
+
+
+    /**CHANGE HERE */
     console.log("days: " + taskReminderDays);
     console.log("hours: " + taskReminderHours);
     console.log("minutes " + taskReminderMinutes);
@@ -55,18 +72,118 @@ async function addTask(event) {
     const reminder = taskReminderDays * 24 * 60 * 60 * 1000 + taskReminderHours * 60 * 60 * 1000 + taskReminderMinutes * 60 * 1000;
 
     const taskId = await generateTaskId();
-    const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, false);
+    const isRecurring=false;
+    let currentDate= new Date();
+    
+    if(selectedWeekdays.length==0) //No recurring days selected
+    {
+        const isRecurring=false;
+        const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, isRecurring);
+        console.log("Saving task:", task);
+        dynamicTaskArray.push(task);
+        saveTasksToLocalStorage();
+    }
+    else
+    {
+        const isRecurring=true;
+        const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, isRecurring);
+        addRecurring(selectedWeekdays, task, currentDate);
+    }
 
-    console.log("Saving task:", task);
+    
+    //const task = createTask(taskId, taskName, taskDesc, 'None', date, reminder, false, isRecurring);
+    //addRecurring(selectedWeekdays, task);
 
-    dynamicTaskArray.push(task);
-    saveTasksToLocalStorage();
+    //console.log("Saving task:", task);
+
+    //dynamicTaskArray.push(task);
+    //let currentDate= new Date();
+    //addRecurring(selectedWeekdays, task, currentDate);
+    //saveTasksToLocalStorage();
     
     if (reminder != 0) {
         setAlarm(task, reminder);
     }
 
     form.reset(); 
+}
+
+
+async function addRecurring(selectedWeekdays, task, currentDate) {
+    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    let backupCurrentDay = new Date(currentDate.getTime());
+    let endDate = new Date(Date.parse(task.date));
+
+    for (let i = 0; i < 7; i++) {
+        currentDate.setTime(backupCurrentDay.getTime());
+        if (selectedWeekdays.includes(weekdays[i])) {
+            console.log(weekdays[i]);
+            while (currentDate.getDay() !== i) { 
+                currentDate.setDate(currentDate.getDate() + 1); // Increment to the next desired weekday
+            }
+
+            // Add new tasks for each recurring weekday until the end date
+            while (currentDate.getTime() < endDate.getTime()) {
+                const newTaskId = await generateTaskId();
+
+                // Format the date to "YYYY-MM-DD HH:mm"
+                const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}`;
+
+                const newTask = createTask(
+                    newTaskId,
+                    task.taskName,
+                    task.taskDescription,
+                    task.taskCategory,
+                    formattedDate,
+                    task.reminderList,
+                    task.complete,
+                    task.recurring
+                );
+
+                console.log(`Adding recurring task for ${formattedDate}`);
+                dynamicTaskArray.push(newTask);
+                currentDate.setDate(currentDate.getDate() + 7); // Move to the next occurrence of this weekday
+            }
+        }
+    }
+
+    saveTasksToLocalStorage();
+}
+
+
+function createRecurrObject(id, recurInterval) {
+    return {id, recurInterval};
+}
+
+function pushTask(task, timeDifference)
+{
+    const current = task.getTime();
+    task.date.setDate(current)
+    dynamicTaskArray.push(task);
+}
+
+function calculateNextOccurrence(weekday, date) {
+    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    
+    // Parse the task date and time into a JavaScript Date object
+    const taskDateTime = Date.parse(date);
+    
+    // Get the current day and target weekday index
+    const currentDay = new Date().getDay();
+    const targetDay = weekdays.indexOf(weekday);
+
+    // Calculate the difference in days
+    let daysUntilTarget = targetDay - currentDay;
+    if (daysUntilTarget <= 0) {
+        daysUntilTarget += 7; // Next week if the target day is in the past this week
+    }
+
+    // Set the next target date
+    const nextTargetDate = new Date(taskDateTime);
+    nextTargetDate.setDate(nextTargetDate.getDate() + daysUntilTarget);
+    
+    // Return the calculated date in ISO string format (you can adjust this to your preferred format)
+    return nextTargetDate;
 }
 
 function setAlarm(task, reminder){
